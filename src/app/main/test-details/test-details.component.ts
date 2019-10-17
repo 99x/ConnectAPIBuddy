@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { strictEqual } from 'assert';
 import { TestConfiguration } from '../models/TestConfiguration';
 import { MAX_SIZE } from '../../shared/constants';
 import { FileDetails } from '../models/FileDetails';
+import { element } from 'protractor';
 
 
 @Component({
@@ -25,10 +26,12 @@ export class TestDetailsComponent implements OnInit {
   // form variables
   methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
   selectedMethod = 'GET';
-  baseurls = ['http://fakerestapi.azurewebsites.net', 'https://localhost:44384'];
-  basepaths = ['/api/Authors', '/api/TestConfig'];
+  baseurls = ['http://fakerestapi.azurewebsites.net', 'https://localhost:44384'
+    , 'https://ccfilesapi-dev.compello.com'];
+  basepaths = ['/api/Authors', '/api/TestConfig', '/api/files/UploadFile'];
   headerVals: HeaderVal[] = [
     { header: 'Content-Type', value: 'application/json' },
+    { header: 'ConnectFilesApiKey', value: '	ZaY0tBwbuB' }
   ];
   formVals: FormVal[] = [
     { key: 'Name', value: 'Rajith' },
@@ -41,6 +44,7 @@ export class TestDetailsComponent implements OnInit {
   fileUploaded: FileDetails;   // Uploaded file details
   responseJsonView: object = {};  // Response view in JSON format
   isFileAdded = false; // Whether file attached or not
+  dataType: string = 'raw';
 
   ngOnInit() {
     this.testDetailsForm = this.fb.group({
@@ -76,7 +80,7 @@ export class TestDetailsComponent implements OnInit {
       testConfig.formContent = this.formVals;
       testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
       testConfig.file = this.fileUploaded;
-      this.apiService.postData(this.backendUrl, testConfig)
+      this.apiService.postData(this.backendUrl, testConfig, this.headerVals)
         .subscribe(res => {
         });
     } else {
@@ -85,41 +89,54 @@ export class TestDetailsComponent implements OnInit {
         this.apiService.getData(url, this.headerVals).subscribe(res => {
           this.responseJsonView = res.body;
           this.testDetailsForm.patchValue({
-            // response: JSON.stringify(res.body, undefined, 4),
             status: res.status + '\r\n' + res.statusText
           });
         });
 
       } else if (this.f.endpointAction.value === 'POST') {
-        let data = JSON.parse(this.f.payloadBody.value);
+        let data: any = null;
+        console.log(this.dataType);
+        if (this.dataType === 'raw') {
+          data = JSON.parse(this.f.payloadBody.value);
 
-        if (this.isFileAdded) {
-          data[this.f.fileKey.value] = this.fileUploaded.fileAsBase64;
+          if (this.isFileAdded) {
+            data[this.f.fileKey.value] = this.fileUploaded.fileAsBase64;
+          }
+
+        } else if (this.dataType === 'form') {
+          const formData = new FormData();
+          this.formVals.forEach(f => {
+            formData.append(f.key, f.value);
+          });
+
+          if (this.isFileAdded) {
+            formData.append(this.f.fileKey.value, this.fileUploaded.fileAsBase64);
+          }
+
+          data = formData;
         }
+
 
         this.apiService.postData(url, data, this.headerVals).subscribe(res => {
           this.responseJsonView = res.body;
           this.testDetailsForm.patchValue({
-            // response: JSON.stringify(res.body),
             status: res.status + '\r\n' + res.statusText
           });
         });
 
       } else if (this.f.endpointAction.value === 'UPDATE') {
         let data = JSON.parse(this.f.payloadBody.value);
-        this.apiService.updateData(url, data).subscribe(res => {
+        this.apiService.updateData(url, data, this.headerVals).subscribe(res => {
           this.responseJsonView = res.body;
           this.testDetailsForm.patchValue({
-            // response: JSON.stringify(res.body),
             status: res.status + '\r\n' + res.statusText
           });
         });
 
       } else if (this.f.endpointAction.value === 'DELETE') {
-        this.apiService.deleteData(url).subscribe(res => {
+        this.apiService.deleteData(url, this.headerVals).subscribe(res => {
           this.responseJsonView = res.body;
           this.testDetailsForm.patchValue({
-            // response: JSON.stringify(res.body),
             status: res.status + '\r\n' + res.statusText
           });
         });
@@ -197,12 +214,15 @@ export class TestDetailsComponent implements OnInit {
     console.log(this.fileUploaded);
   }
 
-  toggleChange() {
+  toggleChange(): void {
     this.isFileAdded = !this.isFileAdded;
     console.log(this.isFileAdded);
   }
 
-
+  dataTypeChanged(value: string): void {
+    this.dataType = value;
+    console.log(this.dataType);
+  }
 
 
 }

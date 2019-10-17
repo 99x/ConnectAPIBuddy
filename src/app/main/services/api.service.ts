@@ -11,7 +11,7 @@ export class ApiService {
 
   private httpHeaders: HttpHeaders;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   // Handle API errors
   handleError(error: HttpErrorResponse) {
@@ -23,7 +23,7 @@ export class ApiService {
   }
 
   // Get data
-  getData(url: string, headers?: HeaderVal[]): Observable<any> {
+  getData(url: string, headers: HeaderVal[]): Observable<any> {
     this.httpHeaders = new HttpHeaders();
     if (headers.length > 0) {
       headers.forEach(element => {
@@ -40,7 +40,7 @@ export class ApiService {
   }
 
   // Post data
-  postData(url: string, body: any, headers?: HeaderVal[]): Observable<any> {
+  postData(url: string, body: any, headers: HeaderVal[]): Observable<any> {
     this.httpHeaders = new HttpHeaders();
     if (headers.length > 0) {
       headers.forEach(element => {
@@ -56,7 +56,7 @@ export class ApiService {
   }
 
   // Update data
-  updateData(url: string, data: object, headers?: HeaderVal[]): Observable<any> {
+  updateData(url: string, data: object, headers: HeaderVal[]): Observable<any> {
     this.httpHeaders = new HttpHeaders();
     if (headers.length > 0) {
       headers.forEach(element => {
@@ -73,7 +73,7 @@ export class ApiService {
   }
 
   // Delete data
-  deleteData(url: string, headers?: HeaderVal[]): Observable<any> {
+  deleteData(url: string, headers: HeaderVal[]): Observable<any> {
     this.httpHeaders = new HttpHeaders();
     if (headers.length > 0) {
       headers.forEach(element => {

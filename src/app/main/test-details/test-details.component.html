@@ -126,6 +126,10 @@
                                                 </label>
                                             </button>
                                         </div>
+                                        <mat-radio-group (change)="dataTypeChanged($event.value)">
+                                            <mat-radio-button value="raw" checked></mat-radio-button>
+                                            <mat-radio-button value="form"></mat-radio-button>
+                                        </mat-radio-group>
                                     </div>
                                     <!-- Nav tabs -->
                                     <mat-tab-group animationDuration="1000ms">
@@ -143,9 +147,6 @@
                                                 </label>
                                             </button>
                                         </div> -->
-                                        <!-- <mat-radio-group aria-label="Select an option">
-                                            <mat-radio-button value="1"></mat-radio-button>
-                                        </mat-radio-group> -->
                                         <mat-tab label="Raw">
                                             <ng-template matTabContent>
                                                 <div class="raw-wrapper">

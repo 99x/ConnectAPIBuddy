@@ -6,7 +6,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { TestSettingsComponent } from './test-settings/test-settings.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 
@@ -22,7 +22,8 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     MDBBootstrapModule.forRoot(),
     NgbModule,
     ReactiveFormsModule,
-    NgxJsonViewerModule
+    NgxJsonViewerModule,
+    FormsModule
   ],
   entryComponents: [
     TestSettingsComponent
