@@ -1,1 +1,62 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* label style */
+
+.mat-tab-label {
+  color: black;
+  min-width: 10px !important;
+}
+
+/* focus style */
+
+.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
+.mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus,
+.mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
+.mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
+  background: white;
+}
+
+/* ink bar style */
+
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: rgba(149, 165, 166, 0.3);
+  color: black;
+  height: 38px;
+  border-radius: 100px;
+  margin-bottom: 5px;
+  outline: none !important;
+  border: 1px solid #2185d0;
+}
+
+.mat-tab-group {
+  outline: none !important;
+  border: 2px solid #2185d0;
+}
+
+.mat-form-field.mat-primary .mat-select {
+  color: black;
+}
+
+.mat-tab-body.mat-tab-body-active {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 1;
+  flex-grow: 1;
+}
+
+.mat-tab-body-content {
+  height: 100%;
+  overflow: hidden;
+}

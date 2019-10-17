@@ -1,0 +1,276 @@
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+.app-body {
+  position: relative;
+  height: 80%;
+  z-index: 1;
+}
+
+.url-wrapper {
+  height: 15%;
+  padding: 20px 40px;
+  box-sizing: border-box;
+}
+
+.middle-wrapper {
+  height: 40%;
+  padding: 20px 40px;
+  box-sizing: border-box;
+}
+
+.response-wrapper {
+  height: 220px;
+  padding: 0px 40px;
+  box-sizing: border-box;
+}
+
+.footer-wrapper {
+  height: 5%;
+  padding: 20px 40px;
+  box-sizing: border-box;
+}
+
+.baseurl-list {
+  width: 21%;
+}
+
+.basepath-list {
+  border-left: none !important;
+  width: 44%;
+}
+
+.btn-group {
+  margin-left: 50px;
+}
+
+.btn-danger {
+  background-color: #2185d0;
+  color: #ffffff;
+  border: #000000;
+}
+
+.dropdown-toggle {
+  background-color: #d7d7d8;
+  color: #000000;
+}
+
+.dropdown-toggle:focus,
+.dropdown-toggle:hover,
+.dropdown-toggle:active {
+  background-color: #2185d0;
+}
+
+.description-wrapper {
+  float: left;
+  width: 30%;
+  box-sizing: border-box;
+}
+
+.values-wrapper {
+  padding: 10px 10px;
+  width: 70%;
+  box-sizing: border-box;
+  display: inline-block;
+  margin-top: 25px;
+}
+
+.lbl {
+  font-family: Arial, Helvetica, sans-serif;
+  padding-top: 10px;
+  font-size: 10pt;
+}
+
+.box,
+.test-description,
+.test-name,
+.baseurl-list,
+.basepath-list,
+.method-wrapper,
+.mat-tab,
+.key-value,
+.key-file {
+  outline: none !important;
+  border: 2px solid #2185d0;
+}
+
+.test-description {
+  width: 90%;
+  height: 100px;
+}
+
+.test-name {
+  width: 90%;
+  height: 40px;
+}
+
+.form-wrapper {
+  width: 80%;
+  border: 1px solid black;
+}
+
+.raw-wrapper {
+  width: 85%;
+}
+
+.method-wrapper {
+  width: 10%;
+}
+
+.mat-select,
+.method-wrapper,
+.mat-option {
+  color: #2185d0;
+  border: black;
+}
+
+::ng-deep .mat-form-field-label {
+  color: black !important;
+}
+
+::ng-deep .mat-form-field-ripple {
+  background-color: black !important;
+}
+
+.mat-tab-body-wrapper {
+  color: white;
+  background-color: red;
+}
+
+.mat-tab-label-active {
+  background-color: red;
+  opacity: 1 !important;
+}
+
+.select-switch {
+  float: right;
+}
+
+.add-values {
+  height: 40px;
+  outline: none !important;
+  border: 1px solid #a1abab;
+}
+
+.show-values {
+  height: 160px;
+  background: #dfe4e466;
+}
+
+table,
+th,
+td {
+  border-collapse: inherit;
+  padding-right: 160px;
+}
+
+table tr:nth-child(odd) {
+  background-color: #b1b1b17d;
+}
+
+table tr:nth-child(even) {
+  background-color: #f1ebeb;
+}
+
+.add-remove {
+  float: right;
+  margin: 5px 5px;
+  border-radius: 6px;
+  color: white;
+  outline: none;
+  border: 2px solid #2185d0;
+  background: #2185d0;
+}
+
+.add-file {
+  float: right;
+  margin: 5px 10px;
+  padding: 0px 5px;
+  border-radius: 6px;
+  color: white;
+  outline: none;
+  border: 2px solid #2185d0;
+  background: #2185d0;
+}
+
+.key-value {
+  float: right;
+  margin-right: 1cm;
+  margin-top: 5px;
+  border-radius: 30px;
+  padding-left: 5px;
+}
+
+.key-file {
+  width: 100px;
+  border-radius: 30px;
+  padding-left: 5px;
+}
+
+.raw {
+  width: 85%;
+  height: 200px;
+  padding: 5px 10px;
+  background: #dfe4e466;
+  border: 1px solid;
+}
+
+::ng-deep .mat-radio-outer-circle {
+  border-color: black;
+}
+
+.file-wrapper {
+  z-index: 1;
+  height: 100px;
+  width: 100px;
+  float: right;
+  margin: 60px 5px;
+}
+
+.response-box {
+  width: 75%;
+  float: left;
+  height: 200px;
+}
+
+.json-viwer {
+  min-height: 100px;
+  max-height: 200px;
+  overflow: scroll;
+  overflow-x: hidden;
+  outline: none;
+  border: 2px solid #2185d0;
+}
+
+.status-box {
+  width: 310px;
+  float: right;
+  padding: 0px 10px;
+  height: 100px;
+}
+
+.box {
+  min-height: 100px;
+}
+
+.matInput .response-box {
+  background: #f4f4f4;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  width: 95%;
+  height: 120px;
+  overflow: auto !important;
+  max-width: 95% !important;
+  max-height: 120px !important;
+}
+
+textarea.mat-input-element {
+  padding: 2px 2px;
+  margin: 0;
+}
+::ng-deep .mat-slide-toggle-bar {
+  position: relative;
+  width: 35px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: #d7d7d8;
+  margin: 0px 35px !important;
+}
