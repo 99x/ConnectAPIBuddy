@@ -8,7 +8,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-
+import { TestConfigService } from './shared/services/test-config.service';
 
 @NgModule({
   declarations: [
@@ -28,6 +28,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
   entryComponents: [
     TestSettingsComponent
   ],
+  // providers: [TestConfigService],
   bootstrap: [TestSettingsComponent]
 })
 export class MainModule { }

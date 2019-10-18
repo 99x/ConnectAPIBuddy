@@ -11,7 +11,9 @@ export class ApiService {
 
   private httpHeaders: HttpHeaders;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient
+  ) { }
 
   // Handle API errors
   handleError(error: HttpErrorResponse) {

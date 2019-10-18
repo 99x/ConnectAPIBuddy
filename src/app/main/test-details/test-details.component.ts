@@ -1,28 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
-import { ApiService } from '../services/api.service';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+
+import { Component, OnInit } from '@angular/core';
+import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+
+import { ApiService } from '../services/api.service';
+import { TestConfigService } from '../shared/services/test-config.service';
+
 import { HeaderVal } from '../models/Header';
 import { FormVal } from '../models/FormVal';
-import { strictEqual } from 'assert';
 import { TestConfiguration } from '../models/TestConfiguration';
-import { MAX_SIZE } from '../../shared/constants';
 import { FileDetails } from '../models/FileDetails';
-import { element } from 'protractor';
+
+import { MAX_SIZE } from '../../shared/constants';
 
 
 @Component({
   selector: 'app-test-details',
   templateUrl: './test-details.component.html',
-  styleUrls: ['./test-details.component.css']
+  styleUrls: ['./test-details.component.css'],
+  // providers: [ApiService]
 })
+
 export class TestDetailsComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) { }
+  constructor(
+    private fb: FormBuilder,
+    private apiService: ApiService,
+    private testConfigService: TestConfigService
+  ) { }
 
   backendUrl = 'https://localhost:44384/api/TestConfig';
+
   // form variables
   methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
   selectedMethod = 'GET';
@@ -80,9 +90,10 @@ export class TestDetailsComponent implements OnInit {
       testConfig.formContent = this.formVals;
       testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
       testConfig.file = this.fileUploaded;
-      this.apiService.postData(this.backendUrl, testConfig, this.headerVals)
+      this.testConfigService.postTestConfig(this.backendUrl, testConfig)
         .subscribe(res => {
         });
+
     } else {
 
       if (this.f.endpointAction.value === 'GET') {
@@ -115,7 +126,6 @@ export class TestDetailsComponent implements OnInit {
 
           data = formData;
         }
-
 
         this.apiService.postData(url, data, this.headerVals).subscribe(res => {
           this.responseJsonView = res.body;
@@ -214,11 +224,13 @@ export class TestDetailsComponent implements OnInit {
     console.log(this.fileUploaded);
   }
 
+  // File toggle switch changed
   toggleChange(): void {
     this.isFileAdded = !this.isFileAdded;
     console.log(this.isFileAdded);
   }
 
+  // Type radio buttons changed
   dataTypeChanged(value: string): void {
     this.dataType = value;
     console.log(this.dataType);
