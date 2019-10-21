@@ -38,7 +38,7 @@ export class NavBarComponent implements OnInit {
   }
 
   Logout() {
-    alert(1);
+    alert('All unsaved data will be lost');
     this.OAuth.signOut().then(data => {
       this.router.navigate([`/login`]);
     });

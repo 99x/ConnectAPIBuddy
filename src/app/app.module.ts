@@ -10,12 +10,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { AlertModalComponent } from './shared/components/alert-modal/alert-modal.component';
 import { AlertToastComponent } from './shared/components/alert-toast/alert-toast.component';
+import { PageNotFoundComponent } from './shared/pages/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlertModalComponent,
-    AlertToastComponent
+    AlertToastComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

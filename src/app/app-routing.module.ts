@@ -4,7 +4,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { TestDetailsComponent } from './main/test-details/test-details.component';
 import { TestSettingsComponent } from './main/test-settings/test-settings.component';
-
+import { PageNotFoundComponent } from './shared/pages/page-not-found/page-not-found.component';
+import { combineAll } from 'rxjs/operators';
 
 
 const routes: Routes = [
@@ -52,6 +53,11 @@ const routes: Routes = [
   {
     path: 'modal',
     component: TestSettingsComponent
+  },
+
+  {
+    path: '**',
+    component: PageNotFoundComponent
   }
 ];
 
