@@ -40,7 +40,23 @@
             </mat-card-content>
             <button mat-stroked-button class="login-btn" color="accent" type="submit" routerLink="test"
                 routerLinkActive="active">Log in</button>
+            <div>
+                <button type="button" class="btn btn-link px-0">Forgot password?</button>
+            </div>
         </form>
+        <hr style="border-top: 1px solid #eee;">
+        <div>
+            <div>
+                <button (click)="UserSignIn('facebook')" class="loginBtn loginBtn--facebook">
+                    Login with Facebook
+                </button>
+            </div>
+            <div>
+                <button (click)="UserSignIn('google')" class="loginBtn loginBtn--google">
+                    Login with Google
+                </button>
+            </div>
+        </div>
     </mat-card>
 </div>
 

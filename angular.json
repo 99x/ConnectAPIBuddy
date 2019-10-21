@@ -27,7 +27,9 @@
               "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v4.0&appId=1268098000038340&autoLogAppEvents=1"
+            ]
           },
           "configurations": {
             "production": {

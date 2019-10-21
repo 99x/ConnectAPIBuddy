@@ -1,9 +1,13 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { TestSettingsComponent } from '../test-settings/test-settings.component';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SocialLoginModule, AuthServiceConfig, AuthService } from 'angular-6-social-login';
 
+import { TestSettingsComponent } from '../test-settings/test-settings.component';
 import { TestDetailsComponent } from '../test-details/test-details.component';
+
+import { User } from '../../auth/shared/models/user';
 
 @Component({
   selector: 'app-nav-bar',
@@ -18,7 +22,11 @@ export class NavBarComponent implements OnInit {
   selectedTenant = 'Localhost';
 
 
-  constructor(private modalService: NgbModal) {
+  constructor(
+    private modalService: NgbModal,
+    public OAuth: AuthService,
+    private router: Router
+  ) {
     this.modalOptions = {
       backdrop: 'static',
       backdropClass: 'customBackdrop',
@@ -27,6 +35,13 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  Logout() {
+    alert(1);
+    this.OAuth.signOut().then(data => {
+      this.router.navigate([`/login`]);
+    });
   }
 
   open() {

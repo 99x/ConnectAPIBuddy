@@ -8,8 +8,28 @@ import { AngularMaterialModule } from '../angular-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from '../app-routing.module';
+import { GoogleLoginProvider, FacebookLoginProvider, AuthService } from 'angular-6-social-login';
+import { SocialLoginModule, AuthServiceConfig } from 'angular-6-social-login';
 
-
+export function socialConfigs() {
+  const config = new AuthServiceConfig(
+    [
+      {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        provider: new FacebookLoginProvider(
+          '1268098000038340'
+        )
+      },
+      {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider(
+          '909626211296-7iuo183lqmsm6kjuou0esn6g8o6ftdvt.apps.googleusercontent.com'
+        )
+      }
+    ]
+  );
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -24,7 +44,15 @@ import { AppRoutingModule } from '../app-routing.module';
     FlexLayoutModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    SocialLoginModule
+  ],
+  providers: [
+    AuthService,
+    {
+      provide: AuthServiceConfig,
+      useFactory: socialConfigs
+    }
   ]
 })
 export class AuthModule { }

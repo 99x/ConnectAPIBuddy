@@ -4,6 +4,8 @@ import { retry, catchError } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+import { Router } from '@angular/router';
+
 
 import { ApiService } from '../services/api.service';
 import { TestConfigService } from '../shared/services/test-config.service';
@@ -13,6 +15,7 @@ import { HeaderVal } from '../models/Header';
 import { FormVal } from '../models/FormVal';
 import { TestConfiguration } from '../models/TestConfiguration';
 import { FileDetails } from '../models/FileDetails';
+import { User } from '../../auth/shared/models/user';
 
 import { MAX_SIZE } from '../../shared/constants';
 
@@ -25,13 +28,6 @@ import { MAX_SIZE } from '../../shared/constants';
 })
 
 export class TestDetailsComponent implements OnInit {
-
-  constructor(
-    private fb: FormBuilder,
-    private apiService: ApiService,
-    private testConfigService: TestConfigService,
-    public toastService: AlertToastService
-  ) { }
 
   backendUrl = 'https://localhost:44384/api/TestConfig';
 
@@ -57,8 +53,23 @@ export class TestDetailsComponent implements OnInit {
   responseJsonView: object = {};  // Response view in JSON format
   isFileAdded = false; // Whether file attached or not
   dataType: string = 'raw';
+  users: User;
+
+
+
+  constructor(
+    private fb: FormBuilder,
+    private apiService: ApiService,
+    private testConfigService: TestConfigService,
+    public toastService: AlertToastService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+
+    this.users = JSON.parse(localStorage.getItem('socialusers'));
+    console.log(this.users.image);
+
     this.testDetailsForm = this.fb.group({
       endpointAction: [''],
       baseUrl: [''],
@@ -81,7 +92,6 @@ export class TestDetailsComponent implements OnInit {
   }
 
   get f() { return this.testDetailsForm.controls; } // get form controls
-
 
   OnClickExecute(isSave: boolean): void {
     const url = this.f.baseUrl.value + this.f.basePath.value;

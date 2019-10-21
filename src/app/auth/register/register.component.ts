@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 // models
-import { User } from '../models/user';
+import { User } from '../shared/models/user';
 // shared
 import { MustMatch } from '../../shared/must-match';
 

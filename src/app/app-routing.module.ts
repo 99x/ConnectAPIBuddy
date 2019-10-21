@@ -8,13 +8,51 @@ import { TestSettingsComponent } from './main/test-settings/test-settings.compon
 
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'login' },
-  { path: 'login/register', pathMatch: 'full', redirectTo: 'register' },
-  { path: 'register/login', pathMatch: 'full', redirectTo: 'login' },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login/Mainpage', component: TestDetailsComponent },
-  { path: 'modal', component: TestSettingsComponent }
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'login'
+  },
+
+  {
+    path: 'login/register',
+    pathMatch: 'full',
+    redirectTo: 'register'
+  },
+
+  {
+    path: 'register/login',
+    pathMatch: 'full',
+    redirectTo: 'login'
+  },
+
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: {
+      title: 'Login Page'
+    }
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    data: {
+      title: 'Register Page'
+    }
+  },
+
+  {
+    path: 'Mainpage',
+    component: TestDetailsComponent,
+    data: {
+      title: 'Main Page'
+    }
+  },
+
+  {
+    path: 'modal',
+    component: TestSettingsComponent
+  }
 ];
 
 @NgModule({
