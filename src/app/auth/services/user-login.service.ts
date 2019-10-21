@@ -4,6 +4,7 @@ import { retry, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { User } from '../shared/models/user';
 
 
 @Injectable({
@@ -28,13 +29,18 @@ export class UserLoginService {
   }
 
 
-  SaveResponse(response): Observable<any> {
+  SaveUser(response: User): Observable<any> {
     return this.httpClient
       .post(this.API_URL, response, { observe: 'response', headers: this.httpHeaders })
       .pipe(
         retry(2),
         catchError(this.handleError)
       );
+  }
+
+  UserExits(email: string): Observable<any> {
+    return this.httpClient
+      .get('{{this.API_URL}}/{{email}}', { observe: 'response' });
   }
 }
 

@@ -7,8 +7,10 @@ import { GoogleLoginProvider, FacebookLoginProvider, AuthService } from 'angular
 import { SocialLoginModule, AuthServiceConfig } from 'angular-6-social-login';
 // services
 import { UserLoginService } from '../services/user-login.service';
+import { AlertToastService } from '../../shared/services/alert-toast.service';
 // models
 import { User } from '../shared/models/user';
+import { truncate } from 'fs';
 
 
 
@@ -28,6 +30,7 @@ export class LoginComponent implements OnInit {
   constructor(
     public OAuth: AuthService,
     private userLoginService: UserLoginService,
+    public toastService: AlertToastService,
     private router: Router
   ) { }
 
@@ -48,22 +51,62 @@ export class LoginComponent implements OnInit {
     }
     this.OAuth.signIn(socialPlatformProvider).then(users => {
       console.log(socialProvider, users);
-      console.log(users);
-      this.Savesresponse(users);
+      if (this.UserExists(users.email)) {
+        this.showSuccess('Successfully logged in');
+        this.router.navigate([`/Mainpage`]);
+      } else {
+        this.Savesresponse(users);
+      }
+
     });
   }
 
   Savesresponse(socialusers: User) {
-    this.userLoginService.SaveResponse(socialusers).subscribe((res: any) => {
+    this.userLoginService.SaveUser(socialusers).subscribe((res: any) => {
       console.log(res);
-      this.users = res;
-      this.response = res.userDetail;
-      localStorage.setItem('socialusers', JSON.stringify(this.users));
-      console.log(localStorage.setItem('socialusers', JSON.stringify(this.users)));
-      this.router.navigate([`/Mainpage`]);
+      if (res.status === 201) {
+        this.showSuccess('Successfully logged in');
+        this.users = res;
+        this.response = res.userDetail;
+        localStorage.setItem('socialusers', JSON.stringify(this.users));
+        this.router.navigate([`/Mainpage`]);
+      } else {
+        this.showError('Someting went wrong. Please try again...');
+        this.router.navigate([`/login`]);
+      }
+
     });
   }
 
+  UserExists(id: string): boolean {
+    let response = '';
+    this.userLoginService.UserExits(id).subscribe(res => {
+      response = res.body;
+    });
+    if (response === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  showSuccess(message: string): void {
+    this.toastService.show(message, {
+      classname: 'bg-success text-light',
+      delay: 5000,
+      autohide: true,
+      headertext: 'Toast Header'
+    });
+  }
+  showError(message: string): void {
+    this.toastService.show(message, {
+      classname: 'bg-danger text-light',
+      delay: 2000,
+      autohide: true,
+      headertext: 'Error!!!'
+    });
+  }
 
 
 
