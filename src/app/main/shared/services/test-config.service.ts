@@ -6,9 +6,7 @@ import { Injectable } from '@angular/core';
 
 import { TestConfiguration } from '../../models/TestConfiguration';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TestConfigService {
 
   constructor(private httpClient: HttpClient) { }

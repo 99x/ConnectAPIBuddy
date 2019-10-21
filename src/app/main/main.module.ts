@@ -28,7 +28,7 @@ import { TestConfigService } from './shared/services/test-config.service';
   entryComponents: [
     TestSettingsComponent
   ],
-  // providers: [TestConfigService],
+  providers: [TestConfigService],
   bootstrap: [TestSettingsComponent]
 })
 export class MainModule { }

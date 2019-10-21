@@ -4,9 +4,7 @@ import { retry, catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { HeaderVal } from '../models/Header';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ApiService {
 
   private httpHeaders: HttpHeaders;

@@ -20,7 +20,7 @@ import { MAX_SIZE } from '../../shared/constants';
   selector: 'app-test-details',
   templateUrl: './test-details.component.html',
   styleUrls: ['./test-details.component.css'],
-  // providers: [ApiService]
+  providers: [ApiService]
 })
 
 export class TestDetailsComponent implements OnInit {
