@@ -7,6 +7,7 @@ import { FormsModule, FormBuilder, FormGroup, AbstractControl } from '@angular/f
 
 import { ApiService } from '../services/api.service';
 import { TestConfigService } from '../shared/services/test-config.service';
+import { AlertToastService } from '../../shared/services/alert-toast.service';
 
 import { HeaderVal } from '../models/Header';
 import { FormVal } from '../models/FormVal';
@@ -28,7 +29,8 @@ export class TestDetailsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
-    private testConfigService: TestConfigService
+    private testConfigService: TestConfigService,
+    public toastService: AlertToastService
   ) { }
 
   backendUrl = 'https://localhost:44384/api/TestConfig';
@@ -98,6 +100,11 @@ export class TestDetailsComponent implements OnInit {
 
       if (this.f.endpointAction.value === 'GET') {
         this.apiService.getData(url, this.headerVals).subscribe(res => {
+          if (res.status === 200) {
+            this.showSuccess('Request Successful');
+          } else {
+            this.showError('Request Unsuccessful');
+          }
           this.responseJsonView = res.body;
           this.testDetailsForm.patchValue({
             status: res.status + '\r\n' + res.statusText
@@ -236,5 +243,29 @@ export class TestDetailsComponent implements OnInit {
     console.log(this.dataType);
   }
 
+  showSuccess(message: string): void {
+    this.toastService.show(message, {
+      classname: 'bg-success text-light',
+      delay: 5000,
+      autohide: true,
+      headertext: 'Toast Header'
+    });
+  }
+  showError(message: string): void {
+    this.toastService.show(message, {
+      classname: 'bg-danger text-light',
+      delay: 2000,
+      autohide: true,
+      headertext: 'Error!!!'
+    });
+  }
+
+  showCustomToast(message: string): void {
+    this.toastService.show(message, {
+      classname: 'bg-info text-light',
+      delay: 3000,
+      autohide: true
+    });
+  }
 
 }

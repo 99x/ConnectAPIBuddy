@@ -9,11 +9,13 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { AlertModalComponent } from './shared/components/alert-modal/alert-modal.component';
+import { AlertToastComponent } from './shared/components/alert-toast/alert-toast.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AlertModalComponent
+    AlertModalComponent,
+    AlertToastComponent
   ],
   imports: [
     BrowserModule,
