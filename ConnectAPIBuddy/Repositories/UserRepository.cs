@@ -17,6 +17,18 @@ namespace ConnectAPIBuddy.Repositories
             _context = context;
         }
 
+        public async Task<IEnumerable<User>> GetAll()
+        {
+            try
+            {
+                return await _context.UserLogin.FindSync(_ => true).ToListAsync();
+
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<User> GetUserByEmail(string email)
         {
             try

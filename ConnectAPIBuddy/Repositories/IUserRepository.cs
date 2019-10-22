@@ -9,6 +9,7 @@ namespace ConnectAPIBuddy.Repositories
     public interface IUserRepository
     {
         //GET
+        Task<IEnumerable<User>> GetAll();
         Task<User> GetUserByEmail(string email);
         Task<bool> UserExists(string email);
         Task<bool> UserAthorized(User user);

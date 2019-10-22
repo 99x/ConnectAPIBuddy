@@ -14,9 +14,16 @@ namespace ConnectAPIBuddy.Services
 
         public TestConfigContext (IOptions<Settings> settings)
         {
-            var client = new MongoClient(settings.Value.ConnectionString);
-            if (client != null)
-                _database = client.GetDatabase(settings.Value.DatabaseName);
+            try
+            {
+                var client = new MongoClient(settings.Value.ConnectionString);
+                if (client != null)
+                    _database = client.GetDatabase(settings.Value.DatabaseName);
+            }catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         public IMongoCollection<TestConfiguration> TestConfig 
