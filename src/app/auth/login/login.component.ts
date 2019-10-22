@@ -10,7 +10,6 @@ import { UserLoginService } from '../services/user-login.service';
 import { AlertToastService } from '../../shared/services/alert-toast.service';
 // models
 import { User } from '../shared/models/user';
-import { truncate } from 'fs';
 
 
 
@@ -53,6 +52,7 @@ export class LoginComponent implements OnInit {
       console.log(socialProvider, users);
       if (this.UserExists(users.email)) {
         this.showSuccess('Successfully logged in');
+        localStorage.setItem('socialusers', JSON.stringify(this.users));
         this.router.navigate([`/Mainpage`]);
       } else {
         this.Savesresponse(users);

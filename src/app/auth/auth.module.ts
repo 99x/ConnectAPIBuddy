@@ -11,6 +11,8 @@ import { AppRoutingModule } from '../app-routing.module';
 import { GoogleLoginProvider, FacebookLoginProvider, AuthService } from 'angular-6-social-login';
 import { SocialLoginModule, AuthServiceConfig } from 'angular-6-social-login';
 
+import { AuthGuardService } from './guards/auth-guard.service';
+
 export function socialConfigs() {
   const config = new AuthServiceConfig(
     [
@@ -52,7 +54,8 @@ export function socialConfigs() {
     {
       provide: AuthServiceConfig,
       useFactory: socialConfigs
-    }
+    },
+    AuthGuardService
   ]
 })
 export class AuthModule { }

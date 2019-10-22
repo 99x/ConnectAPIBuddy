@@ -1,11 +1,14 @@
+import { combineAll } from 'rxjs/operators';
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { TestDetailsComponent } from './main/test-details/test-details.component';
 import { TestSettingsComponent } from './main/test-settings/test-settings.component';
 import { PageNotFoundComponent } from './shared/pages/page-not-found/page-not-found.component';
-import { combineAll } from 'rxjs/operators';
+import { AuthGuardService } from './auth/guards/auth-guard.service';
+
 
 
 const routes: Routes = [
@@ -45,6 +48,7 @@ const routes: Routes = [
   {
     path: 'Mainpage',
     component: TestDetailsComponent,
+    canActivate: [AuthGuardService],
     data: {
       title: 'Main Page'
     }
