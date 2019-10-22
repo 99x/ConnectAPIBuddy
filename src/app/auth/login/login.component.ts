@@ -63,8 +63,7 @@ export class LoginComponent implements OnInit {
 
   Savesresponse(socialusers: User) {
     this.userLoginService.SaveUser(socialusers).subscribe((res: any) => {
-      console.log(res);
-      if (res.status === 201) {
+      if (res.status === 200) {
         this.showSuccess('Successfully logged in');
         this.users = res;
         this.response = res.userDetail;
@@ -79,15 +78,14 @@ export class LoginComponent implements OnInit {
   }
 
   UserExists(id: string): boolean {
-    let response = '';
+    let response = false;
     this.userLoginService.UserExits(id).subscribe(res => {
-      response = res.body;
+      if (res.body === true) {
+        response = true;
+      }
     });
-    if (response === 'true') {
-      return true;
-    } else {
-      return false;
-    }
+    return response;
+
   }
 
 

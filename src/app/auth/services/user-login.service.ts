@@ -12,7 +12,7 @@ import { User } from '../shared/models/user';
 })
 export class UserLoginService {
 
-  private API_URL = 'https://localhost:5000/api/Login';
+  private API_URL = 'https://localhost:44384/api/User';
   httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json'
   });
@@ -40,7 +40,7 @@ export class UserLoginService {
 
   UserExits(email: string): Observable<any> {
     return this.httpClient
-      .get('{{this.API_URL}}/{{email}}', { observe: 'response' });
+      .get(this.API_URL + '/exists/' + email, { observe: 'response', headers: this.httpHeaders });
   }
 }
 
