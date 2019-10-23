@@ -1,6 +1,10 @@
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+// services
+import { UserLoginService } from '../services/user-login.service';
+import { AlertToastService } from '../../shared/services/alert-toast.service';
 // models
 import { User } from '../shared/models/user';
 // shared
@@ -16,18 +20,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  private userForm: FormGroup;
+  private userRegistrationForm: FormGroup;
+  private newUser: User;
 
-  constructor() { }
+  constructor(
+    private userLoginService: UserLoginService,
+    public toastService: AlertToastService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
-    this.userForm = new FormGroup({
-      username: new FormControl('', Validators.required),
+    this.userRegistrationForm = new FormGroup({
+      name: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
       password: new FormControl('', [Validators.required, Validators.minLength(8)]),
       confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)])
-    }, {
-      // validator: new FormControl(MustMatch('password', 'confirmPassword'))
     });
   }
 
@@ -36,12 +43,65 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   // get form values
-  get f() { return this.userForm.controls; }
+  get f() { return this.userRegistrationForm.controls; }
 
-  public onSubmit({ value, valid }: { value: User, valid: boolean }) {
-    console.log(value, valid);
+  // public onSubmit({ value, valid }: { value: User, valid: boolean }) {
+  //   console.log(value, valid);
+  // }
+
+  public UserRegister() {
+    if (this.userRegistrationForm.valid) {
+      this.userLoginService.UserExits(this.f.email.value).subscribe(resp => {
+
+        if (resp.body === false) {
+
+          if (this.f.password.value === this.f.confirmPassword.value) {
+            this.newUser = this.userRegistrationForm.value;
+            this.userLoginService.SaveUser(this.newUser).subscribe(res => {
+
+              if (res.body === true) {
+                this.showSuccess('Successfully Registered...');
+                this.router.navigate([`/login`]);
+              } else {
+                this.showError('Something went wrong. Please try again...');
+                this.userRegistrationForm.reset();
+              }
+            });
+
+          } else {
+            this.showError('Passwords isn\'t match.');
+            this.f.password.reset();
+            this.f.confirmPassword.reset();
+
+          }
+        } else {
+          this.showError('Email address already registered. Please login or try again..');
+          this.userRegistrationForm.reset();
+        }
+
+      });
+
+    }
   }
 
+
+  // Taost messages
+  showSuccess(message: string): void {
+    this.toastService.show(message, {
+      classname: 'bg-success text-light',
+      delay: 5000,
+      autohide: true,
+      headertext: 'Toast Header'
+    });
+  }
+  showError(message: string): void {
+    this.toastService.show(message, {
+      classname: 'bg-danger text-light',
+      delay: 2000,
+      autohide: true,
+      headertext: 'Error!!!'
+    });
+  }
 
 
 }

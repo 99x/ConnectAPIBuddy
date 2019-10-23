@@ -19,42 +19,43 @@
             <mat-card-title>Register</mat-card-title>
         </mat-card-header>
 
-        <form [formGroup]="userForm" class="register-form" (ngSubmit)="onSubmit(user)">
+        <form [formGroup]="userRegistrationForm" class="register-form">
 
             <mat-card-content>
                 <mat-form-field class="register-full-width">
-                    <input matInput type="text" formControlName="username" placeholder="Username">
+                    <input matInput type="text" formControlName="name" placeholder="Name">
                 </mat-form-field>
                 <div class="error"
-                    *ngIf="userForm.get('username').hasError('required') && userForm.get('username').touched">
+                    *ngIf="userRegistrationForm.get('name').hasError('required') && userRegistrationForm.get('name').touched">
                     *username is required
                 </div>
 
                 <mat-form-field class="register-full-width">
                     <input matInput type="email" formControlName="email" placeholder="Email">
                 </mat-form-field>
-                <div class="error" *ngIf="userForm.get('email').hasError('required') && userForm.get('email').touched">
+                <div class="error"
+                    *ngIf="userRegistrationForm.get('email').hasError('required') && userRegistrationForm.get('email').touched">
                     *email is required
                 </div>
 
                 <mat-form-field class="register-full-width">
-                    <input matInput type="text" formControlName="password" placeholder="password">
+                    <input matInput type="password" formControlName="password" placeholder="password">
                 </mat-form-field>
                 <div class="error"
-                    *ngIf="userForm.get('password').hasError('required') && userForm.get('password').touched">
+                    *ngIf="userRegistrationForm.get('password').hasError('required') && userRegistrationForm.get('password').touched">
                     *password is required
                 </div>
                 <mat-form-field class="register-full-width">
-                    <input matInput type="text" formControlName="confirmPassword" placeholder="Confirm Password">
+                    <input matInput type="password" formControlName="confirmPassword" placeholder="Confirm Password">
                 </mat-form-field>
                 <div class="error"
-                    *ngIf="userForm.get('confirmPassword').hasError('required') && userForm.get('confirmPassword').touched">
+                    *ngIf="userRegistrationForm.get('confirmPassword').hasError('required') && userRegistrationForm.get('confirmPassword').touched">
                     *confirmPassword is required
                 </div>
 
             </mat-card-content>
 
-            <button mat-stroked-button class="register-btn" color="accent" type="submit">Register</button>
+            <button mat-stroked-button class="register-btn" color="accent" (click)="UserRegister()">Register</button>
 
         </form>
     </mat-card>
