@@ -21,8 +21,7 @@ import { User } from '../shared/models/user';
 export class LoginComponent implements OnInit {
 
   private subscriptions: Subscription[] = [];
-  response;
-  users: User;
+  private currentUser: User;
 
   private loginForm: FormGroup;
 
@@ -42,32 +41,37 @@ export class LoginComponent implements OnInit {
 
 
   public UserSignIn(socialProvider: string) {
-    let socialPlatformProvider;
+    let socialPlatformProvider = '';
+
     if (socialProvider === 'facebook') {
       socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
     } else if (socialProvider === 'google') {
       socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     }
-    this.OAuth.signIn(socialPlatformProvider).then(users => {
-      console.log(socialProvider, users);
-      if (this.UserExists(users.email)) {
-        this.showSuccess('Successfully logged in');
-        localStorage.setItem('socialusers', JSON.stringify(this.users));
-        this.router.navigate([`/Mainpage`]);
-      } else {
-        this.Savesresponse(users);
-      }
 
+    this.OAuth.signIn(socialPlatformProvider).then(user => {
+      this.currentUser = user;
+      console.log(socialProvider, this.currentUser);
+
+      this.userLoginService.UserExits(user.email).subscribe(res => {
+        if (res.body === true) {
+          this.showSuccess('Successfully Logged in');
+          localStorage.setItem('socialusers', JSON.stringify(this.currentUser));
+          this.router.navigate([`/Mainpage`]);
+        } else {
+          this.Savesresponse(this.currentUser);
+        }
+      });
     });
   }
 
-  Savesresponse(socialusers: User) {
-    this.userLoginService.SaveUser(socialusers).subscribe((res: any) => {
+  // save the user in the database is the user not registred previously
+  private Savesresponse(user: User): void {
+    this.userLoginService.SaveUser(user).subscribe(res => {
       if (res.status === 200) {
-        this.showSuccess('Successfully logged in');
-        this.users = res;
-        this.response = res.userDetail;
-        localStorage.setItem('socialusers', JSON.stringify(this.users));
+        this.showSuccess('Successfully Registered');
+        this.showSuccess('Successfully Logged in');
+        localStorage.setItem('socialusers', JSON.stringify(user));
         this.router.navigate([`/Mainpage`]);
       } else {
         this.showError('Someting went wrong. Please try again...');
@@ -77,18 +81,8 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  UserExists(id: string): boolean {
-    let response = false;
-    this.userLoginService.UserExits(id).subscribe(res => {
-      if (res.body === true) {
-        response = true;
-      }
-    });
-    return response;
 
-  }
-
-
+  // Taost messages
   showSuccess(message: string): void {
     this.toastService.show(message, {
       classname: 'bg-success text-light',
