@@ -12,7 +12,7 @@ namespace ConnectAPIBuddy.Repositories
         Task<IEnumerable<User>> GetAll();
         Task<User> GetUserByEmail(string email);
         Task<bool> UserExists(string email);
-        Task<bool> UserAthorized(User user);
+        Task<User> UserAthorized(User userIn);
 
         //POST
         Task<bool> AddUser(User userIn);

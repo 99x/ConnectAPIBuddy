@@ -20,7 +20,6 @@ namespace ConnectAPIBuddy.Models
         public string Email { get; set; }
         public string Name { get; set; }
 
-        [Optional]
         public string Password { get; set; }
         [Optional]
         public string Id { get; set; }

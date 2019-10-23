@@ -41,8 +41,8 @@ namespace ConnectAPIBuddy.Controllers
             return await _userService.UserExists(email);
         }
 
-        [HttpGet("athorized")]
-        public async Task<bool> UserAthorized(User userIn)
+        [HttpPost("athorized")]
+        public async Task<User> UserAthorized(User userIn)
         {
             return await _userService.UserAthorized(userIn);
         }

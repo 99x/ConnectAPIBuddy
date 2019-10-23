@@ -62,23 +62,23 @@ namespace ConnectAPIBuddy.Repositories
 
         }
 
-        public async Task<bool> UserAthorized(User userIn)
+        public async Task<User> UserAthorized(User userIn)
         {
             try
             {
                 User user = await _context.UserLogin.FindSync<User>(u => u.Email.Equals(userIn.Email)).FirstOrDefaultAsync();
                 if (user == null)
                 {
-                    return false;
+                    return null;
                 }
                 else
                 {
-                    if (user.Password.Equals(userIn.Password))
+                    if (user.Password == userIn.Password)
                     {
-                        return true;
+                        return user;
                     }
 
-                    return false;
+                    return null;
                 }
             }
             catch (Exception ex)
