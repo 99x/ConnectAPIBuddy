@@ -20,26 +20,26 @@
             <mat-card-title>Log in</mat-card-title>
         </mat-card-header>
 
-        <form [formGroup]="loginForm" class="login-form" (ngSubmit)="onSubmit()">
+        <form [formGroup]="loginForm" class="login-form">
             <mat-card-content>
                 <mat-form-field class="login-full-width">
-                    <input type="text" formControlName="username" matInput placeholder="Username">
+                    <input type="text" formControlName="email" matInput placeholder="Email">
                 </mat-form-field>
                 <div class="error"
-                    *ngIf="loginForm.get('username').hasError('required') && loginForm.get('username').touched">
+                    *ngIf="loginForm.get('email').hasError('required') && loginForm.get('email').touched">
                     *username is required
                 </div>
 
                 <mat-form-field class="login-full-width">
-                    <input type="text" formControlName="password" matInput placeholder="Password">
+                    <input type="password" formControlName="password" matInput placeholder="Password">
                 </mat-form-field>
                 <div class="error"
                     *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched">
                     *password is required
                 </div>
             </mat-card-content>
-            <button mat-stroked-button class="login-btn" color="accent" type="submit" routerLink="test"
-                routerLinkActive="active">Log in</button>
+            <button mat-stroked-button class="login-btn" color="accent" (click)="LocalUserLogin()">Log
+                in</button>
             <div>
                 <button type="button" class="btn btn-link px-0">Forgot password?</button>
             </div>
@@ -47,12 +47,12 @@
         <hr style="border-top: 1px solid #eee;">
         <div>
             <div>
-                <button (click)="UserSignIn('facebook')" class="loginBtn loginBtn--facebook">
+                <button (click)="SocialUserSignIn('facebook')" class="loginBtn loginBtn--facebook">
                     Login with Facebook
                 </button>
             </div>
             <div>
-                <button (click)="UserSignIn('google')" class="loginBtn loginBtn--google">
+                <button (click)="SocialUserSignIn('google')" class="loginBtn loginBtn--google">
                     Login with Google
                 </button>
             </div>

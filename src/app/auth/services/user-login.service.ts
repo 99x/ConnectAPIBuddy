@@ -1,4 +1,4 @@
-import { Observable, of, pipe } from 'rxjs';
+import { Observable, of, pipe, forkJoin } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
@@ -41,6 +41,12 @@ export class UserLoginService {
   UserExits(email: string): Observable<any> {
     return this.httpClient
       .get(this.API_URL + '/exists/' + email, { observe: 'response', headers: this.httpHeaders });
+  }
+
+  UserAthenticate(userIn: User): Observable<any> {
+    // let details = [email, password];
+    return this.httpClient
+      .post(this.API_URL + '/athorized/', userIn, { observe: 'response', headers: this.httpHeaders });
   }
 }
 

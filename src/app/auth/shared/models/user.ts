@@ -1,8 +1,10 @@
 export interface User {
-    provider: string;
-    id: string;
+    _id?: string;
+    provider?: string;
+    id?: string;
     email: string;
-    name: string;
+    password?: string;
+    name?: string;
     image: string;
     token?: string;
     idToken?: string;

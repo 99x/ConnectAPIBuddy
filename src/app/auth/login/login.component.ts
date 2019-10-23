@@ -34,13 +34,38 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-      username: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
       password: new FormControl('', [Validators.required, Validators.minLength(8)])
     });
   }
 
+  public LocalUserLogin() {
+    let temp: User;
+    if (this.loginForm.valid) {
+      temp = this.loginForm.value;
+      console.log(temp);
+      this.userLoginService.UserExits(this.loginForm.get('email').value).subscribe(res => {
+        if (res.body === true) {
+          this.userLoginService.UserAthenticate(temp).subscribe(resp => {
+            if (resp.body !== null) {
+              this.currentUser = resp.body;
+              localStorage.setItem('socialusers', JSON.stringify(this.currentUser));
+              this.showSuccess('Successfully Logged in');
+              this.router.navigate([`/Mainpage`]);
+            } else {
+              this.showError('Incorrect password');
+              this.loginForm.get('password').reset();
+            }
+          });
+        } else {
+          this.showError('You are not registered yet. Please Signup first...');
+          this.loginForm.reset();
+        }
+      });
+    }
+  }
 
-  public UserSignIn(socialProvider: string) {
+  public SocialUserSignIn(socialProvider: string) {
     let socialPlatformProvider = '';
 
     if (socialProvider === 'facebook') {
@@ -104,13 +129,12 @@ export class LoginComponent implements OnInit {
 
 
 
+
+
   // this.subscriptions.push(this.userService.getUsers().subscribe((data: any[]) => {
   //   console.log(data);
   //   this.users = data;
   // }));
-  //   }
-
-
 
   //   public onSubmit(): void {
   //   console.log(this.loginForm.value);
@@ -119,11 +143,5 @@ export class LoginComponent implements OnInit {
   //     .subscribe(url => console.log('The URL changed to: ' + url));
   // }
 
-  //   public logNameChange(): void {
-  //   const nameControl = this.loginForm.get('username');
-  //   nameControl.valueChanges.forEach(
-  //     (value: string) => this.nameChangeLog.push(value)
-  //   );
-  // }
 
 }
