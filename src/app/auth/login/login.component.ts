@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
     let temp: User;
     if (this.loginForm.valid) {
       temp = this.loginForm.value;
-      console.log(temp);
       this.userLoginService.UserExits(this.loginForm.get('email').value).subscribe(res => {
         if (res.body === true) {
           this.userLoginService.UserAthenticate(temp).subscribe(resp => {

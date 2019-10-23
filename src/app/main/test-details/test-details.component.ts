@@ -68,7 +68,7 @@ export class TestDetailsComponent implements OnInit {
   ngOnInit() {
 
     this.users = JSON.parse(localStorage.getItem('socialusers'));
-    console.log(this.users.image);
+    console.log('current user' + this.users.email);
 
     this.testDetailsForm = this.fb.group({
       endpointAction: [''],

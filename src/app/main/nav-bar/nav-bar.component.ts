@@ -39,10 +39,13 @@ export class NavBarComponent implements OnInit {
 
   Logout() {
     alert('All unsaved data will be lost');
-    localStorage.removeItem('socialusers');
-    this.OAuth.signOut().then(data => {
-      this.router.navigate([`/login`]);
-    });
+    localStorage.clear();
+    if (this.OAuth.authState !== null) {
+      this.OAuth.signOut();
+    }
+    this.router.navigate([`/login`]);
+
+
   }
 
   open() {

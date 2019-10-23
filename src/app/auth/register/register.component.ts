@@ -16,7 +16,7 @@ import { MustMatch } from '../../shared/must-match';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit {
 
   private subscriptions: Subscription[] = [];
 
@@ -38,9 +38,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
+  // ngOnDestroy() {
+  //   this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  // }
 
   // get form values
   get f() { return this.userRegistrationForm.controls; }
