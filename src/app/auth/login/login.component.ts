@@ -44,10 +44,10 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       temp = this.loginForm.value;
       this.userLoginService.UserExits(this.loginForm.get('email').value).subscribe(res => {
-        if (res.body === true) {
+        if (res !== null) {
           this.userLoginService.UserAthenticate(temp).subscribe(resp => {
-            if (resp.body !== null) {
-              this.currentUser = resp.body;
+            if (resp !== null) {
+              this.currentUser = resp;
               localStorage.setItem('socialusers', JSON.stringify(this.currentUser));
               this.showSuccess('Successfully Logged in');
               this.router.navigate([`/Mainpage`]);
@@ -74,16 +74,26 @@ export class LoginComponent implements OnInit {
     }
 
     this.OAuth.signIn(socialPlatformProvider).then(user => {
-      this.currentUser = user;
-      console.log(socialProvider, this.currentUser);
+
+      console.log(socialProvider, user);
+      let tempUser: User = {
+        id: null,
+        name: user.name,
+        email: user.email,
+        token: user.token,
+        image: user.image,
+        provider: user.provider
+      };
 
       this.userLoginService.UserExits(user.email).subscribe(res => {
-        if (res.body === true) {
+        if (res !== null) {
+          this.currentUser = res;
+          console.log('current user in login ' + JSON.stringify(this.currentUser));
           this.showSuccess('Successfully Logged in');
           localStorage.setItem('socialusers', JSON.stringify(this.currentUser));
           this.router.navigate([`/Mainpage`]);
         } else {
-          this.Savesresponse(this.currentUser);
+          this.Savesresponse(tempUser);
         }
       });
     });
@@ -92,10 +102,11 @@ export class LoginComponent implements OnInit {
   // save the user in the database is the user not registred previously
   private Savesresponse(user: User): void {
     this.userLoginService.SaveUser(user).subscribe(res => {
-      if (res.status === 200) {
+      if (res !== null) {
+        this.currentUser = res;
         this.showSuccess('Successfully Registered');
         this.showSuccess('Successfully Logged in');
-        localStorage.setItem('socialusers', JSON.stringify(user));
+        localStorage.setItem('socialusers', JSON.stringify(this.currentUser));
         this.router.navigate([`/Mainpage`]);
       } else {
         this.showError('Someting went wrong. Please try again...');
@@ -134,13 +145,5 @@ export class LoginComponent implements OnInit {
   //   console.log(data);
   //   this.users = data;
   // }));
-
-  //   public onSubmit(): void {
-  //   console.log(this.loginForm.value);
-
-  //   this.activatedRoute.url
-  //     .subscribe(url => console.log('The URL changed to: ' + url));
-  // }
-
 
 }

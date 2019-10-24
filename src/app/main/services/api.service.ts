@@ -30,7 +30,7 @@ export class ApiService {
         this.httpHeaders.append(element.header, element.value);
       });
     }
-    console.log(this.httpHeaders);
+
     return this.httpClient
       .get(url, { observe: 'response', headers: this.httpHeaders })
       .pipe(
@@ -47,7 +47,7 @@ export class ApiService {
         this.httpHeaders.append(element.header, element.value);
       });
     }
-    console.log(this.httpHeaders);
+
     return this.httpClient
       .post(url, body, { observe: 'response', headers: this.httpHeaders })
       .pipe(
@@ -63,7 +63,7 @@ export class ApiService {
         this.httpHeaders.append(element.header, element.value);
       });
     }
-    console.log(this.httpHeaders);
+
     return this.httpClient
       .put(url, data, { observe: 'response', headers: this.httpHeaders })
       .pipe(

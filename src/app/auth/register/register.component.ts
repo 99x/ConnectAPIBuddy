@@ -53,13 +53,13 @@ export class RegisterComponent implements OnInit {
     if (this.userRegistrationForm.valid) {
       this.userLoginService.UserExits(this.f.email.value).subscribe(resp => {
 
-        if (resp.body === false) {
+        if (resp !== null) {
 
           if (this.f.password.value === this.f.confirmPassword.value) {
             this.newUser = this.userRegistrationForm.value;
             this.userLoginService.SaveUser(this.newUser).subscribe(res => {
 
-              if (res.body === true) {
+              if (res !== null) {
                 this.showSuccess('Successfully Registered...');
                 this.router.navigate([`/login`]);
               } else {

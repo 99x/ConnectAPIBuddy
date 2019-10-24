@@ -1,9 +1,11 @@
 import { Observable, of, pipe, forkJoin } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { retry, catchError, map } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+
+import { AlertToastService } from '../../shared/services/alert-toast.service';
 import { User } from '../shared/models/user';
 
 
@@ -17,37 +19,46 @@ export class UserLoginService {
     'Content-Type': 'application/json'
   });
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    public alertToastService: AlertToastService
+  ) { }
 
   // Handle API errors
   handleError(error: HttpErrorResponse) {
     return of({
-      status: error.status,
-      statusText: error.message,
-      body: error.error
+
     });
   }
 
 
-  SaveUser(response: User): Observable<any> {
+  SaveUser(response: User): Observable<User> {
     return this.httpClient
-      .post(this.API_URL, response, { observe: 'response', headers: this.httpHeaders })
+      .post<User>(this.API_URL, response, { headers: this.httpHeaders })
       .pipe(
-        retry(2),
-        catchError(this.handleError)
+        // catchError({
+        //   this.alertToastService.showSuccessMessage('Failed to register user');
+        //   return this.handleError;
+        // })
       );
   }
 
-  UserExits(email: string): Observable<any> {
+  UserExits(email: string): Observable<User> {
     return this.httpClient
-      .get(this.API_URL + '/exists/' + email, { observe: 'response', headers: this.httpHeaders });
+      .get<User>(this.API_URL + '/exists/' + email, { headers: this.httpHeaders })
+      .pipe(
+        retry((2))
+      );
   }
 
-  UserAthenticate(userIn: User): Observable<any> {
-    // let details = [email, password];
+  UserAthenticate(userIn: User): Observable<User> {
     return this.httpClient
-      .post(this.API_URL + '/athorized/', userIn, { observe: 'response', headers: this.httpHeaders });
+      .post<User>(this.API_URL + '/athorized/', userIn, { headers: this.httpHeaders })
+      .pipe(
+        retry((2))
+      );
   }
+
 }
 
 
