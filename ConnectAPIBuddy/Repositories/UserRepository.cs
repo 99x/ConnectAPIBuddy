@@ -40,18 +40,18 @@ namespace ConnectAPIBuddy.Repositories
             }
         } 
 
-        public async Task<bool> UserExists(string email)
+        public async Task<User> UserExists(string email)
         {
             try
             {
                 User user = await _context.UserLogin.FindSync<User>(u => u.Email.Equals(email)).FirstOrDefaultAsync();
                 if (user != null)
                 {
-                    return true;
+                    return user;
                 }
                 else
                 {
-                    return false;
+                    return null;
                 }
             }
             catch (Exception ex)
@@ -88,18 +88,18 @@ namespace ConnectAPIBuddy.Repositories
             }
         }
 
-        public async Task<bool> AddUser(User userIn)
+        public async Task<User> AddUser(User userIn)
         {
             try
             {
                 await _context.UserLogin.InsertOneAsync(userIn);
-                return true;
+                
             }
             catch(Exception ex)
             {
                 throw ex;
             }
-
+            return userIn;
             
         }
     }

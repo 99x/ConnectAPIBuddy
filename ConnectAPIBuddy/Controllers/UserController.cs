@@ -36,7 +36,7 @@ namespace ConnectAPIBuddy.Controllers
         }
 
         [HttpGet("exists/{email}")]
-        public async Task<bool> UserExists(string email)
+        public async Task<User> UserExists(string email)
         {
             return await _userService.UserExists(email);
         }
@@ -48,9 +48,9 @@ namespace ConnectAPIBuddy.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> AddUser(User userIn)
+        public async Task<User> AddUser(User userIn)
         {
-            return await _userService.AddUser(userIn);
+            return await _userService.AddUser(userIn) ?? null;
         }
     }
 }

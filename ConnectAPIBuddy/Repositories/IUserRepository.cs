@@ -11,11 +11,11 @@ namespace ConnectAPIBuddy.Repositories
         //GET
         Task<IEnumerable<User>> GetAll();
         Task<User> GetUserByEmail(string email);
-        Task<bool> UserExists(string email);
+        Task<User> UserExists(string email);
         Task<User> UserAthorized(User userIn);
 
         //POST
-        Task<bool> AddUser(User userIn);
+        Task<User> AddUser(User userIn);
 
     }
 }
