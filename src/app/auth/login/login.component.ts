@@ -49,15 +49,15 @@ export class LoginComponent implements OnInit {
             if (resp !== null) {
               this.currentUser = resp;
               localStorage.setItem('socialusers', JSON.stringify(this.currentUser));
-              this.showSuccess('Successfully Logged in');
+              this.toastService.showSuccess('Successfully Logged in');
               this.router.navigate([`/Mainpage`]);
             } else {
-              this.showError('Incorrect password');
+              this.toastService.showError('Incorrect password');
               this.loginForm.get('password').reset();
             }
           });
         } else {
-          this.showError('You are not registered yet. Please Signup first...');
+          this.toastService.showError('You are not registered yet. Please Signup first...');
           this.loginForm.reset();
         }
       });
@@ -88,8 +88,8 @@ export class LoginComponent implements OnInit {
         if (res !== null) {
           this.currentUser = res;
 
-          this.showSuccess('Successfully Logged in');
-          // this.toastService.ShowSuccessMessage('Successfully Logged in');
+          // this.showSuccess('Successfully Logged in');
+          this.toastService.showSuccess('Successfully Logged in');
           localStorage.setItem('socialusers', JSON.stringify(this.currentUser));
           this.router.navigate([`/Mainpage`]);
         } else {
@@ -104,12 +104,12 @@ export class LoginComponent implements OnInit {
     this.userLoginService.SaveUser(user).subscribe(res => {
       if (res !== null) {
         this.currentUser = res;
-        this.showSuccess('Successfully Registered');
-        this.showSuccess('Successfully Logged in');
+        this.toastService.showSuccess('Successfully Registered');
+        this.toastService.showSuccess('Successfully Logged in');
         localStorage.setItem('socialusers', JSON.stringify(this.currentUser));
         this.router.navigate([`/Mainpage`]);
       } else {
-        this.showError('Someting went wrong. Please try again...');
+        this.toastService.showError('Someting went wrong. Please try again...');
         this.router.navigate([`/login`]);
       }
 
@@ -117,23 +117,6 @@ export class LoginComponent implements OnInit {
   }
 
 
-  // Taost messages
-  showSuccess(message: string): void {
-    this.toastService.show(message, {
-      classname: 'bg-success text-light',
-      delay: 5000,
-      autohide: true,
-      headertext: 'Toast Header'
-    });
-  }
-  showError(message: string): void {
-    this.toastService.show(message, {
-      classname: 'bg-danger text-light',
-      delay: 2000,
-      autohide: true,
-      headertext: 'Error!!!'
-    });
-  }
 
 
 

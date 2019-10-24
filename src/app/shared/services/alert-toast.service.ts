@@ -17,23 +17,28 @@ export class AlertToastService {
     this.toasts = this.toasts.filter(t => t !== toast);
   }
 
-  public ShowSuccessMessage(message: string): void {
-    let options = {
+  showSuccess(message: string): void {
+    this.show(message, {
       classname: 'bg-success text-light',
-      delay: 5000,
+      delay: 3000,
       autohide: true,
       headertext: 'Toast Header'
-    };
-    this.toasts.push({ message, options });
+    });
   }
-
-  public ShowErrorMessage(message: string): void {
-    let options = {
+  showError(message: string): void {
+    this.show(message, {
       classname: 'bg-danger text-light',
-      delay: 2000,
+      delay: 5000,
       autohide: true,
       headertext: 'Error!!!'
-    };
-    this.toasts.push({ message, options });
+    });
+  }
+
+  showCustomToast(message: string): void {
+    this.show(message, {
+      classname: 'bg-info text-light',
+      delay: 3000,
+      autohide: true
+    });
   }
 }

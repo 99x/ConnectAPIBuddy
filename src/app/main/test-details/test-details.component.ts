@@ -44,8 +44,7 @@ export class TestDetailsComponent implements OnInit {
   basepaths: string[] = [];
 
   headerVals: HeaderVal[] = [
-    { header: 'Content-Type', value: 'application/json' },
-    { header: 'ConnectFilesApiKey', value: '	ZaY0tBwbuB' }
+    { header: 'Content-Type', value: 'application/json' }
   ];
   formVals: FormVal[] = [
     { key: 'Name', value: 'Rajith' },
@@ -126,10 +125,10 @@ export class TestDetailsComponent implements OnInit {
       this.testConfigService.postTestConfig(this.backendUrl, testConfig)
         .subscribe(res => {
           if (res.status === 200) {
-            this.showSuccess('Successfully Saved');
+            this.toastService.showSuccess('Successfully Saved');
 
           } else {
-            this.showError('failed');
+            this.toastService.showError('failed');
           }
         });
 
@@ -138,9 +137,9 @@ export class TestDetailsComponent implements OnInit {
       if (this.f.endpointAction.value === 'GET') {
         this.apiService.getData(url, this.headerVals).subscribe(res => {
           if (res.status === 200) {
-            this.showSuccess('Request Successful');
+            this.toastService.showSuccess('Request Successful');
           } else {
-            this.showError('Request Unsuccessful');
+            this.toastService.showError('Request Unsuccessful');
           }
           this.responseJsonView = res.body;
           this.testDetailsForm.patchValue({
@@ -265,6 +264,7 @@ export class TestDetailsComponent implements OnInit {
 
     // Read the file
     reader.readAsDataURL(file);
+    this.toastService.showSuccess('File added');
     console.log(this.fileUploaded);
   }
 
@@ -280,29 +280,5 @@ export class TestDetailsComponent implements OnInit {
     console.log(this.dataType);
   }
 
-  showSuccess(message: string): void {
-    this.toastService.show(message, {
-      classname: 'bg-success text-light',
-      delay: 5000,
-      autohide: true,
-      headertext: 'Toast Header'
-    });
-  }
-  showError(message: string): void {
-    this.toastService.show(message, {
-      classname: 'bg-danger text-light',
-      delay: 2000,
-      autohide: true,
-      headertext: 'Error!!!'
-    });
-  }
-
-  showCustomToast(message: string): void {
-    this.toastService.show(message, {
-      classname: 'bg-info text-light',
-      delay: 3000,
-      autohide: true
-    });
-  }
 
 }
