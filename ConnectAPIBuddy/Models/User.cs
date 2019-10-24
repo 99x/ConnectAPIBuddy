@@ -16,21 +16,17 @@ namespace ConnectAPIBuddy.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string _Id { get; set; }
+        public string Id { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
-
         public string Password { get; set; }
-        [Optional]
-        public string Id { get; set; }
         [Optional]
         public string Image { get; set; }
         [Optional]
         public string Provider { get; set; }
         [Optional]
         public string Token { get; set; }
-        [Optional]
-        public string IdToken { get; set; }
+
 
     }
 }
