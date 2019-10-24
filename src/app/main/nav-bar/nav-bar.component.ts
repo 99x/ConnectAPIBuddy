@@ -19,6 +19,7 @@ export class NavBarComponent implements OnInit {
   private modalOptions: NgbModalOptions;
   private form: FormGroup;
   t: TestDetailsComponent;
+  tenants = ['Localhost', 'www.Connect.com'];
   selectedTenant = 'Localhost';
 
 

@@ -36,9 +36,13 @@ export class TestDetailsComponent implements OnInit {
   // form variables
   methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
   selectedMethod = 'GET';
-  baseurls = ['http://fakerestapi.azurewebsites.net', 'https://localhost:44384'
-    , 'https://ccfilesapi-dev.compello.com'];
-  basepaths = ['/api/Authors', '/api/TestConfig', '/api/files/UploadFile'];
+
+  // baseurls = ['http://fakerestapi.azurewebsites.net', 'https://localhost:44384'
+  //   , 'https://ccfilesapi-dev.compello.com'];
+  // basepaths = ['/api/Authors', '/api/TestConfig', '/api/files/UploadFile'];
+  baseurls: string[] = [];
+  basepaths: string[] = [];
+
   headerVals: HeaderVal[] = [
     { header: 'Content-Type', value: 'application/json' },
     { header: 'ConnectFilesApiKey', value: '	ZaY0tBwbuB' }
@@ -70,12 +74,19 @@ export class TestDetailsComponent implements OnInit {
   ngOnInit() {
 
     this.currentUser = JSON.parse(localStorage.getItem('socialusers'));
-    this.formInitialize();
+
 
     this.testConfigService.getTestConfigs(this.backendUrl + '/user/' + this.currentUser.id).subscribe(tconfig => {
       this.testConfigurations = tconfig.body;
       console.log(this.testConfigurations);
+      this.testConfigurations.forEach(x => {
+        this.baseurls.push(x.baseUrl);
+        this.basepaths.push(x.basePath);
+      });
+      console.log(this.basepaths);
     });
+
+    this.formInitialize();
 
   }
 
@@ -114,6 +125,12 @@ export class TestDetailsComponent implements OnInit {
       testConfig.userId = this.currentUser.id;
       this.testConfigService.postTestConfig(this.backendUrl, testConfig)
         .subscribe(res => {
+          if (res.status === 200) {
+            this.showSuccess('Successfully Saved');
+
+          } else {
+            this.showError('failed');
+          }
         });
 
     } else {

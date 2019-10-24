@@ -17,12 +17,22 @@ export class AlertToastService {
     this.toasts = this.toasts.filter(t => t !== toast);
   }
 
-  showSuccessMessage(message: string): void {
+  public ShowSuccessMessage(message: string): void {
     let options = {
       classname: 'bg-success text-light',
       delay: 5000,
       autohide: true,
       headertext: 'Toast Header'
+    };
+    this.toasts.push({ message, options });
+  }
+
+  public ShowErrorMessage(message: string): void {
+    let options = {
+      classname: 'bg-danger text-light',
+      delay: 2000,
+      autohide: true,
+      headertext: 'Error!!!'
     };
     this.toasts.push({ message, options });
   }

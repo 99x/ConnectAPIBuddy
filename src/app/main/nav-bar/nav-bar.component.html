@@ -16,9 +16,10 @@
                                     <i class="fa fa-upload"></i></span>Load</a>
 
                             <mat-select class="test-group" [(value)]="selectedTenant">
-                                <mat-option value="" disabled selected>Select...</mat-option>
+                                <mat-option *ngFor="let tenant of tenants" [value]="tenant">{{tenant}}</mat-option>
+                                <!-- <mat-option value="" disabled selected>Select...</mat-option>
                                 <mat-option value="Localhost">Localhost</mat-option>
-                                <mat-option value="Connect">Connect</mat-option>
+                                <mat-option value="Connect">Connect</mat-option> -->
                             </mat-select>
                         </span>
                         <span class="right-side">

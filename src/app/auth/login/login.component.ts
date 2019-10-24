@@ -75,7 +75,6 @@ export class LoginComponent implements OnInit {
 
     this.OAuth.signIn(socialPlatformProvider).then(user => {
 
-      console.log(socialProvider, user);
       let tempUser: User = {
         id: null,
         name: user.name,
@@ -88,8 +87,9 @@ export class LoginComponent implements OnInit {
       this.userLoginService.UserExits(user.email).subscribe(res => {
         if (res !== null) {
           this.currentUser = res;
-          console.log('current user in login ' + JSON.stringify(this.currentUser));
+
           this.showSuccess('Successfully Logged in');
+          // this.toastService.ShowSuccessMessage('Successfully Logged in');
           localStorage.setItem('socialusers', JSON.stringify(this.currentUser));
           this.router.navigate([`/Mainpage`]);
         } else {
