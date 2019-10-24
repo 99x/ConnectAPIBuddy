@@ -1,7 +1,7 @@
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -29,6 +29,8 @@ import { MAX_SIZE } from '../../shared/constants';
 
 export class TestDetailsComponent implements OnInit {
 
+  // @Input() currentUser: User;
+
   backendUrl = 'https://localhost:44384/api/TestConfig';
 
   // form variables
@@ -53,8 +55,8 @@ export class TestDetailsComponent implements OnInit {
   responseJsonView: object = {};  // Response view in JSON format
   isFileAdded = false; // Whether file attached or not
   dataType: string = 'raw';
-  users: User;
-
+  currentUser: User;
+  testConfigurations: TestConfiguration[];
 
 
   constructor(
@@ -67,9 +69,17 @@ export class TestDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    this.users = JSON.parse(localStorage.getItem('socialusers'));
-    console.log('current user' + this.users.email);
+    this.currentUser = JSON.parse(localStorage.getItem('socialusers'));
+    this.formInitialize();
 
+    this.testConfigService.getTestConfigs(this.backendUrl + '/user/' + this.currentUser.id).subscribe(tconfig => {
+      this.testConfigurations = tconfig.body;
+      console.log(this.testConfigurations);
+    });
+
+  }
+
+  private formInitialize(): void {
     this.testDetailsForm = this.fb.group({
       endpointAction: [''],
       baseUrl: [''],
@@ -90,7 +100,6 @@ export class TestDetailsComponent implements OnInit {
       status: ['']
     });
   }
-
   get f() { return this.testDetailsForm.controls; } // get form controls
 
   OnClickExecute(isSave: boolean): void {
@@ -102,6 +111,7 @@ export class TestDetailsComponent implements OnInit {
       testConfig.formContent = this.formVals;
       testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
       testConfig.file = this.fileUploaded;
+      testConfig.userId = this.currentUser.id;
       this.testConfigService.postTestConfig(this.backendUrl, testConfig)
         .subscribe(res => {
         });

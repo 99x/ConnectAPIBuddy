@@ -16,4 +16,14 @@ export class AlertToastService {
   remove(toast) {
     this.toasts = this.toasts.filter(t => t !== toast);
   }
+
+  showSuccessMessage(message: string): void {
+    let options = {
+      classname: 'bg-success text-light',
+      delay: 5000,
+      autohide: true,
+      headertext: 'Toast Header'
+    };
+    this.toasts.push({ message, options });
+  }
 }
