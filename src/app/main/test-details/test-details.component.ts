@@ -1,22 +1,22 @@
+// rxjs
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-
+// angular
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
-
-
+// services
 import { ApiService } from '../services/api.service';
 import { TestConfigService } from '../shared/services/test-config.service';
 import { AlertToastService } from '../../shared/services/alert-toast.service';
-
+// models
 import { HeaderVal } from '../models/Header';
 import { FormVal } from '../models/FormVal';
 import { TestConfiguration } from '../models/TestConfiguration';
 import { FileDetails } from '../models/FileDetails';
 import { User } from '../../auth/shared/models/user';
-
+// constants
 import { MAX_SIZE } from '../../shared/constants';
 
 
@@ -76,13 +76,17 @@ export class TestDetailsComponent implements OnInit {
 
 
     this.testConfigService.getTestConfigs(this.backendUrl + '/user/' + this.currentUser.id).subscribe(tconfig => {
-      this.testConfigurations = tconfig.body;
-      console.log(this.testConfigurations);
-      this.testConfigurations.forEach(x => {
-        this.baseurls.push(x.baseUrl);
-        this.basepaths.push(x.basePath);
-      });
-      console.log(this.basepaths);
+      if (tconfig !== null) {
+        this.testConfigurations = tconfig;
+        console.log(this.testConfigurations);
+        this.testConfigurations.forEach(x => {
+          this.baseurls.push(x.baseUrl);
+          this.basepaths.push(x.basePath);
+        });
+      } else {
+        this.toastService.showError('Couldn\'t retrive Test configurations.');
+      }
+
     });
 
     this.formInitialize();
@@ -124,8 +128,9 @@ export class TestDetailsComponent implements OnInit {
       testConfig.userId = this.currentUser.id;
       this.testConfigService.postTestConfig(this.backendUrl, testConfig)
         .subscribe(res => {
-          if (res.status === 200) {
+          if (res !== null) {
             this.toastService.showSuccess('Successfully Saved');
+            this.testConfigurations.push(res);
 
           } else {
             this.toastService.showError('failed');
@@ -272,6 +277,7 @@ export class TestDetailsComponent implements OnInit {
   toggleChange(): void {
     this.isFileAdded = !this.isFileAdded;
     console.log(this.isFileAdded);
+
   }
 
   // Type radio buttons changed
