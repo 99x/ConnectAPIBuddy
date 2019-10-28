@@ -1,5 +1,5 @@
 import { Observable, of, pipe, forkJoin } from 'rxjs';
-import { retry, catchError, map } from 'rxjs/operators';
+import { retry, catchError, map, tap } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 
@@ -26,20 +26,16 @@ export class UserLoginService {
 
   // Handle API errors
   handleError(error: HttpErrorResponse) {
-    return of({
-
-    });
+    this.alertToastService.showError('error');
+    return of(null);
   }
 
 
-  SaveUser(response: User): Observable<User> {
+  SaveUser(response: User): Observable<User | null> {
     return this.httpClient
       .post<User>(this.API_URL, response, { headers: this.httpHeaders })
       .pipe(
-        // catchError({
-        //   this.alertToastService.showSuccessMessage('Failed to register user');
-        //   return this.handleError;
-        // })
+        catchError(this.handleError)
       );
   }
 
@@ -47,7 +43,8 @@ export class UserLoginService {
     return this.httpClient
       .get<User>(this.API_URL + '/exists/' + email, { headers: this.httpHeaders })
       .pipe(
-        retry((2))
+        retry((2)),
+        catchError(this.handleError)
       );
   }
 
@@ -55,7 +52,8 @@ export class UserLoginService {
     return this.httpClient
       .post<User>(this.API_URL + '/athorized/', userIn, { headers: this.httpHeaders })
       .pipe(
-        retry((2))
+        retry((2)),
+        catchError(this.handleError)
       );
   }
 

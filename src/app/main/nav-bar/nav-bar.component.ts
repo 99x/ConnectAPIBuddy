@@ -1,13 +1,16 @@
+// angular
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SocialLoginModule, AuthServiceConfig, AuthService } from 'angular-6-social-login';
-
+// components
 import { TestSettingsComponent } from '../test-settings/test-settings.component';
 import { TestDetailsComponent } from '../test-details/test-details.component';
 
+/// models
 import { User } from '../../auth/shared/models/user';
+import { TestConfiguration } from '../models/TestConfiguration';
 
 @Component({
   selector: 'app-nav-bar',
@@ -45,8 +48,6 @@ export class NavBarComponent implements OnInit {
       this.OAuth.signOut();
     }
     this.router.navigate([`/login`]);
-
-
   }
 
   open() {

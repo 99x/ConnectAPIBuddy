@@ -29,8 +29,6 @@ import { MAX_SIZE } from '../../shared/constants';
 
 export class TestDetailsComponent implements OnInit {
 
-  // @Input() currentUser: User;
-
   backendUrl = 'https://localhost:44384/api/TestConfig';
 
   // form variables
@@ -74,7 +72,6 @@ export class TestDetailsComponent implements OnInit {
 
     this.currentUser = JSON.parse(localStorage.getItem('socialusers'));
 
-
     this.testConfigService.getTestConfigs(this.backendUrl + '/user/' + this.currentUser.id).subscribe(tconfig => {
       if (tconfig !== null) {
         this.testConfigurations = tconfig;
@@ -90,11 +87,12 @@ export class TestDetailsComponent implements OnInit {
     });
 
     this.formInitialize();
-
   }
 
+  /***************************************** Test Details form ****************************************/
   private formInitialize(): void {
     this.testDetailsForm = this.fb.group({
+      url: [''],
       endpointAction: [''],
       baseUrl: [''],
       basePath: [''],
@@ -117,8 +115,8 @@ export class TestDetailsComponent implements OnInit {
   get f() { return this.testDetailsForm.controls; } // get form controls
 
   OnClickExecute(isSave: boolean): void {
-    const url = this.f.baseUrl.value + this.f.basePath.value;
-
+    const url = this.f.url.value;
+    /***************************************** Save current Test  ****************************************/
     if (isSave) {
       let testConfig = new TestConfiguration(this.testDetailsForm.value);
       testConfig.payloadHeaders = this.headerVals;
@@ -131,14 +129,15 @@ export class TestDetailsComponent implements OnInit {
           if (res !== null) {
             this.toastService.showSuccess('Successfully Saved');
             this.testConfigurations.push(res);
-
+            this.baseurls.push(res.baseUrl);
+            this.basepaths.push(res.basePath);
           } else {
             this.toastService.showError('failed');
           }
         });
 
     } else {
-
+      /***************************************** HTTP default mehods  ****************************************/
       if (this.f.endpointAction.value === 'GET') {
         this.apiService.getData(url, this.headerVals).subscribe(res => {
           if (res.status === 200) {
@@ -203,7 +202,7 @@ export class TestDetailsComponent implements OnInit {
 
   }
 
-
+  /***************************************** Input Headers  ****************************************/
   OnClickAddHeader(): void {
     let h = this.f.payloadHeaders.get('header').value;
     let v = this.f.payloadHeaders.get('value').value;
@@ -221,6 +220,7 @@ export class TestDetailsComponent implements OnInit {
     this.headerVals.pop();
   }
 
+  /***************************************** Input Form values  ****************************************/
   OnClickAddFormVal(): void {
     let k = this.f.formContent.get('key').value;
     let v = this.f.formContent.get('value').value;
@@ -238,6 +238,7 @@ export class TestDetailsComponent implements OnInit {
     this.formVals.pop();
   }
 
+  /******************************************* Attach a file *********************************************/
   handleFileInput(files: FileList): void {
     let file: File = null;
     console.log(files);
@@ -286,5 +287,29 @@ export class TestDetailsComponent implements OnInit {
     console.log(this.dataType);
   }
 
+  UrlOnChanged() {
+    let url = this.f.url.value;
+    console.log('seleced url is' + url);
+    let split = this.SplitedUrl(url);
+    this.testDetailsForm.patchValue({
+      baseUrl: split[0],
+      basePath: split[1]
+    });
+  }
+
+  private SplitedUrl(urlIn: string): string[] {
+    let url = new URL(urlIn);
+    let splittedUrl = [url.origin, url.pathname];
+    console.log(splittedUrl);
+    return splittedUrl;
+  }
+
+  BaseUrlPathOnChanged() {
+    let newUrl = this.f.baseUrl.value + this.f.basePath.value;
+    this.testDetailsForm.patchValue({
+      url: newUrl
+    });
+
+  }
 
 }

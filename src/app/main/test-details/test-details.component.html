@@ -10,6 +10,14 @@
     <div class="app-body">
         <form [formGroup]="testDetailsForm">
             <div class="url-wrapper">
+                <div>
+                    <input list="urls" class="url" type="text" formControlName="url" (change)="UrlOnChanged()">
+                    <datalist id="urls">
+                        <option *ngFor="let url of baseurls" [value]='url'></option>
+                    </datalist>
+                    <span class="fa fa-plus searchicon" aria-hidden="true">
+                    </span>
+                </div>
                 <mat-form-field class="method-wrapper">
                     <mat-label>HTTP Method</mat-label>
                     <mat-select formControlName="endpointAction" [(value)]="selectedMethod">
@@ -19,13 +27,13 @@
                 <!----------------------------------URL--------------------------------------->
                 <!-- <label class="lbl">Base Url</label> -->
                 <input list="base-urls" class="baseurl-list" type="text" formControlName="baseUrl"
-                    placeholder="base url">
+                    placeholder="base url" (change)=" BaseUrlPathOnChanged()">
                 <datalist id="base-urls">
                     <option *ngFor="let url of baseurls" [value]='url'></option>
                 </datalist>
 
                 <input list="base-paths" class="basepath-list" type="text" formControlName="basePath"
-                    placeholder="base path">
+                    placeholder="base path" (change)=" BaseUrlPathOnChanged()">
                 <datalist id="base-paths">
                     <option *ngFor="let path of basepaths" [value]='path'></option>
                 </datalist>
@@ -133,20 +141,6 @@
                                     </div>
                                     <!-- Nav tabs -->
                                     <mat-tab-group animationDuration="1000ms">
-                                        <!-- <div class="file-wrapper">
-
-                                            <mat-slide-toggle class="select-switch" [(ngModel)]="isFileAdded"></mat-slide-toggle>
-                                            <input class="key-file" type="text" placeholder="key"
-                                                formControlName="fileKey">
-
-                                            <button class="add-file">
-                                                <label>
-                                                    Open file
-                                                    <input type="file" style="display: none"
-                                                        (change)="handleFileInput($event.target.files)" file-handler>
-                                                </label>
-                                            </button>
-                                        </div> -->
                                         <mat-tab label="Raw">
                                             <ng-template matTabContent>
                                                 <div class="raw-wrapper">
