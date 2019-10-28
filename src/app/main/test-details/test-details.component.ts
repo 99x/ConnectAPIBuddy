@@ -38,6 +38,7 @@ export class TestDetailsComponent implements OnInit {
   // baseurls = ['http://fakerestapi.azurewebsites.net', 'https://localhost:44384'
   //   , 'https://ccfilesapi-dev.compello.com'];
   // basepaths = ['/api/Authors', '/api/TestConfig', '/api/files/UploadFile'];
+  urls: object[] = [];
   baseurls: string[] = [];
   basepaths: string[] = [];
 
@@ -58,6 +59,7 @@ export class TestDetailsComponent implements OnInit {
   dataType: string = 'raw';
   currentUser: User;
   testConfigurations: TestConfiguration[];
+  currentTestConfig: TestConfiguration;
 
 
   constructor(
@@ -77,6 +79,7 @@ export class TestDetailsComponent implements OnInit {
         this.testConfigurations = tconfig;
         console.log(this.testConfigurations);
         this.testConfigurations.forEach(x => {
+          this.urls.push({ url: x.url, method: x.endpointAction });
           this.baseurls.push(x.baseUrl);
           this.basepaths.push(x.basePath);
         });
@@ -129,6 +132,7 @@ export class TestDetailsComponent implements OnInit {
           if (res !== null) {
             this.toastService.showSuccess('Successfully Saved');
             this.testConfigurations.push(res);
+            this.urls.push({ url: res.url, method: res.endpointAction });
             this.baseurls.push(res.baseUrl);
             this.basepaths.push(res.basePath);
           } else {
@@ -287,20 +291,45 @@ export class TestDetailsComponent implements OnInit {
     console.log(this.dataType);
   }
 
-  UrlOnChanged() {
-    let url = this.f.url.value;
-    console.log('seleced url is' + url);
-    let split = this.SplitedUrl(url);
-    this.testDetailsForm.patchValue({
-      baseUrl: split[0],
-      basePath: split[1]
-    });
+  UrlOnChanged(event) {
+
+    let Curl = event.target.value;
+    let index = this.testConfigurations.findIndex(x => x.url === Curl && x.endpointAction === 'POST');
+    console.log('Index' + index);
+    if (index !== -1) {
+      this.currentTestConfig = this.testConfigurations[index];
+      this.testDetailsForm.patchValue({
+        baseUrl: this.currentTestConfig.baseUrl,
+        basePath: this.currentTestConfig.basePath,
+        testName: this.currentTestConfig.testName,
+        testDescription: this.currentTestConfig.testDescription,
+        endpointAction: this.currentTestConfig.endpointAction,
+        payloadBody: this.currentTestConfig.payloadBody,
+        status: this.currentTestConfig.status
+      });
+      this.responseJsonView = JSON.parse(this.currentTestConfig.response);
+      if (this.currentTestConfig.file !== null) {
+        this.isFileAdded = true;
+        this.fileUploaded = this.currentTestConfig.file;
+      } else {
+        this.isFileAdded = false;
+      }
+
+    } else {
+      this.testDetailsForm.reset();
+      let split = this.SplitedUrl(Curl);
+      this.testDetailsForm.patchValue({
+        url: Curl,
+        baseUrl: split[0],
+        basePath: split[1]
+      });
+    }
+
   }
 
   private SplitedUrl(urlIn: string): string[] {
     let url = new URL(urlIn);
     let splittedUrl = [url.origin, url.pathname];
-    console.log(splittedUrl);
     return splittedUrl;
   }
 

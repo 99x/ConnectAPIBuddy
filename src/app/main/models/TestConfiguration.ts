@@ -9,9 +9,10 @@ export class TestConfiguration {
     userId: string;
     testName: string;
     testDescription: string;
+    url: string;
     baseUrl: string;
     basePath: string;
-    endPointAction: string;
+    endpointAction: string;
     payloadBody: string;
     payloadHeaders: HeaderVal[];
     formContent: FormVal[];
@@ -25,9 +26,10 @@ export class TestConfiguration {
         this.userId = obj && obj.userId || null;
         this.testName = obj && obj.testName || null;
         this.testDescription = obj && obj.testDescription || null;
+        this.url = obj && obj.url || null;
         this.baseUrl = obj && obj.baseUrl || null;
         this.basePath = obj && obj.basePath || null;
-        this.endPointAction = obj && obj.endpointAction || null;
+        this.endpointAction = obj && obj.endpointAction || null;
         this.payloadBody = obj && obj.payloadBody || null;
         this.payloadHeaders = obj && obj.payloadHeaders || null;
         this.formContent = obj && obj.formContent || null;

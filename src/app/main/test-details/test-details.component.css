@@ -32,6 +32,7 @@
 .searchicon {
   float: left;
   margin-top: -20px;
+  margin-left: 127px;
   position: relative;
   pointer-events: none;
   top: 26px;
@@ -42,6 +43,7 @@
 
 .url {
   width: 2.4%;
+  margin-left: 127px;
   box-sizing: border-box;
   border: 2px solid #ccc;
   border-radius: 4px;
@@ -51,7 +53,6 @@
   background-repeat: no-repeat;
   -webkit-transition: width 0.4s ease-in-out;
   transition: width 0.4s ease-in-out;
-  z-index: 31;
 }
 
 .url:focus {

@@ -11,11 +11,11 @@
         <form [formGroup]="testDetailsForm">
             <div class="url-wrapper">
                 <div>
-                    <input list="urls" class="url" type="text" formControlName="url" (change)="UrlOnChanged()">
+                    <input list="urls" class="url" type="text" formControlName="url" (change)="UrlOnChanged($event)">
                     <datalist id="urls">
-                        <option *ngFor="let url of baseurls" [value]='url'></option>
+                        <option *ngFor="let url of urls" [value]='url.url' [label]="url.method"></option>
                     </datalist>
-                    <span class="fa fa-plus searchicon" aria-hidden="true">
+                    <span class="fa fa-chevron-circle-right searchicon" aria-hidden="true">
                     </span>
                 </div>
                 <mat-form-field class="method-wrapper">
