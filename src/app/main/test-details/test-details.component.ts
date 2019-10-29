@@ -291,40 +291,48 @@ export class TestDetailsComponent implements OnInit {
     console.log(this.dataType);
   }
 
-  UrlOnChanged(event) {
+  OnClickOption(i) {
+    console.log('clicked' + i);
+  }
 
-    let Curl = event.target.value;
-    let index = this.testConfigurations.findIndex(x => x.url === Curl && x.endpointAction === 'POST');
-    console.log('Index' + index);
-    if (index !== -1) {
-      this.currentTestConfig = this.testConfigurations[index];
-      this.testDetailsForm.patchValue({
-        baseUrl: this.currentTestConfig.baseUrl,
-        basePath: this.currentTestConfig.basePath,
-        testName: this.currentTestConfig.testName,
-        testDescription: this.currentTestConfig.testDescription,
-        endpointAction: this.currentTestConfig.endpointAction,
-        payloadBody: this.currentTestConfig.payloadBody,
-        status: this.currentTestConfig.status
-      });
-      this.responseJsonView = JSON.parse(this.currentTestConfig.response);
-      if (this.currentTestConfig.file !== null) {
-        this.isFileAdded = true;
-        this.fileUploaded = this.currentTestConfig.file;
-      } else {
-        this.isFileAdded = false;
-      }
-
-    } else {
+  UrlOnChanged(event, i: number) {
+    let cUrl = event.target.value;
+    if (i === 1) {
       this.testDetailsForm.reset();
-      let split = this.SplitedUrl(Curl);
+      this.responseJsonView = null;
+      let split = this.SplitedUrl(cUrl);
       this.testDetailsForm.patchValue({
-        url: Curl,
+        url: cUrl,
         baseUrl: split[0],
         basePath: split[1]
       });
-    }
 
+    } else if (i === 2) {
+      console.log(event.target.selectedIndex);
+      let testIndex = event.target.selectedIndex;
+      // let testIndex = this.testConfigurations.findIndex(x => x.url === curUrl. && x.endpointAction === curUrl.);
+      if (testIndex !== -1) {
+        this.testDetailsForm.reset();
+        this.currentTestConfig = this.testConfigurations[testIndex];
+        this.testDetailsForm.patchValue({
+          url: this.currentTestConfig.url,
+          baseUrl: this.currentTestConfig.baseUrl,
+          basePath: this.currentTestConfig.basePath,
+          testName: this.currentTestConfig.testName,
+          testDescription: this.currentTestConfig.testDescription,
+          endpointAction: this.currentTestConfig.endpointAction,
+          payloadBody: this.currentTestConfig.payloadBody,
+          status: this.currentTestConfig.status
+        });
+        this.responseJsonView = JSON.parse(this.currentTestConfig.response);
+        if (this.currentTestConfig.file !== null) {
+          this.isFileAdded = true;
+          this.fileUploaded = this.currentTestConfig.file;
+        } else {
+          this.isFileAdded = false;
+        }
+      }
+    }
   }
 
   private SplitedUrl(urlIn: string): string[] {

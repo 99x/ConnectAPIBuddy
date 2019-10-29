@@ -11,10 +11,13 @@
         <form [formGroup]="testDetailsForm">
             <div class="url-wrapper">
                 <div>
-                    <input list="urls" class="url" type="text" formControlName="url" (change)="UrlOnChanged($event)">
-                    <datalist id="urls">
-                        <option *ngFor="let url of urls" [value]='url.url' [label]="url.method"></option>
-                    </datalist>
+                    <input list="urls" class="url" type="text" formControlName="url" data-list-filter="^"
+                        (change)="UrlOnChanged($event,1)">
+                    <select id="urls" (change)="UrlOnChanged($event,2)" groupBy="url.endpointAction">
+                        <option *ngFor="let url of testConfigurations; let i = index" [value]="url.url">
+                            {{url.url}} {{url.endpointAction}}
+                        </option>
+                    </select>
                     <span class="fa fa-chevron-circle-right searchicon" aria-hidden="true">
                     </span>
                 </div>
@@ -27,13 +30,13 @@
                 <!----------------------------------URL--------------------------------------->
                 <!-- <label class="lbl">Base Url</label> -->
                 <input list="base-urls" class="baseurl-list" type="text" formControlName="baseUrl"
-                    placeholder="base url" (change)=" BaseUrlPathOnChanged()">
+                    placeholder="base url" (change)=" BaseUrlPathOnChanged()" autocomplete="off">
                 <datalist id="base-urls">
                     <option *ngFor="let url of baseurls" [value]='url'></option>
                 </datalist>
 
                 <input list="base-paths" class="basepath-list" type="text" formControlName="basePath"
-                    placeholder="base path" (change)=" BaseUrlPathOnChanged()">
+                    placeholder="base path" (change)=" BaseUrlPathOnChanged()" autocomplete="off">
                 <datalist id="base-paths">
                     <option *ngFor="let path of basepaths" [value]='path'></option>
                 </datalist>

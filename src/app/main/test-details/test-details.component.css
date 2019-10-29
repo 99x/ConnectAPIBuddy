@@ -55,11 +55,12 @@
   transition: width 0.4s ease-in-out;
 }
 
+.url:hover,
 .url:focus {
   width: 50%;
   background: white;
 }
-.url:focus + span {
+.url:hover + span {
   display: none;
 }
 
