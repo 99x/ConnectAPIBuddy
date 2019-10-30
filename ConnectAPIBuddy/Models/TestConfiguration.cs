@@ -19,6 +19,7 @@ namespace ConnectAPIBuddy.Models
         public string UserId { get; set; }
         public string TestName { get; set; }
         public string TestDescription { get; set; }
+        public string Url { get; set; }
         public string BaseUrl { get; set; }
         public string BasePath { get; set; }
         public string EndpointAction { get; set; }
