@@ -5,7 +5,8 @@
   left: 0;
   right: 0;
   z-index: 2;
-  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
+    0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
 }
 
 .bar {
@@ -27,6 +28,7 @@
 }
 
 .mat-button {
+  color: #2185d0;
   margin-left: 20px;
   margin-right: 17px;
 }
@@ -64,11 +66,12 @@
 }
 
 .btn-danger {
-  background-color: #1825c2;
+  background-color: #d7d7d8;
+  outline: none;
 }
 
 .btn-danger.dropdown-toggle {
-  background-color: #061d73;
+  background-color: #d7d7d8;
 }
 
 .mat-toolbar .mat-select-value {
@@ -78,4 +81,23 @@
 
 .fa-cogs {
   font-size: 40px;
+}
+
+.img {
+  margin-left: -30px;
+  border-radius: 0px;
+}
+.dropdown-toggle-split::after {
+  margin-left: 5px;
+  color: #0e0c0c;
+}
+
+.mat-toolbar.mat-primary {
+  /* background: #d1d1d2; */
+  background-color: #9c9c9e;
+  color: #fff;
+}
+.mat-raised-button {
+  color: #0e0c0c;
+  background-color: #ffffffd1;
 }

@@ -74,119 +74,130 @@
                 </div>
 
             </div>
-            <div class="middle-wrapper">
-                <!----------------------------------Test details--------------------------------------->
-                <!-------------------------------------------------------------------------------->
-                <div class="description-wrapper">
-                    <div>
-                        <label class="lbl">Test Name</label>
-                        <textarea class="test-name" matInput placeholder="Test Name" rows="3"
-                            formControlName="testName"></textarea>
-                    </div>
-                    <div>
-                        <label class="lbl">Test Description</label>
-                        <textarea class="test-description" matInput placeholder="Test Description" rows="3"
-                            formControlName="testDescription"></textarea>
-                    </div>
-
-                </div>
-                <!----------------------------------Tab--------------------------------------->
-                <div class="values-wrapper">
-                    <!-- Nav tabs -->
-                    <mat-tab-group class="tab-wrapper" animationDuration="1000ms">
-                        <mat-tab label="Header">
-                            <ng-template matTabContent>
-                                <div class="header-wrapper">
-                                    <div class="add-values" formGroupName="payloadHeaders">
-                                        <button class="add-remove" type="button"
-                                            (click)="OnClickRemoveHeader()">Remove</button>
-                                        <button type="button" class="add-remove"
-                                            (click)="OnClickAddHeader()">Add</button>
-                                        <input class="key-value" type="text" placeholder="value"
-                                            formControlName="value">
-                                        <input class="key-value" type="text" placeholder="header"
-                                            formControlName="header">
-                                    </div>
-                                    <div class="show-values">
-                                        <table class="header-table">
-                                            <tr *ngFor="let header of headerVals">
-                                                <td>{{ header.header }}</td>
-                                                <td>{{ header.value }}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </ng-template>
-                        </mat-tab>
-                        <mat-tab label="Body">
+            <mat-accordion>
+                <mat-expansion-panel expanded="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Test Details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="middle-wrapper">
+                        <!----------------------------------Test details--------------------------------------->
+                        <!-------------------------------------------------------------------------------->
+                        <div class="description-wrapper">
                             <div>
-                                <ng-template matTabContent>
-                                    <div class="file-wrapper">
-                                        <div>
-                                            <mat-slide-toggle class="select-switch" [checked]="isFileAdded"
-                                                (change)="toggleChange()">
-                                            </mat-slide-toggle>
-                                        </div>
-                                        <div>
-                                            <input class="key-file" type="text" placeholder="key"
-                                                formControlName="fileKey">
-                                        </div>
-                                        <div>
-                                            <button class="add-file">
-                                                <label>
-                                                    Open file
-                                                    <input type="file" style="display: none"
-                                                        (change)="handleFileInput($event.target.files)" file-handler>
-                                                </label>
-                                            </button>
-                                        </div>
-                                        <mat-radio-group (change)="dataTypeChanged($event.value)">
-                                            <mat-radio-button value="raw" checked></mat-radio-button>
-                                            <mat-radio-button value="form"></mat-radio-button>
-                                        </mat-radio-group>
-                                    </div>
-                                    <!-- Nav tabs -->
-                                    <mat-tab-group animationDuration="1000ms">
-                                        <mat-tab label="Raw">
-                                            <ng-template matTabContent>
-                                                <div class="raw-wrapper">
-                                                    <textarea class="raw" matInput placeholder="json content" rows="3"
-                                                        formControlName="payloadBody"></textarea>
-                                                </div>
-                                            </ng-template>
-                                        </mat-tab>
-                                        <mat-tab label="Form">
-                                            <ng-template matTabContent>
-                                                <div class="form-wrapper">
-                                                    <div class="add-values" formGroupName="formContent">
-                                                        <button class="add-remove" type="button"
-                                                            (click)="OnClickRemoveFormVal()">Remove</button>
-                                                        <button class="add-remove" type="button"
-                                                            (click)="OnClickAddFormVal()">Add</button>
-                                                        <input class="key-value" type="text" placeholder="value"
-                                                            formControlName="value">
-                                                        <input class="key-value" type="text" placeholder="key"
-                                                            formControlName="key">
-                                                    </div>
-                                                    <div class="show-values">
-                                                        <table class="form-table">
-                                                            <tr *ngFor="let form of formVals">
-                                                                <td>{{ form.key }}</td>
-                                                                <td>{{ form.value }}</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </ng-template>
-                                        </mat-tab>
-                                    </mat-tab-group>
-                                </ng-template>
+                                <label class="lbl">Test Name</label>
+                                <textarea class="test-name" matInput placeholder="Test Name" rows="3"
+                                    formControlName="testName"></textarea>
                             </div>
-                        </mat-tab>
-                    </mat-tab-group>
+                            <div>
+                                <label class="lbl">Test Description</label>
+                                <textarea class="test-description" matInput placeholder="Test Description" rows="3"
+                                    formControlName="testDescription"></textarea>
+                            </div>
 
-                </div>
-            </div>
+                        </div>
+                        <!----------------------------------Tab--------------------------------------->
+                        <div class="values-wrapper">
+                            <!-- Nav tabs -->
+                            <mat-tab-group class="tab-wrapper" animationDuration="1000ms">
+                                <mat-tab label="Header">
+                                    <ng-template matTabContent>
+                                        <div class="header-wrapper">
+                                            <div class="add-values" formGroupName="payloadHeaders">
+                                                <button class="add-remove" type="button"
+                                                    (click)="OnClickRemoveHeader()">Remove</button>
+                                                <button type="button" class="add-remove"
+                                                    (click)="OnClickAddHeader()">Add</button>
+                                                <input class="key-value" type="text" placeholder="value"
+                                                    formControlName="value">
+                                                <input class="key-value" type="text" placeholder="header"
+                                                    formControlName="header">
+                                            </div>
+                                            <div class="show-values">
+                                                <table class="header-table">
+                                                    <tr *ngFor="let header of headerVals">
+                                                        <td>{{ header.header }}</td>
+                                                        <td>{{ header.value }}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Body">
+                                    <div>
+                                        <ng-template matTabContent>
+                                            <div class="file-wrapper">
+                                                <div>
+                                                    <mat-slide-toggle class="select-switch" [checked]="isFileAdded"
+                                                        (change)="toggleChange()">
+                                                    </mat-slide-toggle>
+                                                </div>
+                                                <div>
+                                                    <input class="key-file" type="text" placeholder="key"
+                                                        formControlName="fileKey">
+                                                </div>
+                                                <div>
+                                                    <button class="add-file">
+                                                        <label>
+                                                            Open file
+                                                            <input type="file" style="display: none"
+                                                                (change)="handleFileInput($event.target.files)"
+                                                                file-handler>
+                                                        </label>
+                                                    </button>
+                                                </div>
+                                                <mat-radio-group (change)="dataTypeChanged($event.value)">
+                                                    <mat-radio-button value="raw" checked></mat-radio-button>
+                                                    <mat-radio-button value="form"></mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                            <!-- Nav tabs -->
+                                            <mat-tab-group animationDuration="1000ms">
+                                                <mat-tab label="Raw">
+                                                    <ng-template matTabContent>
+                                                        <div class="raw-wrapper">
+                                                            <textarea class="raw" matInput placeholder="json content"
+                                                                rows="3" formControlName="payloadBody"></textarea>
+                                                        </div>
+                                                    </ng-template>
+                                                </mat-tab>
+                                                <mat-tab label="Form">
+                                                    <ng-template matTabContent>
+                                                        <div class="form-wrapper">
+                                                            <div class="add-values" formGroupName="formContent">
+                                                                <button class="add-remove" type="button"
+                                                                    (click)="OnClickRemoveFormVal()">Remove</button>
+                                                                <button class="add-remove" type="button"
+                                                                    (click)="OnClickAddFormVal()">Add</button>
+                                                                <input class="key-value" type="text" placeholder="value"
+                                                                    formControlName="value">
+                                                                <input class="key-value" type="text" placeholder="key"
+                                                                    formControlName="key">
+                                                            </div>
+                                                            <div class="show-values">
+                                                                <table class="form-table">
+                                                                    <tr *ngFor="let form of formVals">
+                                                                        <td>{{ form.key }}</td>
+                                                                        <td>{{ form.value }}</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </mat-tab>
+                                            </mat-tab-group>
+                                        </ng-template>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
             <!----------------------------------Response Section--------------------------------------->
             <!-------------------------------------------------------------------------------->
             <mat-accordion>

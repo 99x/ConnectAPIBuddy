@@ -37,9 +37,7 @@ export class TestDetailsComponent implements OnInit {
   baseurls: string[] = [];
   basepaths: string[] = [];
 
-  headerVals: HeaderVal[] = [
-    { header: 'Content-Type', value: 'application/json' }
-  ];
+  headerVals: HeaderVal[] = [];
   formVals: FormVal[] = [];
 
   modalOptions: NgbModalOptions;
@@ -143,6 +141,9 @@ export class TestDetailsComponent implements OnInit {
       } else if (this.f.endpointAction.value === null) {
         this.toastService.showError('Select a Http Method');
       } else {
+        if (this.headerVals.length === 0) {
+          this.headerVals.push({ header: 'Content-Type', value: 'application/json' });
+        }
         if (this.f.endpointAction.value === 'GET') {
           this.apiService.getData(url, this.headerVals).subscribe(res => {
             if (res.status === 200) {
@@ -353,8 +354,7 @@ export class TestDetailsComponent implements OnInit {
         this.headerVals = this.currentTestConfig.payloadHeaders;
         this.formVals = this.currentTestConfig.formContent;
       } else {
-        this.testDetailsForm.reset();
-        this.responseJsonView = {};
+        this.ResetFullForm();
       }
 
     }
@@ -372,6 +372,13 @@ export class TestDetailsComponent implements OnInit {
       url: newUrl
     });
 
+  }
+
+  private ResetFullForm(): void {
+    this.testDetailsForm.reset();
+    this.responseJsonView = {};
+    this.formVals = [];
+    this.headerVals = [];
   }
 
 }

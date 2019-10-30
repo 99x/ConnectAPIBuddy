@@ -65,3 +65,7 @@ body {
 .mat-expansion-panel-body {
   padding: 0px !important;
 }
+.dropdown.show .dropdown-menu {
+  background-color: #424242;
+  color: white;
+}
