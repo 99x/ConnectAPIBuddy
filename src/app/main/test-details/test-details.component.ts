@@ -4,7 +4,7 @@ import { retry, catchError } from 'rxjs/operators';
 // angular
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 // services
 import { ApiService } from '../services/api.service';
@@ -33,11 +33,6 @@ export class TestDetailsComponent implements OnInit {
 
   // form variables
   methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
-  selectedMethod = 'GET';
-
-  // baseurls = ['http://fakerestapi.azurewebsites.net', 'https://localhost:44384'
-  //   , 'https://ccfilesapi-dev.compello.com'];
-  // basepaths = ['/api/Authors', '/api/TestConfig', '/api/files/UploadFile'];
   urls: object[] = [];
   baseurls: string[] = [];
   basepaths: string[] = [];
@@ -45,10 +40,7 @@ export class TestDetailsComponent implements OnInit {
   headerVals: HeaderVal[] = [
     { header: 'Content-Type', value: 'application/json' }
   ];
-  formVals: FormVal[] = [
-    { key: 'Name', value: 'Rajith' },
-    { key: 'age', value: '24' }
-  ];
+  formVals: FormVal[] = [];
 
   modalOptions: NgbModalOptions;
   testDetailsForm: FormGroup;
@@ -95,11 +87,11 @@ export class TestDetailsComponent implements OnInit {
   /***************************************** Test Details form ****************************************/
   private formInitialize(): void {
     this.testDetailsForm = this.fb.group({
-      url: [''],
-      endpointAction: [''],
-      baseUrl: [''],
-      basePath: [''],
-      testName: [''],
+      url: [null, Validators.required],
+      endpointAction: [Validators.required],
+      baseUrl: ['', Validators.required],
+      basePath: ['', Validators.required],
+      testName: ['', Validators.required],
       testDescription: [''],
       payloadHeaders: this.fb.group({
         header: [''],
@@ -121,88 +113,114 @@ export class TestDetailsComponent implements OnInit {
     const url = this.f.url.value;
     /***************************************** Save current Test  ****************************************/
     if (isSave) {
-      let testConfig = new TestConfiguration(this.testDetailsForm.value);
-      testConfig.payloadHeaders = this.headerVals;
-      testConfig.formContent = this.formVals;
-      testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
-      testConfig.file = this.fileUploaded;
-      testConfig.userId = this.currentUser.id;
-      this.testConfigService.postTestConfig(this.backendUrl, testConfig)
-        .subscribe(res => {
-          if (res !== null) {
-            this.toastService.showSuccess('Successfully Saved');
-            this.testConfigurations.push(res);
-            this.urls.push({ url: res.url, method: res.endpointAction });
-            this.baseurls.push(res.baseUrl);
-            this.basepaths.push(res.basePath);
-          } else {
-            this.toastService.showError('failed');
-          }
-        });
+      if (!this.testDetailsForm.valid) {
+        this.toastService.showError('Enter all required fileds');
+      } else {
+        let testConfig = new TestConfiguration(this.testDetailsForm.value);
+        testConfig.payloadHeaders = this.headerVals;
+        testConfig.formContent = this.formVals;
+        testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
+        testConfig.file = this.fileUploaded;
+        testConfig.userId = this.currentUser.id;
+        this.testConfigService.postTestConfig(this.backendUrl, testConfig)
+          .subscribe(res => {
+            if (res !== null) {
+              this.toastService.showSuccess('Successfully Saved');
+              this.testConfigurations.push(res);
+              this.urls.push({ url: res.url, method: res.endpointAction });
+              this.baseurls.push(res.baseUrl);
+              this.basepaths.push(res.basePath);
+            } else {
+              this.toastService.showError('failed');
+            }
+          });
+      }
 
     } else {
       /***************************************** HTTP default mehods  ****************************************/
-      if (this.f.endpointAction.value === 'GET') {
-        this.apiService.getData(url, this.headerVals).subscribe(res => {
-          if (res.status === 200) {
-            this.toastService.showSuccess('Request Successful');
-          } else {
-            this.toastService.showError('Request Unsuccessful');
-          }
-          this.responseJsonView = res.body;
-          this.testDetailsForm.patchValue({
-            status: res.status + '\r\n' + res.statusText
-          });
-        });
-
-      } else if (this.f.endpointAction.value === 'POST') {
-        let data: any = null;
-        console.log(this.dataType);
-        if (this.dataType === 'raw') {
-          data = JSON.parse(this.f.payloadBody.value);
-
-          if (this.isFileAdded) {
-            data[this.f.fileKey.value] = this.fileUploaded.fileAsBase64;
-          }
-
-        } else if (this.dataType === 'form') {
-          const formData = new FormData();
-          this.formVals.forEach(f => {
-            formData.append(f.key, f.value);
+      if (this.f.url.value === null) {
+        this.toastService.showError('Enter a URL...');
+      } else if (this.f.endpointAction.value === null) {
+        this.toastService.showError('Select a Http Method');
+      } else {
+        if (this.f.endpointAction.value === 'GET') {
+          this.apiService.getData(url, this.headerVals).subscribe(res => {
+            if (res.status === 200) {
+              this.toastService.showSuccess('Request Successful');
+            } else {
+              this.toastService.showError('Request Unsuccessful');
+            }
+            this.responseJsonView = res.body;
+            this.testDetailsForm.patchValue({
+              status: res.status + '\r\n' + res.statusText
+            });
           });
 
-          if (this.isFileAdded) {
-            formData.append(this.f.fileKey.value, this.fileUploaded.fileAsBase64);
+        } else if (this.f.endpointAction.value === 'POST') {
+          let data: any = null;
+          console.log(this.dataType);
+          if (this.dataType === 'raw') {
+            data = JSON.parse(this.f.payloadBody.value);
+
+            if (this.isFileAdded) {
+              data[this.f.fileKey.value] = this.fileUploaded.fileAsBase64;
+            }
+
+          } else if (this.dataType === 'form') {
+            const formData = new FormData();
+            this.formVals.forEach(f => {
+              formData.append(f.key, f.value);
+            });
+
+            if (this.isFileAdded) {
+              formData.append(this.f.fileKey.value, this.fileUploaded.fileAsBase64);
+            }
+
+            data = formData;
           }
 
-          data = formData;
+          this.apiService.postData(url, data, this.headerVals).subscribe(res => {
+            if (res.status === 200) {
+              this.toastService.showSuccess('Request Successful');
+            } else {
+              this.toastService.showError('Request Unsuccessful');
+            }
+            this.responseJsonView = res.body;
+            this.testDetailsForm.patchValue({
+              status: res.status + '\r\n' + res.statusText
+            });
+          });
+
+        } else if (this.f.endpointAction.value === 'UPDATE') {
+          let data = JSON.parse(this.f.payloadBody.value);
+          this.apiService.updateData(url, data, this.headerVals).subscribe(res => {
+            if (res.status === 200) {
+              this.toastService.showSuccess('Request Successful');
+            } else {
+              this.toastService.showError('Request Unsuccessful');
+            }
+            this.responseJsonView = res.body;
+            this.testDetailsForm.patchValue({
+              status: res.status + '\r\n' + res.statusText
+            });
+          });
+
+        } else if (this.f.endpointAction.value === 'DELETE') {
+          this.apiService.deleteData(url, this.headerVals).subscribe(res => {
+            if (res.status === 200) {
+              this.toastService.showSuccess('Request Successful');
+            } else {
+              this.toastService.showError('Request Unsuccessful');
+            }
+            this.responseJsonView = res.body;
+            this.testDetailsForm.patchValue({
+              status: res.status + '\r\n' + res.statusText
+            });
+          });
         }
-
-        this.apiService.postData(url, data, this.headerVals).subscribe(res => {
-          this.responseJsonView = res.body;
-          this.testDetailsForm.patchValue({
-            status: res.status + '\r\n' + res.statusText
-          });
-        });
-
-      } else if (this.f.endpointAction.value === 'UPDATE') {
-        let data = JSON.parse(this.f.payloadBody.value);
-        this.apiService.updateData(url, data, this.headerVals).subscribe(res => {
-          this.responseJsonView = res.body;
-          this.testDetailsForm.patchValue({
-            status: res.status + '\r\n' + res.statusText
-          });
-        });
-
-      } else if (this.f.endpointAction.value === 'DELETE') {
-        this.apiService.deleteData(url, this.headerVals).subscribe(res => {
-          this.responseJsonView = res.body;
-          this.testDetailsForm.patchValue({
-            status: res.status + '\r\n' + res.statusText
-          });
-        });
       }
     }
+
 
   }
 
@@ -296,8 +314,9 @@ export class TestDetailsComponent implements OnInit {
   }
 
   UrlOnChanged(event, i: number) {
-    let cUrl = event.target.value;
+
     if (i === 1) {
+      let cUrl = event.target.value;
       this.testDetailsForm.reset();
       this.responseJsonView = null;
       let split = this.SplitedUrl(cUrl);
@@ -308,12 +327,12 @@ export class TestDetailsComponent implements OnInit {
       });
 
     } else if (i === 2) {
-      console.log(event.target.selectedIndex);
-      let testIndex = event.target.selectedIndex;
-      // let testIndex = this.testConfigurations.findIndex(x => x.url === curUrl. && x.endpointAction === curUrl.);
-      if (testIndex !== -1) {
+      // console.log(event.target.selectedIndex);
+      // let testIndex = event.target.selectedIndex;
+      this.currentTestConfig = event;
+      if (this.currentTestConfig !== null && event !== undefined) {
         this.testDetailsForm.reset();
-        this.currentTestConfig = this.testConfigurations[testIndex];
+        // this.currentTestConfig = this.testConfigurations[testIndex];
         this.testDetailsForm.patchValue({
           url: this.currentTestConfig.url,
           baseUrl: this.currentTestConfig.baseUrl,
@@ -331,7 +350,11 @@ export class TestDetailsComponent implements OnInit {
         } else {
           this.isFileAdded = false;
         }
+      } else {
+        this.testDetailsForm.reset();
+        this.responseJsonView = null;
       }
+
     }
   }
 

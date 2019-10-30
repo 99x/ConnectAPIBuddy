@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 html,
 body {
@@ -59,4 +60,8 @@ body {
 .mat-tab-body-content {
   height: 100%;
   overflow: hidden;
+}
+
+.mat-expansion-panel-body {
+  padding: 0px !important;
 }

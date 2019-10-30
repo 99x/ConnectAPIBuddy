@@ -23,6 +23,8 @@
     "@angular/platform-browser-dynamic": "~8.2.4",
     "@angular/router": "~8.2.4",
     "@ng-bootstrap/ng-bootstrap": "^5.1.1",
+    "@ng-select/ng-option-highlight": "0.0.4",
+    "@ng-select/ng-select": "^3.3.0",
     "@syncfusion/ej2-angular-grids": "^17.2.51",
     "@types/mongoose": "^5.5.20",
     "angular-6-social-login": "^1.1.1",

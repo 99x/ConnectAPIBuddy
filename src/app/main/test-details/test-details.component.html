@@ -10,25 +10,28 @@
     <div class="app-body">
         <form [formGroup]="testDetailsForm">
             <div class="url-wrapper">
-                <div>
-                    <input list="urls" class="url" type="text" formControlName="url" data-list-filter="^"
-                        (change)="UrlOnChanged($event,1)">
-                    <select id="urls" (change)="UrlOnChanged($event,2)" groupBy="url.endpointAction">
+                <div class="all-urls">
+                    <input list="urls" class="url" type="text" formControlName="url"
+                        (change)="UrlOnChanged($event,1)"><span class="fa fa-chevron-circle-right searchicon"
+                        aria-hidden="true"></span>
+                    <!-- <select id="urls" (change)="UrlOnChanged($event,2)" groupBy="url.endpointAction">
                         <option *ngFor="let url of testConfigurations; let i = index" [value]="url.url">
                             {{url.url}} {{url.endpointAction}}
                         </option>
-                    </select>
-                    <span class="fa fa-chevron-circle-right searchicon" aria-hidden="true">
-                    </span>
+                    </select> -->
+                    <ng-select [items]="testConfigurations" bindLabel="url" autofocus bindValue="url"
+                        groupBy="endpointAction" id="urls" (change)="UrlOnChanged($event,2)">
+                    </ng-select>
                 </div>
                 <mat-form-field class="method-wrapper">
                     <mat-label>HTTP Method</mat-label>
-                    <mat-select formControlName="endpointAction" [(value)]="selectedMethod">
+                    <mat-select formControlName="endpointAction">
+                        <mat-option value="" selected disabled>Select</mat-option>
                         <mat-option *ngFor="let method of methods" [value]="method">{{method}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <!----------------------------------URL--------------------------------------->
-                <!-- <label class="lbl">Base Url</label> -->
+
                 <input list="base-urls" class="baseurl-list" type="text" formControlName="baseUrl"
                     placeholder="base url" (change)=" BaseUrlPathOnChanged()" autocomplete="off">
                 <datalist id="base-urls">
@@ -186,22 +189,31 @@
             </div>
             <!----------------------------------Response Section--------------------------------------->
             <!-------------------------------------------------------------------------------->
-            <div class="response-wrapper">
-                <div class="response-box">
-                    <label class="lbl">Response</label>
-                    <!-- <textarea class="box" matInput placeholder="Response" rows="3"
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Response
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="response-wrapper">
+                        <div class="response-box">
+                            <label class="lbl">Response</label>
+                            <!-- <textarea class="box" matInput placeholder="Response" rows="3"
                         formControlName="response"></textarea> -->
-                    <div class="json-viwer">
-                        <ngx-json-viewer [json]="responseJsonView" class="box" [expanded]="false">
-                        </ngx-json-viewer>
+                            <div class="json-viwer">
+                                <ngx-json-viewer [json]="responseJsonView" class="box" [expanded]="false">
+                                </ngx-json-viewer>
+                            </div>
+                        </div>
+                        <div class="status-box">
+                            <label class="lbl">Status</label>
+                            <textarea class="box status" matInput placeholder="status" rows="3" formControlName="status"
+                                readonly></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="status-box">
-                    <label class="lbl">Status</label>
-                    <textarea class="box" matInput placeholder="status" rows="3" formControlName="status"
-                        readonly></textarea>
-                </div>
-            </div>
+                </mat-expansion-panel>
+            </mat-accordion>
         </form>
     </div>
 

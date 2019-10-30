@@ -23,7 +23,8 @@ import {
     MatPaginatorModule,
     MatTabsModule,
     MatDialogModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatExpansionModule
 } from '@angular/material';
 
 @NgModule({
@@ -50,7 +51,8 @@ import {
         MatTabsModule,
         BsDropdownModule.forRoot(),
         MatDialogModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatExpansionModule
     ],
     exports: [
         MatButtonModule,
@@ -72,7 +74,8 @@ import {
         MatCardModule,
         MatTabsModule,
         MatDialogModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatExpansionModule
 
     ],
     providers: [
@@ -80,4 +83,4 @@ import {
     ]
 })
 
-export class AngularMaterialModule {}
+export class AngularMaterialModule { }

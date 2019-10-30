@@ -18,7 +18,7 @@
 }
 
 .response-wrapper {
-  height: 220px;
+  height: 250px;
   padding: 0px 40px;
   box-sizing: border-box;
 }
@@ -32,36 +32,39 @@
 .searchicon {
   float: left;
   margin-top: -20px;
-  margin-left: 127px;
   position: relative;
   pointer-events: none;
   top: 26px;
   left: 8px;
   color: white;
-  z-index: 2;
+  z-index: -1;
 }
 
 .url {
-  width: 2.4%;
-  margin-left: 127px;
+  width: 3%;
+  height: 35px;
   box-sizing: border-box;
   border: 2px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  background: #10314c;
+  background: #d7d7d8;
   background-position: 10px 10px;
   background-repeat: no-repeat;
   -webkit-transition: width 0.4s ease-in-out;
   transition: width 0.4s ease-in-out;
+  float: left;
 }
 
-.url:hover,
 .url:focus {
   width: 50%;
   background: white;
 }
-.url:hover + span {
+.url:focus + span {
   display: none;
+}
+
+.ng-select .ng-select-container {
+  width: 4% !important ;
 }
 
 .baseurl-list {
@@ -284,6 +287,10 @@ table tr:nth-child(even) {
 
 .box {
   min-height: 100px;
+}
+
+.status {
+  color: #1ac0ff;
 }
 
 .matInput .response-box {
