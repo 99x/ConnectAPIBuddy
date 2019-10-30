@@ -46,6 +46,8 @@ namespace ConnectAPIBuddy
 
             services.AddTransient<ITestConfigContext, TestConfigContext>();
             services.AddTransient<ITestConfigRepository, TestConfigRepository>();
+            services.AddTransient<IUserContext, UserContext>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             services.AddCors(options =>
                options.AddPolicy("AllowAll", p => p
