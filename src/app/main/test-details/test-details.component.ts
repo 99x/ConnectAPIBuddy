@@ -350,9 +350,11 @@ export class TestDetailsComponent implements OnInit {
         } else {
           this.isFileAdded = false;
         }
+        this.headerVals = this.currentTestConfig.payloadHeaders;
+        this.formVals = this.currentTestConfig.formContent;
       } else {
         this.testDetailsForm.reset();
-        this.responseJsonView = null;
+        this.responseJsonView = {};
       }
 
     }
