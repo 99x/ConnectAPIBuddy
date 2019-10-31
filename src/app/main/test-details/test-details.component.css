@@ -1,4 +1,4 @@
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+/*@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";*/
 .app-body {
   position: relative;
   height: 80%;
@@ -9,18 +9,21 @@
   height: 15%;
   padding: 20px 40px;
   box-sizing: border-box;
+  background: #011a3b;
 }
 
 .middle-wrapper {
   height: 40%;
   padding: 20px 40px;
   box-sizing: border-box;
+  background-color: #011a3b;
 }
 
 .response-wrapper {
   height: 250px;
   padding: 0px 40px;
   box-sizing: border-box;
+  background-color: #011a3b;
 }
 
 .footer-wrapper {
@@ -47,17 +50,19 @@
   border: 2px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  background: #d7d7d8;
+  background: #021126;
   background-position: 10px 10px;
   background-repeat: no-repeat;
   -webkit-transition: width 0.4s ease-in-out;
   transition: width 0.4s ease-in-out;
   float: left;
+  color: #f6faff;
 }
 
 .url:focus {
   width: 50%;
-  background: white;
+  background: #021126;
+  color: #f6faff;
 }
 .url:focus + span {
   display: none;
@@ -112,9 +117,11 @@
 }
 
 .lbl {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Muli", Arial, sans-serif;
+  font-size: 17px;
+  color: #f6faff;
   padding-top: 10px;
-  font-size: 10pt;
+  background: #011a3b;
 }
 
 .box,
@@ -122,12 +129,13 @@
 .test-name,
 .baseurl-list,
 .basepath-list,
-.method-wrapper,
 .mat-tab,
 .key-value,
 .key-file {
+  color: #f6faff;
   outline: none !important;
-  border: 2px solid #2185d0;
+  border: 1px solid #fff; /* #2185d0;*/
+  background: #011a3b;
 }
 
 .test-description {
@@ -141,8 +149,8 @@
 }
 
 .form-wrapper {
-  width: 80%;
-  border: 1px solid black;
+  width: 90%;
+  border: 1px solid #fff;
 }
 
 .raw-wrapper {
@@ -151,31 +159,6 @@
 
 .method-wrapper {
   width: 10%;
-}
-
-.mat-select,
-.method-wrapper,
-.mat-option {
-  color: #2185d0;
-  border: black;
-}
-
-::ng-deep .mat-form-field-label {
-  color: black !important;
-}
-
-::ng-deep .mat-form-field-ripple {
-  background-color: black !important;
-}
-
-.mat-tab-body-wrapper {
-  color: white;
-  background-color: red;
-}
-
-.mat-tab-label-active {
-  background-color: red;
-  opacity: 1 !important;
 }
 
 .select-switch {
@@ -205,7 +188,7 @@ table tr:nth-child(odd) {
 }
 
 table tr:nth-child(even) {
-  background-color: #f1ebeb;
+  background-color: #2185d0;
 }
 
 .add-remove {
@@ -214,7 +197,7 @@ table tr:nth-child(even) {
   border-radius: 6px;
   color: white;
   outline: none;
-  border: 2px solid #2185d0;
+  border: 1px solid #2185d0;
   background: #2185d0;
 }
 
@@ -225,7 +208,7 @@ table tr:nth-child(even) {
   border-radius: 6px;
   color: white;
   outline: none;
-  border: 2px solid #2185d0;
+  border: 1px solid #2185d0;
   background: #2185d0;
 }
 
@@ -235,12 +218,14 @@ table tr:nth-child(even) {
   margin-top: 5px;
   border-radius: 30px;
   padding-left: 5px;
+  background: #011a3b;
 }
 
 .key-file {
   width: 100px;
   border-radius: 30px;
   padding-left: 5px;
+  background: #011a3b;
 }
 
 .raw {
@@ -251,9 +236,9 @@ table tr:nth-child(even) {
   border: 1px solid;
 }
 
-::ng-deep .mat-radio-outer-circle {
+/* ::ng-deep .mat-radio-outer-circle {
   border-color: black;
-}
+} */
 
 .file-wrapper {
   z-index: 1;
@@ -275,7 +260,7 @@ table tr:nth-child(even) {
   overflow: scroll;
   overflow-x: hidden;
   outline: none;
-  border: 2px solid #2185d0;
+  border: 2px solid #fff;
 }
 
 .status-box {
@@ -315,4 +300,42 @@ textarea.mat-input-element {
   border-radius: 8px;
   background: #d7d7d8;
   margin: 0px 35px !important;
+}
+
+::placeholder {
+  color: #f6faff;
+  opacity: 0.6; /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #f6faff;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #f6faff;
+}
+textarea:-ms-input-placeholder {
+  color: #f6faff;
+}
+
+textarea::placeholder {
+  color: #f6faff;
+}
+textarea::-webkit-input-placeholder {
+  color: #f6faff;
+}
+
+textarea:-moz-placeholder {
+  /* Firefox 18- */
+  color: #f6faff;
+}
+
+textarea::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #f6faff;
+}
+textarea ::-webkit-input-placeholder {
+  color: #f6faff;
 }

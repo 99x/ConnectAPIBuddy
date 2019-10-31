@@ -33,13 +33,13 @@
                 <!----------------------------------URL--------------------------------------->
 
                 <input list="base-urls" class="baseurl-list" type="text" formControlName="baseUrl"
-                    placeholder="base url" (change)=" BaseUrlPathOnChanged()" autocomplete="off">
+                    placeholder="Base URL" (change)=" BaseUrlPathOnChanged()" autocomplete="off">
                 <datalist id="base-urls">
                     <option *ngFor="let url of baseurls" [value]='url'></option>
                 </datalist>
 
                 <input list="base-paths" class="basepath-list" type="text" formControlName="basePath"
-                    placeholder="base path" (change)=" BaseUrlPathOnChanged()" autocomplete="off">
+                    placeholder="Base Path" (change)=" BaseUrlPathOnChanged()" autocomplete="off">
                 <datalist id="base-paths">
                     <option *ngFor="let path of basepaths" [value]='path'></option>
                 </datalist>
@@ -87,12 +87,11 @@
                         <div class="description-wrapper">
                             <div>
                                 <label class="lbl">Test Name</label>
-                                <textarea class="test-name" matInput placeholder="Test Name" rows="3"
-                                    formControlName="testName"></textarea>
+                                <textarea class="test-name" matInput rows="3" formControlName="testName"></textarea>
                             </div>
                             <div>
                                 <label class="lbl">Test Description</label>
-                                <textarea class="test-description" matInput placeholder="Test Description" rows="3"
+                                <textarea class="test-description" matInput rows="3"
                                     formControlName="testDescription"></textarea>
                             </div>
 

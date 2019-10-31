@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@ng-select/ng-select/themes/default.theme.css";
+@import "./mat-expansion.css";
+@import "./mat-tab.css";
+@import "./mat-select.css";
 
 html,
 body {
@@ -8,64 +11,20 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Muli", Arial, sans-serif;
+  background-color: #021126;
+  color: #f6faff;
 }
 
-/* label style */
-
-.mat-tab-label {
-  color: black;
-  min-width: 10px !important;
-}
-
-/* focus style */
-
-.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
-.mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus,
-.mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
-.mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
-  background: white;
-}
-
-/* ink bar style */
-
-.mat-tab-group.mat-primary .mat-ink-bar,
-.mat-tab-nav-bar.mat-primary .mat-ink-bar {
-  background-color: rgba(149, 165, 166, 0.3);
-  color: black;
-  height: 38px;
-  border-radius: 100px;
-  margin-bottom: 5px;
-  outline: none !important;
-  border: 1px solid #2185d0;
-}
-
-.mat-tab-group {
-  outline: none !important;
-  border: 2px solid #2185d0;
-}
-
-.mat-form-field.mat-primary .mat-select {
-  color: black;
-}
-
-.mat-tab-body.mat-tab-body-active {
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-  z-index: 1;
-  flex-grow: 1;
-}
-
-.mat-tab-body-content {
-  height: 100%;
-  overflow: hidden;
-}
-
-.mat-expansion-panel-body {
-  padding: 0px !important;
-}
-.dropdown.show .dropdown-menu {
+.dropdown.show,
+.dropdown-menu {
   background-color: #424242;
-  color: white;
+  color: #2185d0;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #9c9c9e;
 }
