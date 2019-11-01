@@ -20,7 +20,7 @@
                         </option>
                     </select> -->
                     <ng-select [items]="testConfigurations" bindLabel="url" autofocus bindValue="url"
-                        groupBy="endpointAction" id="urls" (change)="UrlOnChanged($event,2)">
+                        groupBy="endpointAction" id="urls" (change)="UrlOnChanged($event,2)" placeholder="Select a URL">
                     </ng-select>
                 </div>
                 <mat-form-field class="method-wrapper">
@@ -157,8 +157,9 @@
                                                 <mat-tab label="Raw">
                                                     <ng-template matTabContent>
                                                         <div class="raw-wrapper">
-                                                            <textarea class="raw" matInput placeholder="json content"
-                                                                rows="3" formControlName="payloadBody"></textarea>
+                                                            <textarea class="raw" matInput
+                                                                placeholder="Set JSON Content here" rows="3"
+                                                                formControlName="payloadBody"></textarea>
                                                         </div>
                                                     </ng-template>
                                                 </mat-tab>

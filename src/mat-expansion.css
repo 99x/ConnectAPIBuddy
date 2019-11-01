@@ -41,8 +41,13 @@
 @media (hover: none) {
   .mat-expansion-panel:not(.mat-expanded):not([aria-disabled="true"])
     .mat-expansion-panel-header:hover {
-    background: #fff;
+    background: #021126;
   }
+}
+.mat-expansion-panel-header.mat-expanded:focus,
+.mat-expansion-panel-header.mat-expanded:active,
+.mat-expansion-panel-header.mat-expanded:hover {
+  background: #021126;
 }
 .mat-expansion-panel-header-title {
   color: #fff;

@@ -12,17 +12,18 @@ body {
 body {
   margin: 0;
   font-family: "Muli", Arial, sans-serif;
+  background: #021126;
 }
 
 .dropdown.show,
 .dropdown-menu {
   background-color: #424242;
-  color: #2185d0;
+  color: #2185d0 !important;
 }
 
 .dropdown-item:focus,
 .dropdown-item:hover {
-  color: #ffffff;
+  color: #ffffff !important;
   text-decoration: none;
   background-color: #9c9c9e;
 }

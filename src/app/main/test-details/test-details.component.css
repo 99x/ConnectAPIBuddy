@@ -1,6 +1,6 @@
 /*@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";*/
-.body{
-  background-color: #021126;
+.body {
+  background: #021126;
   color: #f6faff;
 }
 .app-body {
@@ -93,6 +93,20 @@
   background-color: #2185d0;
   color: #ffffff;
   border: #000000;
+}
+
+.btn-danger:not(:disabled):not(.disabled).active,
+.btn-danger:not(:disabled):not(.disabled):active,
+.show > .btn-danger.dropdown-toggle {
+  color: #fff;
+  background-color: #2185d0;
+  border-color: #2185d0;
+}
+
+.btn-danger.focus,
+.btn-danger:focus,
+.show > .btn-danger.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem #021126;
 }
 
 .dropdown-toggle {
