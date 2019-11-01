@@ -7,7 +7,8 @@ body {
 
 body {
   min-height: 100vh;
-  font-family: "Roboto", sans-serif;
+  font-family: "Muli", Arial, sans-serif;
+  background: #261235;
 }
 
 .app-header {
@@ -36,6 +37,7 @@ body {
   /*background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(20).jpg");*/
   height: 100%;
   width: 40%;
+  background: #261235;
   /* opacity: 1;
     filter: alpha(opacity=60);  */
 }
@@ -47,7 +49,7 @@ body {
   float: left;
   padding: 60px 50px 40px 50px;
   width: 100%;
-  background: #2980b9;
+  background: #a187b4;
   border-radius: 10px;
   transform: scale(1);
   -webkit-transform: scale(1);
@@ -199,4 +201,7 @@ body {
 .loginBtn--google:focus {
   background: #e74b37;
 }
-.mat-raised-button{color:#fff;background-color:#a9cce3}
+.mat-raised-button {
+  color: #f6faff;
+  background-color: #9a5c8b;
+}

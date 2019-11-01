@@ -1,4 +1,8 @@
 /*@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";*/
+.body{
+  background-color: #021126;
+  color: #f6faff;
+}
 .app-body {
   position: relative;
   height: 80%;
@@ -276,6 +280,7 @@ table tr:nth-child(even) {
 
 .status {
   color: #1ac0ff;
+  border: 2px solid #f6faff;
 }
 
 .matInput .response-box {
