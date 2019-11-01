@@ -83,6 +83,8 @@ namespace ConnectAPIBuddy
             //});
 
             app.UseHttpsRedirection();
+            app.UseDeveloperExceptionPage();
+            app.UseDatabaseErrorPage();
             app.UseMvc();
             
         }
