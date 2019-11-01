@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+
 namespace ConnectAPIBuddy
 {
     public class Startup
@@ -28,13 +29,7 @@ namespace ConnectAPIBuddy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.Configure<TestConfigDatabaseSettings>(
-            //    Configuration.GetSection(nameof(TestConfigDatabaseSettings)));
 
-            //services.AddSingleton<ITestConfigDatabaseSettings>(sp =>
-            //    sp.GetRequiredService<IOptions<TestConfigDatabaseSettings>>().Value);
-
-            //services.AddSingleton<TestConfigService>();
             
             services.Configure<Settings>(options =>
             {

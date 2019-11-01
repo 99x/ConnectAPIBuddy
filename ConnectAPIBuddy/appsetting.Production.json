@@ -1,0 +1,25 @@
+{
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Information"
+    },
+    "WriteTo": [
+      {
+        "Name": "Async",
+        "Args": {
+          "configure": [
+            {
+              "Name": "File",
+              "Args": {
+                "path": "./logs/log.txt",
+                "rollingInterval": "Day",
+                "retainedFileCountLimit": 7,
+                "buffered": true
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
