@@ -7,6 +7,8 @@ using ConnectAPIBuddy.Models;
 using ConnectAPIBuddy.Repositories;
 using ConnectAPIBuddy.Services;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
+
 
 namespace ConnectAPIBuddy.Controllers
 {
@@ -18,6 +20,7 @@ namespace ConnectAPIBuddy.Controllers
         public TestConfigController(ITestConfigRepository testConfigRrepository)
         {
             _testConfigService = testConfigRrepository;
+
         }
 
         public IActionResult Create()
