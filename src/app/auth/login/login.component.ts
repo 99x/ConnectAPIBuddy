@@ -87,8 +87,6 @@ export class LoginComponent implements OnInit {
       this.userLoginService.UserExits(user.email).subscribe(res => {
         if (res !== null) {
           this.currentUser = res;
-
-          // this.showSuccess('Successfully Logged in');
           this.toastService.showSuccess('Successfully Logged in');
           localStorage.setItem('socialusers', JSON.stringify(this.currentUser));
           this.router.navigate([`/Mainpage`]);
