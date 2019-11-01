@@ -8,29 +8,27 @@ using System.Threading.Tasks;
 
 namespace ConnectAPIBuddy.Services
 {
-    public class TestConfigContext : ITestConfigContext
+    public class UserContext : IUserContext
     {
         private readonly IMongoDatabase _database = null;
 
-        public TestConfigContext (IOptions<Settings> settings)
+        public UserContext (IOptions<Settings> settings)
         {
             try
             {
                 var client = new MongoClient(settings.Value.ConnectionString);
-                if (client != null)
-                    _database = client.GetDatabase(settings.Value.DatabaseName);
+                _database = client.GetDatabase(settings.Value.DatabaseName);
             }catch (Exception ex)
             {
                 throw ex;
             }
-            
         }
 
-        public IMongoCollection<TestConfiguration> TestConfig 
+        public IMongoCollection<User> UserLogin
         {
             get
             {
-                return _database.GetCollection<TestConfiguration>("TestConfigurations");
+               return _database.GetCollection<User>("User");
             }
         }
     }
