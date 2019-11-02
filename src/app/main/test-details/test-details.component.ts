@@ -29,7 +29,7 @@ import { MAX_SIZE } from '../../shared/constants';
 
 export class TestDetailsComponent implements OnInit {
 
-  backendUrl =  'https://connectapibuddy.azurewebsites.net/api/TestConfig';   // 'https://localhost:44384/api/TestConfig';
+  backendUrl =  'https://connectapibuddy-dev.azurewebsites.net/api/TestConfig';   // 'https://localhost:44384/api/TestConfig';
 
   // form variables
   methods = ['GET', 'POST', 'UPDATE', 'DELETE'];

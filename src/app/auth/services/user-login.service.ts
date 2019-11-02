@@ -14,7 +14,7 @@ import { User } from '../shared/models/user';
 })
 export class UserLoginService {
 
-  private API_URL = 'https://connectapibuddy.azurewebsites.net/api/User/';     // https://localhost:44384/api/User';
+  private API_URL = 'https://connectapibuddy-dev.azurewebsites.net/api/User/';     // https://localhost:44384/api/User';
   httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json'
   });
