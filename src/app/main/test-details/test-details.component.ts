@@ -29,7 +29,7 @@ import { MAX_SIZE } from '../../shared/constants';
 
 export class TestDetailsComponent implements OnInit {
 
-  backendUrl =  'https://connectapibuddy-dev.azurewebsites.net/api/TestConfig';   // 'https://localhost:44384/api/TestConfig';
+  backendUrl = 'https://connectapibuddy-dev.azurewebsites.net/api/TestConfig';   // 'https://localhost:44384/api/TestConfig';
 
   // form variables
   methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
@@ -153,7 +153,7 @@ export class TestDetailsComponent implements OnInit {
             }
             this.responseJsonView = res.body;
             this.testDetailsForm.patchValue({
-              status: res.status + '\r\n' + res.statusText
+              status: res.status
             });
           });
 
@@ -188,7 +188,7 @@ export class TestDetailsComponent implements OnInit {
             }
             this.responseJsonView = res.body;
             this.testDetailsForm.patchValue({
-              status: res.status + '\r\n' + res.statusText
+              status: res.status
             });
           });
 
@@ -202,7 +202,7 @@ export class TestDetailsComponent implements OnInit {
             }
             this.responseJsonView = res.body;
             this.testDetailsForm.patchValue({
-              status: res.status + '\r\n' + res.statusText
+              status: res.status
             });
           });
 
@@ -215,7 +215,7 @@ export class TestDetailsComponent implements OnInit {
             }
             this.responseJsonView = res.body;
             this.testDetailsForm.patchValue({
-              status: res.status + '\r\n' + res.statusText
+              status: res.status
             });
           });
         }
