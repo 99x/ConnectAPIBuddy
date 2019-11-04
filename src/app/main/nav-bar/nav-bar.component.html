@@ -23,7 +23,7 @@
                             </mat-select>
                         </span>
                         <span class="right-side">
-                            <button class="btn" (click)="open()"><i class="fa fa-cogs"></i></button>
+                            <button class="btn" (click)="openModal()"><i class="fa fa-cogs"></i></button>
 
                             <div class="btn-group" dropdown placement="bottom right">
                                 <a id="button-split" type="button" dropdownToggle
@@ -37,7 +37,7 @@
 
                                 <ul id="dropdown-split" *dropdownMenu class="dropdown-menu dropdown-menu-right"
                                     role="menu" aria-labelledby="button-split">
-                                    <li role="menuitem"><a class="dropdown-item" (click)="Logout()">Log out</a></li>
+                                    <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a></li>
                                 </ul>
                             </div>
                         </span>

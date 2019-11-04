@@ -6,6 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+// components
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 // services
 import { ApiService } from '../services/api.service';
 import { TestConfigService } from '../shared/services/test-config.service';
@@ -16,8 +18,10 @@ import { FormVal } from '../models/FormVal';
 import { TestConfiguration } from '../models/TestConfiguration';
 import { FileDetails } from '../models/FileDetails';
 import { User } from '../../auth/shared/models/user';
+import { TestSettings } from '../models/TestSettings';
 // constants
 import { MAX_SIZE } from '../../shared/constants';
+
 
 
 @Component({
@@ -28,7 +32,7 @@ import { MAX_SIZE } from '../../shared/constants';
 })
 
 export class TestDetailsComponent implements OnInit {
-
+  @Input() public testSettings: TestSettings;
   backendUrl = 'https://connectapibuddy-dev.azurewebsites.net/api/TestConfig';   // 'https://localhost:44384/api/TestConfig';
 
   // form variables

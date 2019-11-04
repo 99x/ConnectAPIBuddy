@@ -1,5 +1,5 @@
 // angular
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { TestDetailsComponent } from '../test-details/test-details.component';
 /// models
 import { User } from '../../auth/shared/models/user';
 import { TestConfiguration } from '../models/TestConfiguration';
+import { TestSettings } from '../models/TestSettings';
 
 @Component({
   selector: 'app-nav-bar',
@@ -18,6 +19,7 @@ import { TestConfiguration } from '../models/TestConfiguration';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
+  @Output() public testSettings = new TestSettings();
 
   private modalOptions: NgbModalOptions;
   private form: FormGroup;
@@ -41,7 +43,7 @@ export class NavBarComponent implements OnInit {
   ngOnInit() {
   }
 
-  Logout() {
+  logout(): void {
     alert('All unsaved data will be lost');
     localStorage.clear();
     if (this.OAuth.authState !== null) {
@@ -50,10 +52,17 @@ export class NavBarComponent implements OnInit {
     this.router.navigate([`/login`]);
   }
 
-  open() {
+  openModal(): void {
     const modalRef = this.modalService.open(TestSettingsComponent, this.modalOptions);
     modalRef.componentInstance.modalTitle = 'Settings';
-    modalRef.componentInstance.modalContent = '';
+    modalRef.componentInstance.testSettings = this.testSettings;
+
+    modalRef.result.then((result) => {
+      if (result) {
+        console.log(result);
+        this.testSettings = result;
+      }
+    });
   }
 
   newClick(): void {
