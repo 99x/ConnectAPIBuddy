@@ -1,0 +1,242 @@
+<div>
+    <!----------------------------------Toolbar--------------------------------------->
+    <!-------------------------------------------------------------------------------->
+    <div class="navbar-wrapper">
+        <app-nav-bar (settingEvent)="receiveSettings($event)"></app-nav-bar>
+    </div>
+
+    <!----------------------------------URL Section--------------------------------------->
+    <!--------------------------------------------------(ngSubmit)="onSubmit()"------------------------------>
+    <div class="app-body">
+        <form [formGroup]="testDetailsForm">
+            <div class="url-wrapper">
+                <div class="all-urls">
+                    <div class="url-edit">
+                        <input list="urls" class="url" type="text" formControlName="url"
+                            (change)="urlOnChanged($event,1)" (click)="urlEditOnClick()"><span
+                            class="fa fa-chevron-circle-right searchicon" aria-hidden="true"></span>
+                    </div>
+                    <!-- <select id="urls" (change)="UrlOnChanged($event,2)" groupBy="url.endpointAction">
+                        <option *ngFor="let url of testConfigurations; let i = index" [value]="url.url">
+                            {{url.url}} {{url.endpointAction}}
+                        </option>
+                    </select> -->
+                    <div class="url-select">
+                        <ng-select [items]="testConfigurations" bindLabel="url" autofocus bindValue="url"
+                            groupBy="endpointAction" id="urls" (change)="urlOnChanged($event,2)"
+                            (click)="urlSelectOnClick()" placeholder="Select a URL">
+                        </ng-select>
+                    </div>
+                </div>
+                <div>
+                    <mat-form-field class="method-wrapper">
+                        <mat-label>HTTP Method</mat-label>
+                        <mat-select formControlName="endpointAction">
+                            <mat-option value="" selected disabled>Select</mat-option>
+                            <mat-option *ngFor="let method of methods" [value]="method">{{method}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!----------------------------------URL--------------------------------------->
+
+                    <input list="base-urls" class="baseurl-list" type="text" formControlName="baseUrl"
+                        placeholder="Base URL" (change)=" baseUrlPathOnChanged()" autocomplete="off">
+                    <datalist id="base-urls">
+                        <option *ngFor="let url of baseurls" [value]='url'></option>
+                    </datalist>
+
+                    <input list="base-paths" class="basepath-list" type="text" formControlName="basePath"
+                        placeholder="Base Path" (change)=" baseUrlPathOnChanged()" autocomplete="off">
+                    <datalist id="base-paths">
+                        <option *ngFor="let path of basepaths" [value]='path'></option>
+                    </datalist>
+
+                    <!----------------------------------Execute--------------------------------------->
+                    <div class="btn-group" dropdown>
+                        <button type="button" class="btn btn-danger" (click)="OnClickExecute(false)">Execute</button>
+                        <button id="button-split" type="button" dropdownToggle
+                            class="btn btn-danger dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
+                            <span class="caret"></span>
+                            <span class="sr-only">Split button!</span>
+                        </button>
+                        <ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-labelledby="button-split">
+                            <li role="menuitem"><a class="dropdown-item" (click)="OnClickExecute(true)">Save</a></li>
+                        </ul>
+                    </div>
+                    <!----------------------------------Export--------------------------------------->
+                    <div class="btn-group" dropdown>
+                        <button type="button" class="btn btn-danger">Export</button>
+                        <button id="button-split" type="button" dropdownToggle
+                            class="btn btn-danger dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
+                            <span class="caret"></span>
+                            <span class="sr-only">Split button!</span>
+                        </button>
+                        <ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-labelledby="button-split">
+                            <li role="menuitem"><a class="dropdown-item" href="#">Currenet</a></li>
+                            <li role="menuitem"><a class="dropdown-item" href="#">Test only</a></li>
+                            <li role="menuitem"><a class="dropdown-item" href="#">All</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <mat-accordion>
+                <mat-expansion-panel expanded="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Test Details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="middle-wrapper">
+                        <!----------------------------------Test details--------------------------------------->
+                        <!-------------------------------------------------------------------------------->
+                        <div class="description-wrapper">
+                            <div>
+                                <label class="lbl">Test Name</label>
+                                <textarea class="test-name" matInput rows="3" formControlName="testName"></textarea>
+                            </div>
+                            <div>
+                                <label class="lbl">Test Description</label>
+                                <textarea class="test-description" matInput rows="3"
+                                    formControlName="testDescription"></textarea>
+                            </div>
+
+                        </div>
+                        <!----------------------------------Tab--------------------------------------->
+                        <div class="values-wrapper">
+                            <!-- Nav tabs -->
+                            <mat-tab-group class="tab-wrapper" animationDuration="1000ms">
+                                <mat-tab label="Header">
+                                    <ng-template matTabContent>
+                                        <div class="header-wrapper">
+                                            <div class="add-values" formGroupName="payloadHeaders">
+                                                <button class="add-remove" type="button"
+                                                    (click)="OnClickRemoveHeader()">Remove</button>
+                                                <button type="button" class="add-remove"
+                                                    (click)="OnClickAddHeader()">Add</button>
+                                                <input class="key-value" type="text" placeholder="value"
+                                                    formControlName="value">
+                                                <input class="key-value" type="text" placeholder="header"
+                                                    formControlName="header">
+                                            </div>
+                                            <div class="show-values">
+                                                <table class="header-table">
+                                                    <tr *ngFor="let header of headerVals">
+                                                        <td>{{ header.header }}</td>
+                                                        <td>{{ header.value }}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab label="Body">
+                                    <div>
+                                        <ng-template matTabContent>
+                                            <div class="file-wrapper">
+                                                <div>
+                                                    <mat-slide-toggle class="select-switch" [checked]="isFileAdded"
+                                                        (change)="toggleChange()">
+                                                    </mat-slide-toggle>
+                                                </div>
+                                                <div>
+                                                    <input class="key-file" type="text" placeholder="key"
+                                                        formControlName="fileKey">
+                                                </div>
+                                                <div>
+                                                    <button class="add-file">
+                                                        <label>
+                                                            Open file
+                                                            <input type="file" style="display: none"
+                                                                (change)="handleFileInput($event.target.files)"
+                                                                file-handler>
+                                                        </label>
+                                                    </button>
+                                                </div>
+                                                <mat-radio-group (change)="dataTypeChanged($event.value)">
+                                                    <mat-radio-button value="raw" checked></mat-radio-button>
+                                                    <mat-radio-button value="form"></mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                            <!-- Nav tabs -->
+                                            <mat-tab-group animationDuration="1000ms">
+                                                <mat-tab label="Raw">
+                                                    <ng-template matTabContent>
+                                                        <div class="raw-wrapper">
+                                                            <textarea class="raw" matInput
+                                                                placeholder="Set JSON Content here" rows="3"
+                                                                formControlName="payloadBody"></textarea>
+                                                        </div>
+                                                    </ng-template>
+                                                </mat-tab>
+                                                <mat-tab label="Form">
+                                                    <ng-template matTabContent>
+                                                        <div class="form-wrapper">
+                                                            <div class="add-values" formGroupName="formContent">
+                                                                <button class="add-remove" type="button"
+                                                                    (click)="OnClickRemoveFormVal()">Remove</button>
+                                                                <button class="add-remove" type="button"
+                                                                    (click)="OnClickAddFormVal()">Add</button>
+                                                                <input class="key-value" type="text" placeholder="value"
+                                                                    formControlName="value">
+                                                                <input class="key-value" type="text" placeholder="key"
+                                                                    formControlName="key">
+                                                            </div>
+                                                            <div class="show-values">
+                                                                <table class="form-table">
+                                                                    <tr *ngFor="let form of formVals">
+                                                                        <td>{{ form.key }}</td>
+                                                                        <td>{{ form.value }}</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </mat-tab>
+                                            </mat-tab-group>
+                                        </ng-template>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <!----------------------------------Response Section--------------------------------------->
+            <!-------------------------------------------------------------------------------->
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Response
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="response-wrapper">
+                        <div class="response-box">
+                            <label class="lbl">Response</label>
+                            <!-- <textarea class="box" matInput placeholder="Response" rows="3"
+                        formControlName="response"></textarea> -->
+                            <div class="json-viwer">
+                                <ngx-json-viewer [json]="responseJsonView" class="box" [expanded]="false">
+                                </ngx-json-viewer>
+                            </div>
+                        </div>
+                        <div class="status-box">
+                            <label class="lbl">Status</label>
+                            <textarea class="box status" matInput placeholder="status" rows="3" formControlName="status"
+                                readonly></textarea>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </form>
+    </div>
+
+    <div class="footer-wrapper">
+
+    </div>
+
+</div>

@@ -1,0 +1,104 @@
+.app-header {
+  justify-content: space-between;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
+    0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+
+.bar {
+  width: 100%;
+}
+
+.btn-label {
+  position: relative;
+  left: -12px;
+  display: inline-block;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px 0 0 3px;
+}
+
+.btn-labeled {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.mat-button {
+  color: #2185d0;
+  margin-left: 20px;
+  margin-right: 17px;
+}
+
+.btn-group {
+  margin-left: 20px;
+}
+
+.items {
+  width: 100%;
+}
+
+.items .left-side {
+  float: left;
+  width: 200px;
+}
+
+.items .right-side {
+  float: right;
+  padding: 0px 40px;
+}
+
+.btn {
+  padding: 0px 30px;
+}
+
+.dropdown-menu {
+  margin-right: 50px;
+  margin-top: 20px;
+}
+
+.btn-danger:hover:active {
+  background-color: #034165;
+  border-color: #1825c2;
+}
+
+.btn-danger {
+  background-color: #d7d7d8;
+  outline: none;
+}
+
+.btn-danger.dropdown-toggle {
+  background-color: #d7d7d8;
+}
+
+.mat-toolbar .mat-select-value {
+  padding: 0px 12px;
+  font-size: 12pt;
+}
+
+.fa-cogs {
+  font-size: 40px;
+  color: #d7d7d8;
+}
+
+.img {
+  margin-left: -30px;
+  border-radius: 0px;
+}
+.dropdown-toggle-split::after {
+  margin-left: 5px;
+  color: #0e0c0c;
+}
+
+.mat-toolbar.mat-primary {
+  /* background: #d1d1d2; */
+  background-color: #021126;
+  color: #fff;
+}
+.mat-raised-button {
+  color: #0e0c0c;
+  background-color: #ffffffd1;
+}
