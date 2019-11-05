@@ -1,0 +1,30 @@
+.modal-footer {
+  color: #f6faff;
+  background: #595b5c;
+  border-top: 1px solid #f87060;
+}
+
+.modal-header {
+  color: #f6faff;
+  background: #006afd;
+  border-bottom: 1px solid #f87060;
+}
+
+.modal-body {
+  font-family: "Muli", Arial, sans-serif;
+  font-size: 17px;
+  background: #011a3b;
+  color: #f6faff;
+}
+
+.modal-footer .btn {
+  color: #f6faff;
+}
+
+input.mat-input-element {
+  border-bottom: 1px solid black;
+}
+
+input.mat-input-element:focus {
+  border-bottom: 1px solid #f87060;
+}
