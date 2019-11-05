@@ -24,7 +24,7 @@
 }
 
 .response-wrapper {
-  height: 250px;
+  min-height: 250px;
   padding: 0px 40px;
   box-sizing: border-box;
   background-color: #011a3b;
@@ -64,7 +64,6 @@
 }
 
 .url:focus {
-  width: 50%;
   background: #021126;
   color: #f6faff;
 }
@@ -73,6 +72,8 @@
 }
 
 .ng-select .ng-select-container {
+  /* -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out; */
   width: 4% !important ;
 }
 
@@ -163,7 +164,7 @@
 
 .test-name {
   width: 90%;
-  height: 40px;
+  height: 50px;
 }
 
 .form-wrapper {
@@ -240,7 +241,7 @@ table tr:nth-child(even) {
 }
 
 .key-file {
-  width: 100px;
+  width: 100%;
   border-radius: 30px;
   padding-left: 5px;
   background: #011a3b;
@@ -267,14 +268,14 @@ table tr:nth-child(even) {
 }
 
 .response-box {
-  width: 75%;
+  width: 70%;
   float: left;
   height: 200px;
 }
 
 .json-viwer {
-  min-height: 100px;
-  max-height: 200px;
+  min-height: 80%;
+  max-height: 95%;
   overflow: scroll;
   overflow-x: hidden;
   outline: none;
@@ -282,10 +283,10 @@ table tr:nth-child(even) {
 }
 
 .status-box {
-  width: 310px;
+  width: 25%;
   float: right;
   padding: 0px 10px;
-  height: 100px;
+  min-height: 40%;
 }
 
 .box {

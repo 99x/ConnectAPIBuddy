@@ -11,66 +11,73 @@
         <form [formGroup]="testDetailsForm">
             <div class="url-wrapper">
                 <div class="all-urls">
-                    <input list="urls" class="url" type="text" formControlName="url"
-                        (change)="UrlOnChanged($event,1)"><span class="fa fa-chevron-circle-right searchicon"
-                        aria-hidden="true"></span>
+                    <div class="url-edit">
+                        <input list="urls" class="url" type="text" formControlName="url"
+                            (change)="urlOnChanged($event,1)" (click)="urlEditOnClick()"><span
+                            class="fa fa-chevron-circle-right searchicon" aria-hidden="true"></span>
+                    </div>
                     <!-- <select id="urls" (change)="UrlOnChanged($event,2)" groupBy="url.endpointAction">
                         <option *ngFor="let url of testConfigurations; let i = index" [value]="url.url">
                             {{url.url}} {{url.endpointAction}}
                         </option>
                     </select> -->
-                    <ng-select [items]="testConfigurations" bindLabel="url" autofocus bindValue="url"
-                        groupBy="endpointAction" id="urls" (change)="UrlOnChanged($event,2)" placeholder="Select a URL">
-                    </ng-select>
+                    <div class="url-select">
+                        <ng-select [items]="testConfigurations" bindLabel="url" autofocus bindValue="url"
+                            groupBy="endpointAction" id="urls" (change)="urlOnChanged($event,2)"
+                            (click)="urlSelectOnClick()" placeholder="Select a URL">
+                        </ng-select>
+                    </div>
                 </div>
-                <mat-form-field class="method-wrapper">
-                    <mat-label>HTTP Method</mat-label>
-                    <mat-select formControlName="endpointAction">
-                        <mat-option value="" selected disabled>Select</mat-option>
-                        <mat-option *ngFor="let method of methods" [value]="method">{{method}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <!----------------------------------URL--------------------------------------->
+                <div>
+                    <mat-form-field class="method-wrapper">
+                        <mat-label>HTTP Method</mat-label>
+                        <mat-select formControlName="endpointAction">
+                            <mat-option value="" selected disabled>Select</mat-option>
+                            <mat-option *ngFor="let method of methods" [value]="method">{{method}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!----------------------------------URL--------------------------------------->
 
-                <input list="base-urls" class="baseurl-list" type="text" formControlName="baseUrl"
-                    placeholder="Base URL" (change)=" BaseUrlPathOnChanged()" autocomplete="off">
-                <datalist id="base-urls">
-                    <option *ngFor="let url of baseurls" [value]='url'></option>
-                </datalist>
+                    <input list="base-urls" class="baseurl-list" type="text" formControlName="baseUrl"
+                        placeholder="Base URL" (change)=" baseUrlPathOnChanged()" autocomplete="off">
+                    <datalist id="base-urls">
+                        <option *ngFor="let url of baseurls" [value]='url'></option>
+                    </datalist>
 
-                <input list="base-paths" class="basepath-list" type="text" formControlName="basePath"
-                    placeholder="Base Path" (change)=" BaseUrlPathOnChanged()" autocomplete="off">
-                <datalist id="base-paths">
-                    <option *ngFor="let path of basepaths" [value]='path'></option>
-                </datalist>
+                    <input list="base-paths" class="basepath-list" type="text" formControlName="basePath"
+                        placeholder="Base Path" (change)=" baseUrlPathOnChanged()" autocomplete="off">
+                    <datalist id="base-paths">
+                        <option *ngFor="let path of basepaths" [value]='path'></option>
+                    </datalist>
 
-                <!----------------------------------Execute--------------------------------------->
-                <div class="btn-group" dropdown>
-                    <button type="button" class="btn btn-danger" (click)="OnClickExecute(false)">Execute</button>
-                    <button id="button-split" type="button" dropdownToggle
-                        class="btn btn-danger dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
-                        <span class="caret"></span>
-                        <span class="sr-only">Split button!</span>
-                    </button>
-                    <ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu"
-                        aria-labelledby="button-split">
-                        <li role="menuitem"><a class="dropdown-item" (click)="OnClickExecute(true)">Save</a></li>
-                    </ul>
-                </div>
-                <!----------------------------------Export--------------------------------------->
-                <div class="btn-group" dropdown>
-                    <button type="button" class="btn btn-danger">Export</button>
-                    <button id="button-split" type="button" dropdownToggle
-                        class="btn btn-danger dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
-                        <span class="caret"></span>
-                        <span class="sr-only">Split button!</span>
-                    </button>
-                    <ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu"
-                        aria-labelledby="button-split">
-                        <li role="menuitem"><a class="dropdown-item" href="#">Currenet</a></li>
-                        <li role="menuitem"><a class="dropdown-item" href="#">Test only</a></li>
-                        <li role="menuitem"><a class="dropdown-item" href="#">All</a></li>
-                    </ul>
+                    <!----------------------------------Execute--------------------------------------->
+                    <div class="btn-group" dropdown>
+                        <button type="button" class="btn btn-danger" (click)="OnClickExecute(false)">Execute</button>
+                        <button id="button-split" type="button" dropdownToggle
+                            class="btn btn-danger dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
+                            <span class="caret"></span>
+                            <span class="sr-only">Split button!</span>
+                        </button>
+                        <ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-labelledby="button-split">
+                            <li role="menuitem"><a class="dropdown-item" (click)="OnClickExecute(true)">Save</a></li>
+                        </ul>
+                    </div>
+                    <!----------------------------------Export--------------------------------------->
+                    <div class="btn-group" dropdown>
+                        <button type="button" class="btn btn-danger">Export</button>
+                        <button id="button-split" type="button" dropdownToggle
+                            class="btn btn-danger dropdown-toggle dropdown-toggle-split" aria-controls="dropdown-split">
+                            <span class="caret"></span>
+                            <span class="sr-only">Split button!</span>
+                        </button>
+                        <ul id="dropdown-split" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-labelledby="button-split">
+                            <li role="menuitem"><a class="dropdown-item" href="#">Currenet</a></li>
+                            <li role="menuitem"><a class="dropdown-item" href="#">Test only</a></li>
+                            <li role="menuitem"><a class="dropdown-item" href="#">All</a></li>
+                        </ul>
+                    </div>
                 </div>
 
             </div>

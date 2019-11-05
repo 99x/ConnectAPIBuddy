@@ -33,7 +33,7 @@ import { MAX_SIZE } from '../../shared/constants';
 
 export class TestDetailsComponent implements OnInit {
 
-  backendUrl = 'https://connectapibuddy-dev.azurewebsites.net/api/TestConfig';   // 'https://localhost:44384/api/TestConfig';
+  backendUrl = 'https://connectapibuddy.azurewebsites.net/api/TestConfig';   // 'https://localhost:44384/api/TestConfig';
 
   // form variables
   methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
@@ -319,7 +319,7 @@ export class TestDetailsComponent implements OnInit {
     console.log('clicked' + i);
   }
 
-  UrlOnChanged(event, i: number): void {
+  urlOnChanged(event, i: number): void {
 
     if (i === 1) {
       let cUrl = event.target.value;
@@ -370,7 +370,7 @@ export class TestDetailsComponent implements OnInit {
     return splittedUrl;
   }
 
-  BaseUrlPathOnChanged(): void {
+  baseUrlPathOnChanged(): void {
     let newUrl = this.f.baseUrl.value + this.f.basePath.value;
     this.testDetailsForm.patchValue({
       url: newUrl
@@ -383,10 +383,34 @@ export class TestDetailsComponent implements OnInit {
     this.responseJsonView = {};
     this.formVals = [];
     this.headerVals = [];
+
+    let urlSelect = document.getElementsByClassName('url-select') as HTMLCollectionOf<HTMLElement>;
+    let urlEdit = document.getElementsByClassName('url') as HTMLCollectionOf<HTMLElement>;
+    if (urlSelect.length !== 0 && urlEdit.length !== 0) {
+      urlEdit[0].style.width = '3%';
+      urlSelect[0].style.display = 'block';
+    }
   }
 
   receiveSettings($event): void {
     this.testSettings = $event;
+  }
+
+  urlEditOnClick(): void {
+    let urlSelect = document.getElementsByClassName('url-select') as HTMLCollectionOf<HTMLElement>;
+    let urlEdit = document.getElementsByClassName('url') as HTMLCollectionOf<HTMLElement>;
+    if (urlSelect.length !== 0 && urlEdit.length !== 0) {
+      urlEdit[0].style.width = '50%';
+      urlSelect[0].style.display = 'inline-block';
+    }
+  }
+  urlSelectOnClick(): void {
+    let urlSelect = document.getElementsByClassName('url-select') as HTMLCollectionOf<HTMLElement>;
+    let urlEdit = document.getElementsByClassName('url') as HTMLCollectionOf<HTMLElement>;
+    if (urlSelect.length !== 0 && urlEdit.length !== 0) {
+      urlEdit[0].style.width = '3%';
+      urlSelect[0].style.display = 'block';
+    }
   }
 
 }
