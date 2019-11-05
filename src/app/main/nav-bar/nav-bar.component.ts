@@ -1,5 +1,5 @@
 // angular
-import { Component, OnInit, Input, ViewChild, Output } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,8 +19,9 @@ import { TestSettings } from '../models/TestSettings';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  @Output() public testSettings = new TestSettings();
+  @Output() settingEvent = new EventEmitter<TestSettings>();
 
+  testSettings = new TestSettings();
   private modalOptions: NgbModalOptions;
   private form: FormGroup;
   t: TestDetailsComponent;
@@ -61,6 +62,7 @@ export class NavBarComponent implements OnInit {
       if (result) {
         console.log(result);
         this.testSettings = result;
+        this.settingEvent.emit(this.testSettings);
       }
     });
   }

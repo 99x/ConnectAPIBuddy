@@ -3,19 +3,17 @@ import { Observable, throwError, of, Observer, TimeoutError } from 'rxjs';
 import { retry, catchError, delay, mergeMap, retryWhen, timeout } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { HeaderVal } from '../models/Header';
+import { TestSettings } from '../models/TestSettings';
 
 @Injectable()
 export class ApiService {
 
   private httpHeaders: HttpHeaders;
+  private testSettings = new TestSettings();
 
   constructor(
     private httpClient: HttpClient
   ) { }
-
-  maxRetries: number = 0;
-  timeOut: number = 3000;
-  delayMs: number = 1000;
 
   // Handle API errors
   private handleError(error: HttpErrorResponse) {
@@ -54,68 +52,82 @@ export class ApiService {
 
 
   // Get data
-  getData(url: string, headers: HeaderVal[]): Observable<any> {
+  getData(url: string, headers: HeaderVal[], testSettings: TestSettings): Observable<any> {
     this.httpHeaders = new HttpHeaders();
     if (headers.length > 0) {
       headers.forEach(element => {
         this.httpHeaders.append(element.header, element.value);
       });
+    }
+    if (testSettings !== null) {
+      this.testSettings = testSettings;
     }
 
     return this.httpClient
       .get(url, { observe: 'response', headers: this.httpHeaders })
       .pipe(
-        timeout(this.timeOut),
-        retry(this.maxRetries),
+        timeout(this.testSettings.timeOutMs),
+        retry(this.testSettings.maxRetry),
         catchError(this.handleError)
       );
   }
 
   // Post data
-  postData(url: string, body: any, headers: HeaderVal[]): Observable<any> {
+  postData(url: string, body: any, headers: HeaderVal[], testSettings: TestSettings): Observable<any> {
     this.httpHeaders = new HttpHeaders();
     if (headers.length > 0) {
       headers.forEach(element => {
         this.httpHeaders.append(element.header, element.value);
       });
     }
-
+    if (testSettings !== null) {
+      this.testSettings = testSettings;
+    }
     return this.httpClient
       .post(url, body, { observe: 'response', headers: this.httpHeaders })
       .pipe(
+        timeout(this.testSettings.timeOutMs),
+        retry(this.testSettings.maxRetry),
         catchError(this.handleError)
       );
   }
 
   // Update data
-  updateData(url: string, data: object, headers: HeaderVal[]): Observable<any> {
+  updateData(url: string, data: object, headers: HeaderVal[], testSettings: TestSettings): Observable<any> {
     this.httpHeaders = new HttpHeaders();
     if (headers.length > 0) {
       headers.forEach(element => {
         this.httpHeaders.append(element.header, element.value);
       });
     }
-
+    if (testSettings !== null) {
+      this.testSettings = testSettings;
+    }
     return this.httpClient
       .put(url, data, { observe: 'response', headers: this.httpHeaders })
       .pipe(
-        retry(2),
+        timeout(this.testSettings.timeOutMs),
+        retry(this.testSettings.maxRetry),
         catchError(this.handleError)
       );
   }
 
   // Delete data
-  deleteData(url: string, headers: HeaderVal[]): Observable<any> {
+  deleteData(url: string, headers: HeaderVal[], testSettings: TestSettings): Observable<any> {
     this.httpHeaders = new HttpHeaders();
     if (headers.length > 0) {
       headers.forEach(element => {
         this.httpHeaders.append(element.header, element.value);
       });
     }
+    if (testSettings !== null) {
+      this.testSettings = testSettings;
+    }
     return this.httpClient
       .delete(url, { observe: 'response', headers: this.httpHeaders })
       .pipe(
-        retry(2),
+        timeout(this.testSettings.timeOutMs),
+        retry(this.testSettings.maxRetry),
         catchError(this.handleError)
       );
   }

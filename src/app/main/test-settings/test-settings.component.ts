@@ -11,9 +11,8 @@ import { TestSettings } from '../models/TestSettings';
 })
 export class TestSettingsComponent implements OnInit {
   @Input() modalTitle;
-  // @Output() passEntry: EventEmitter<any> = new EventEmitter();
   @Input() testSettings: TestSettings;
-  // public testSettings: TestSettings;
+
   settingsForm: FormGroup;
 
   constructor(
@@ -31,6 +30,18 @@ export class TestSettingsComponent implements OnInit {
     this.activeModal.close(result);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

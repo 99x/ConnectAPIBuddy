@@ -32,7 +32,7 @@ import { MAX_SIZE } from '../../shared/constants';
 })
 
 export class TestDetailsComponent implements OnInit {
-  @Input() public testSettings: TestSettings;
+
   backendUrl = 'https://connectapibuddy-dev.azurewebsites.net/api/TestConfig';   // 'https://localhost:44384/api/TestConfig';
 
   // form variables
@@ -50,10 +50,11 @@ export class TestDetailsComponent implements OnInit {
   fileUploaded: FileDetails;   // Uploaded file details
   responseJsonView: object = {};  // Response view in JSON format
   isFileAdded = false; // Whether file attached or not
-  dataType: string = 'raw';
+  dataType: string = 'raw';  // defult seleted tab
   currentUser: User;
   testConfigurations: TestConfiguration[];
   currentTestConfig: TestConfiguration;
+  testSettings = new TestSettings();
 
 
   constructor(
@@ -149,7 +150,7 @@ export class TestDetailsComponent implements OnInit {
           this.headerVals.push({ header: 'Content-Type', value: 'application/json' });
         }
         if (this.f.endpointAction.value === 'GET') {
-          this.apiService.getData(url, this.headerVals).subscribe(res => {
+          this.apiService.getData(url, this.headerVals, this.testSettings).subscribe(res => {
             if (res.status === 200) {
               this.toastService.showSuccess('Request Successful');
             } else {
@@ -184,7 +185,7 @@ export class TestDetailsComponent implements OnInit {
             data = formData;
           }
 
-          this.apiService.postData(url, data, this.headerVals).subscribe(res => {
+          this.apiService.postData(url, data, this.headerVals, this.testSettings).subscribe(res => {
             if (res.status === 200) {
               this.toastService.showSuccess('Request Successful');
             } else {
@@ -198,7 +199,7 @@ export class TestDetailsComponent implements OnInit {
 
         } else if (this.f.endpointAction.value === 'UPDATE') {
           let data = JSON.parse(this.f.payloadBody.value);
-          this.apiService.updateData(url, data, this.headerVals).subscribe(res => {
+          this.apiService.updateData(url, data, this.headerVals, this.testSettings).subscribe(res => {
             if (res.status === 200) {
               this.toastService.showSuccess('Request Successful');
             } else {
@@ -211,7 +212,7 @@ export class TestDetailsComponent implements OnInit {
           });
 
         } else if (this.f.endpointAction.value === 'DELETE') {
-          this.apiService.deleteData(url, this.headerVals).subscribe(res => {
+          this.apiService.deleteData(url, this.headerVals, this.testSettings).subscribe(res => {
             if (res.status === 200) {
               this.toastService.showSuccess('Request Successful');
             } else {
@@ -318,7 +319,7 @@ export class TestDetailsComponent implements OnInit {
     console.log('clicked' + i);
   }
 
-  UrlOnChanged(event, i: number) {
+  UrlOnChanged(event, i: number): void {
 
     if (i === 1) {
       let cUrl = event.target.value;
@@ -337,7 +338,6 @@ export class TestDetailsComponent implements OnInit {
       this.currentTestConfig = event;
       if (this.currentTestConfig !== null && event !== undefined) {
         this.testDetailsForm.reset();
-        // this.currentTestConfig = this.testConfigurations[testIndex];
         this.testDetailsForm.patchValue({
           url: this.currentTestConfig.url,
           baseUrl: this.currentTestConfig.baseUrl,
@@ -370,7 +370,7 @@ export class TestDetailsComponent implements OnInit {
     return splittedUrl;
   }
 
-  BaseUrlPathOnChanged() {
+  BaseUrlPathOnChanged(): void {
     let newUrl = this.f.baseUrl.value + this.f.basePath.value;
     this.testDetailsForm.patchValue({
       url: newUrl
@@ -383,6 +383,10 @@ export class TestDetailsComponent implements OnInit {
     this.responseJsonView = {};
     this.formVals = [];
     this.headerVals = [];
+  }
+
+  receiveSettings($event): void {
+    this.testSettings = $event;
   }
 
 }
