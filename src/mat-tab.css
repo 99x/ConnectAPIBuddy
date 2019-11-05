@@ -34,7 +34,7 @@
 
 .mat-tab-group {
   outline: none !important;
-  border: 2px solid #fff;
+  border: 1px solid #fff;
 }
 
 .mat-form-field.mat-primary .mat-select {
