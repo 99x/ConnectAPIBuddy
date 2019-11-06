@@ -22,7 +22,6 @@ steps:
   displayName: 'Code Analysis'
 
 - script: npx ng build --prod --aot false --build-optimizer=false
-  displayName: 'Build'
 
 - task: PublishBuildArtifacts@1
   inputs:
@@ -30,3 +29,13 @@ steps:
     ArtifactName: 'web-app'
     publishLocation: 'Container'
   displayName: 'Publish Artifacts'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+    
