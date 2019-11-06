@@ -26,7 +26,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'dist/ng-azure-devops'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'web-app'
     publishLocation: 'Container'
   displayName: 'Publish Artifacts'
