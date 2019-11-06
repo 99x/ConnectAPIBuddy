@@ -11,7 +11,7 @@ import { LoadingScreenService } from '../../services/loading-screen.service';
   styleUrls: ['./loding-screen.component.css']
 })
 export class LodingScreenComponent implements AfterViewInit, OnDestroy {
-  debounceTime: number = 20;
+  debounceTime: number = 200;
   loading: boolean = false;
   loadingSubscription: Subscription;
 
