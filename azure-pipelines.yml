@@ -22,10 +22,11 @@ steps:
   displayName: 'Code Analysis'
 
 - script: npx ng build --prod --aot false --build-optimizer=false
+  displayName: 'Build'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Pipeline.Workspace)/ng-azure-devops'
+    PathtoPublish: '$(Pipeline.Workspace)'
     ArtifactName: 'web-app'
     publishLocation: 'Container'
   displayName: 'Publish Artifacts'
