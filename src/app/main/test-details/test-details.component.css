@@ -20,14 +20,12 @@
   height: 40%;
   padding: 20px 40px;
   box-sizing: border-box;
-  background-color: #011a3b;
 }
 
 .response-wrapper {
   min-height: 250px;
   padding: 0px 40px;
   box-sizing: border-box;
-  background-color: #011a3b;
 }
 
 .footer-wrapper {
