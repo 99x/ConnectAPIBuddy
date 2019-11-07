@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/0f7aea92-1b87-44a5-9898-cb722468b891/resourceGroups/ConnectAPIBuddy-Frontend/providers/Microsoft.Web/sites/ConnectAPIBuddy-Frontend",
+    "appService.deploySubpath": ""
+}

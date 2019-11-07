@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   private currentUser: User;
 
-  private loginForm: FormGroup;
+  loginForm: FormGroup;
 
   constructor(
     public OAuth: AuthService,
