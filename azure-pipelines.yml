@@ -21,7 +21,7 @@ steps:
 - script: npx ng lint
   displayName: 'Code Analysis'
 
-- script: npx ng build --prod --aot false --build-optimizer=false
+- script: npx ng build --prod
   displayName: 'Build'
 
 - task: PublishBuildArtifacts@1
