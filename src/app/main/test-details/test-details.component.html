@@ -10,23 +10,16 @@
     <div class="app-body">
         <form [formGroup]="testDetailsForm">
             <div class="url-wrapper">
-                <div class="all-urls">
-                    <div class="url-edit">
-                        <input list="urls" class="url" type="text" formControlName="url"
-                            (change)="urlOnChanged($event,1)" (click)="urlEditOnClick()"><span
-                            class="fa fa-chevron-circle-right searchicon" aria-hidden="true"></span>
-                    </div>
-                    <!-- <select id="urls" (change)="UrlOnChanged($event,2)" groupBy="url.endpointAction">
-                        <option *ngFor="let url of testConfigurations; let i = index" [value]="url.url">
-                            {{url.url}} {{url.endpointAction}}
-                        </option>
-                    </select> -->
-                    <div class="url-select">
-                        <ng-select [items]="testConfigurations" bindLabel="url" autofocus bindValue="url"
-                            groupBy="endpointAction" id="urls" (change)="urlOnChanged($event,2)"
-                            (click)="urlSelectOnClick()" placeholder="Select a URL">
-                        </ng-select>
-                    </div>
+                <div class="all-urls-wrapper">
+                    <input list="urls" class="url" type="text" formControlName="url" (change)="urlOnChanged($event,1)"
+                        (click)="urlEditOnClick()" [ngClass]="urlStatus ? 'url-edit' : 'url-select'"><span
+                        class="fa fa-chevron-circle-right searchicon" aria-hidden="true"></span>
+
+                    <ng-select [items]="testConfigurations" bindLabel="url" autofocus bindValue="url"
+                        groupBy="endpointAction" id="urls" (change)="urlOnChanged($event,2)"
+                        (click)="urlSelectOnClick()" placeholder="Select a URL"
+                        [ngClass]="urlStatus ? 'url-select' : 'url-edit'">
+                    </ng-select>
                 </div>
                 <div>
                     <mat-form-field class="method-wrapper">
@@ -226,7 +219,7 @@
                         </div>
                         <div class="status-box">
                             <label class="lbl">Status</label>
-                            <textarea class="box status" matInput placeholder="status" rows="3" formControlName="status"
+                            <textarea class="box status" matInput placeholder="Status" rows="3" formControlName="status"
                                 readonly></textarea>
                         </div>
                     </div>
