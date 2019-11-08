@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
 
   private subscriptions: Subscription[] = [];
 
-  private userRegistrationForm: FormGroup;
+  userRegistrationForm: FormGroup;
   private newUser: User;
 
   constructor(
