@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
 body {
-  background-color: #f8706061;
+  background-color: #696769bf;
   overflow: hidden;
 }
 h1 {
@@ -18,7 +18,7 @@ h1 {
 .loading-screen-wrapper {
   z-index: 100000;
   position: fixed;
-  background-color: #f8706061;
+  background-color: #696769bf; /*#f8706061;*/
   width: 100%;
   height: 100%;
   display: block;

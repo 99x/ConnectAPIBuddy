@@ -55,6 +55,7 @@ export class TestDetailsComponent implements OnInit {
   testConfigurations: TestConfiguration[];
   currentTestConfig: TestConfiguration;
   testSettings = new TestSettings();
+  urlStatus: boolean = true;
 
 
   constructor(
@@ -384,12 +385,7 @@ export class TestDetailsComponent implements OnInit {
     this.formVals = [];
     this.headerVals = [];
 
-    let urlSelect = document.getElementsByClassName('url-select') as HTMLCollectionOf<HTMLElement>;
-    let urlEdit = document.getElementsByClassName('url') as HTMLCollectionOf<HTMLElement>;
-    if (urlSelect.length !== 0 && urlEdit.length !== 0) {
-      urlEdit[0].style.width = '3%';
-      urlSelect[0].style.display = 'block';
-    }
+    this.urlSelectOnClick();
   }
 
   receiveSettings($event): void {
@@ -397,19 +393,13 @@ export class TestDetailsComponent implements OnInit {
   }
 
   urlEditOnClick(): void {
-    let urlSelect = document.getElementsByClassName('url-select') as HTMLCollectionOf<HTMLElement>;
-    let urlEdit = document.getElementsByClassName('url') as HTMLCollectionOf<HTMLElement>;
-    if (urlSelect.length !== 0 && urlEdit.length !== 0) {
-      urlEdit[0].style.width = '50%';
-      urlSelect[0].style.display = 'inline-block';
+    if (this.urlStatus) {
+      this.urlStatus = false;
     }
   }
   urlSelectOnClick(): void {
-    let urlSelect = document.getElementsByClassName('url-select') as HTMLCollectionOf<HTMLElement>;
-    let urlEdit = document.getElementsByClassName('url') as HTMLCollectionOf<HTMLElement>;
-    if (urlSelect.length !== 0 && urlEdit.length !== 0) {
-      urlEdit[0].style.width = '3%';
-      urlSelect[0].style.display = 'block';
+    if (!this.urlStatus) {
+      this.urlStatus = true;
     }
   }
 
