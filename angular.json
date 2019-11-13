@@ -19,7 +19,12 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": ["src/favicon.ico", "src/assets", "src/web.config"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/web.config",
+              "src/server.js"
+            ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css"
