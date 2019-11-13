@@ -130,7 +130,7 @@ export class TestDetailsComponent implements OnInit {
           .subscribe(res => {
             if (res !== null) {
               this.toastService.showSuccess('Successfully Saved');
-              this.testConfigurations.push(res);
+              this.testConfigurations = [...this.testConfigurations, res];
               this.urls.push({ url: res.url, method: res.endpointAction });
               this.baseurls.push(res.baseUrl);
               this.basepaths.push(res.basePath);
