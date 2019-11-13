@@ -14,6 +14,7 @@ import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { MainComponent } from './main.component';
 
 
+
 @NgModule({
   declarations: [
     MainComponent,
@@ -30,7 +31,8 @@ import { MainComponent } from './main.component';
     NgxJsonViewerModule,
     FormsModule,
     NgSelectModule,
-    NgOptionHighlightModule
+    NgOptionHighlightModule,
+
   ],
   entryComponents: [
     TestSettingsComponent

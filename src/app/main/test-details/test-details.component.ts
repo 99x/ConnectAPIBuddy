@@ -6,6 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { saveAs } from 'file-saver';
 // components
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 // services
@@ -56,6 +57,9 @@ export class TestDetailsComponent implements OnInit {
   currentTestConfig: TestConfiguration;
   testSettings = new TestSettings();
   urlStatus: boolean = true;
+  selectedTestConfigs: TestConfiguration[] = [];
+  selectedTabIndex = 0;
+  multiple = false;
 
 
   constructor(
@@ -113,7 +117,7 @@ export class TestDetailsComponent implements OnInit {
   }
   get f() { return this.testDetailsForm.controls; } // get form controls
 
-  OnClickExecute(isSave: boolean): void {
+  onClickExecute(isSave: boolean): void {
     const url = this.f.url.value;
     /***************************************** Save current Test  ****************************************/
     if (isSave) {
@@ -166,14 +170,14 @@ export class TestDetailsComponent implements OnInit {
         } else if (this.f.endpointAction.value === 'POST') {
           let data: any = null;
           console.log(this.dataType);
-          if (this.dataType === 'raw') {
+          if (this.selectedTabIndex === 0) {
             data = JSON.parse(this.f.payloadBody.value);
 
             if (this.isFileAdded) {
               data[this.f.fileKey.value] = this.fileUploaded.fileAsBase64;
             }
 
-          } else if (this.dataType === 'form') {
+          } else if (this.selectedTabIndex === 1) {
             const formData = new FormData();
             this.formVals.forEach(f => {
               formData.append(f.key, f.value);
@@ -229,6 +233,33 @@ export class TestDetailsComponent implements OnInit {
     }
 
 
+  }
+
+  onClickExport(i: number): void {
+    let serializedString;
+    let blob;
+    switch (i) {
+      case 1:
+        serializedString = JSON.stringify(this.currentTestConfig);
+        blob = new Blob([serializedString], { type: 'application/json' });
+        saveAs(blob, this.currentTestConfig.testName + this.currentTestConfig.id + '.json');
+
+        break;
+
+      case 2:
+        this.selectedTestConfigs.forEach(t => {
+          serializedString = JSON.stringify(this.currentTestConfig);
+          blob = new Blob([serializedString], { type: 'application/json' });
+          saveAs(blob, this.currentTestConfig.testName + this.currentTestConfig.id + '.json');
+        });
+        break;
+
+      case 3:
+        break;
+
+      default:
+        break;
+    }
   }
 
   /***************************************** Input Headers  ****************************************/
@@ -320,7 +351,7 @@ export class TestDetailsComponent implements OnInit {
     console.log('clicked' + i);
   }
 
-  urlOnChanged(event, i: number): void {
+  urlOnChanged(i: number, event?): void {
 
     if (i === 1) {
       let cUrl = event.target.value;
@@ -336,33 +367,85 @@ export class TestDetailsComponent implements OnInit {
     } else if (i === 2) {
       // console.log(event.target.selectedIndex);
       // let testIndex = event.target.selectedIndex;
-      this.currentTestConfig = event;
-      if (this.currentTestConfig !== null && event !== undefined) {
-        this.testDetailsForm.reset();
-        this.testDetailsForm.patchValue({
-          url: this.currentTestConfig.url,
-          baseUrl: this.currentTestConfig.baseUrl,
-          basePath: this.currentTestConfig.basePath,
-          testName: this.currentTestConfig.testName,
-          testDescription: this.currentTestConfig.testDescription,
-          endpointAction: this.currentTestConfig.endpointAction,
-          payloadBody: this.currentTestConfig.payloadBody,
-          status: this.currentTestConfig.status
-        });
-        this.responseJsonView = JSON.parse(this.currentTestConfig.response);
-        if (this.currentTestConfig.file !== null) {
-          this.isFileAdded = true;
-          this.fileUploaded = this.currentTestConfig.file;
-        } else {
-          this.isFileAdded = false;
+      // this.currentTestConfig = event;
+      // if (this.currentTestConfig !== null && event !== undefined) {
+      //   this.testDetailsForm.reset();
+      //   this.testDetailsForm.patchValue({
+      //     url: this.currentTestConfig.url,
+      //     baseUrl: this.currentTestConfig.baseUrl,
+      //     basePath: this.currentTestConfig.basePath,
+      //     testName: this.currentTestConfig.testName,
+      //     testDescription: this.currentTestConfig.testDescription,
+      //     endpointAction: this.currentTestConfig.endpointAction,
+      //     payloadBody: this.currentTestConfig.payloadBody,
+      //     status: this.currentTestConfig.status
+      //   });
+      //   this.responseJsonView = JSON.parse(this.currentTestConfig.response);
+      //   if (this.currentTestConfig.file !== null) {
+      //     this.isFileAdded = true;
+      //     this.fileUploaded = this.currentTestConfig.file;
+      //   } else {
+      //     this.isFileAdded = false;
+      //   }
+      //   this.headerVals = this.currentTestConfig.payloadHeaders;
+      //   this.formVals = this.currentTestConfig.formContent;
+      // } else {
+      //   this.ResetFullForm();
+      // }
+
+      if (this.selectedTestConfigs.length === 1) {
+        this.currentTestConfig = this.selectedTestConfigs[0];
+        if (this.currentTestConfig !== null) {
+          this.testDetailsForm.reset();
+          this.testDetailsForm.patchValue({
+            url: this.currentTestConfig.url,
+            baseUrl: this.currentTestConfig.baseUrl,
+            basePath: this.currentTestConfig.basePath,
+            testName: this.currentTestConfig.testName,
+            testDescription: this.currentTestConfig.testDescription,
+            endpointAction: this.currentTestConfig.endpointAction,
+            payloadBody: this.currentTestConfig.payloadBody,
+            status: this.currentTestConfig.status
+          });
+          this.responseJsonView = JSON.parse(this.currentTestConfig.response);
+          if (this.currentTestConfig.file !== null) {
+            this.isFileAdded = true;
+            this.fileUploaded = this.currentTestConfig.file;
+          } else {
+            this.isFileAdded = false;
+          }
+          this.headerVals = this.currentTestConfig.payloadHeaders;
+          this.formVals = this.currentTestConfig.formContent;
         }
-        this.headerVals = this.currentTestConfig.payloadHeaders;
-        this.formVals = this.currentTestConfig.formContent;
       } else {
         this.ResetFullForm();
       }
 
     }
+  }
+
+  urlOnAdd(event): void {
+    this.selectedTestConfigs.push(event);
+    this.urlOnChanged(2);
+
+  }
+
+  urlOnClear(): void {
+    console.log(this.selectedTestConfigs);
+    if (this.multiple === false) {
+      this.multiple = true;
+    }
+    this.selectedTestConfigs = [];
+    this.urlOnChanged(2);
+  }
+
+  urlOnRemove(value): void {
+    const index = this.selectedTestConfigs.findIndex(x => x.id === value.id);
+    if (index > -1) {
+      this.selectedTestConfigs.splice(index);
+      this.urlOnChanged(2);
+    }
+
   }
 
   private SplitedUrl(urlIn: string): string[] {
@@ -401,6 +484,11 @@ export class TestDetailsComponent implements OnInit {
     if (!this.urlStatus) {
       this.urlStatus = true;
     }
+  }
+
+  bodyTabChanged(tabChangeEvent): void {
+    console.log('index => ', tabChangeEvent.index);
+    this.selectedTabIndex = tabChangeEvent.index;
   }
 
 }
