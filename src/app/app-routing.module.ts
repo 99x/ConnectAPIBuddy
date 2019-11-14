@@ -19,18 +19,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'login/register',
-    pathMatch: 'full',
-    redirectTo: 'register'
-  },
-
-  {
-    path: 'register/login',
-    pathMatch: 'full',
-    redirectTo: 'login'
-  },
-
-  {
     path: 'login',
     component: LoginComponent,
     data: {
