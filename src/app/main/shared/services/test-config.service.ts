@@ -12,6 +12,7 @@ import { TestConfiguration } from '../../models/TestConfiguration';
 @Injectable()
 export class TestConfigService {
 
+  BASE_URL = 'https://connectapibuddy.azurewebsites.net/api/TestConfig';
   constructor(
     private httpClient: HttpClient,
     public alertToastservice: AlertToastService
@@ -27,10 +28,10 @@ export class TestConfigService {
     return of(null);
   }
 
-  // Get Testconfigs
-  getTestConfigs(url: string): Observable<TestConfiguration[]> {
+  // Get Testconfigs for a particular user
+  getTestConfigs(id: string): Observable<TestConfiguration[]> {
     return this.httpClient
-      .get<TestConfiguration[]>(url, { headers: this.httpHeaders })
+      .get<TestConfiguration[]>(`${this.BASE_URL}/user/${id}`, { headers: this.httpHeaders })
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -38,9 +39,18 @@ export class TestConfigService {
   }
 
   // Post TestConfigs
-  postTestConfig(url: string, data: TestConfiguration): Observable<TestConfiguration> {
+  postTestConfig(data: TestConfiguration): Observable<TestConfiguration> {
     return this.httpClient
-      .post<TestConfiguration>(url, data, { headers: this.httpHeaders })
+      .post<TestConfiguration>(this.BASE_URL, data, { headers: this.httpHeaders })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  // Delete TestConfigs
+  deleteTestConfigs(ids: string[]): Observable<any> {
+    return this.httpClient
+      .post(`${this.BASE_URL}/deleteMany`, ids, { headers: this.httpHeaders })
       .pipe(
         catchError(this.handleError)
       );

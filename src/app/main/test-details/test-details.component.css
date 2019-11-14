@@ -66,7 +66,7 @@
   transition: flex 0.4s ease-in-out;
   -moz-transition: flex 0.4s ease-in-out;
   -o-transition: flex 0.4s ease-in-out;
-  color: #f6faff;
+  color: #f87060;
 }
 
 .url-edit {
@@ -75,6 +75,10 @@
 
 .url-select {
   flex: 42;
+}
+
+.url-edit-inactive {
+  border: none;
 }
 
 input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {

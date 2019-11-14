@@ -6,6 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { saveAs } from 'file-saver';
 // components
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 // services
@@ -56,6 +57,9 @@ export class TestDetailsComponent implements OnInit {
   currentTestConfig: TestConfiguration;
   testSettings = new TestSettings();
   urlStatus: boolean = true;
+  selectedTestConfigs: TestConfiguration[] = [];
+  selectedTabIndex = 0;
+  multiple = false;
 
 
   constructor(
@@ -70,7 +74,7 @@ export class TestDetailsComponent implements OnInit {
 
     this.currentUser = JSON.parse(localStorage.getItem('socialusers'));
 
-    this.testConfigService.getTestConfigs(this.backendUrl + '/user/' + this.currentUser.id).subscribe(tconfig => {
+    this.testConfigService.getTestConfigs(this.currentUser.id).subscribe(tconfig => {
       if (tconfig !== null) {
         this.testConfigurations = tconfig;
         console.log(this.testConfigurations);
@@ -113,7 +117,7 @@ export class TestDetailsComponent implements OnInit {
   }
   get f() { return this.testDetailsForm.controls; } // get form controls
 
-  OnClickExecute(isSave: boolean): void {
+  onClickExecute(isSave: boolean): void {
     const url = this.f.url.value;
     /***************************************** Save current Test  ****************************************/
     if (isSave) {
@@ -126,11 +130,11 @@ export class TestDetailsComponent implements OnInit {
         testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
         testConfig.file = this.fileUploaded;
         testConfig.userId = this.currentUser.id;
-        this.testConfigService.postTestConfig(this.backendUrl, testConfig)
+        this.testConfigService.postTestConfig(testConfig)
           .subscribe(res => {
             if (res !== null) {
               this.toastService.showSuccess('Successfully Saved');
-              this.testConfigurations.push(res);
+              this.testConfigurations = [...this.testConfigurations, res];
               this.urls.push({ url: res.url, method: res.endpointAction });
               this.baseurls.push(res.baseUrl);
               this.basepaths.push(res.basePath);
@@ -166,14 +170,14 @@ export class TestDetailsComponent implements OnInit {
         } else if (this.f.endpointAction.value === 'POST') {
           let data: any = null;
           console.log(this.dataType);
-          if (this.dataType === 'raw') {
+          if (this.selectedTabIndex === 0) {
             data = JSON.parse(this.f.payloadBody.value);
 
             if (this.isFileAdded) {
               data[this.f.fileKey.value] = this.fileUploaded.fileAsBase64;
             }
 
-          } else if (this.dataType === 'form') {
+          } else if (this.selectedTabIndex === 1) {
             const formData = new FormData();
             this.formVals.forEach(f => {
               formData.append(f.key, f.value);
@@ -229,6 +233,39 @@ export class TestDetailsComponent implements OnInit {
     }
 
 
+  }
+
+  onClickExport(i: number): void {
+    let serializedString;
+    let blob;
+    switch (i) {
+      case 1:
+        if (this.currentTestConfig !== null) {
+          serializedString = JSON.stringify(this.currentTestConfig);
+          blob = new Blob([serializedString], { type: 'application/json' });
+          saveAs(blob, this.currentTestConfig.testName + this.currentTestConfig.id + '.json');
+        }
+
+
+        break;
+
+      case 2:
+        if (this.selectedTestConfigs.length > 0) {
+          this.selectedTestConfigs.forEach(t => {
+            serializedString = JSON.stringify(t);
+            blob = new Blob([serializedString], { type: 'application/json' });
+            saveAs(blob, t.testName + t.id + '.json');
+          });
+        }
+
+        break;
+
+      case 3:
+        break;
+
+      default:
+        break;
+    }
   }
 
   /***************************************** Input Headers  ****************************************/
@@ -320,7 +357,7 @@ export class TestDetailsComponent implements OnInit {
     console.log('clicked' + i);
   }
 
-  urlOnChanged(event, i: number): void {
+  urlOnChanged(i: number, event?): void {
 
     if (i === 1) {
       let cUrl = event.target.value;
@@ -336,33 +373,101 @@ export class TestDetailsComponent implements OnInit {
     } else if (i === 2) {
       // console.log(event.target.selectedIndex);
       // let testIndex = event.target.selectedIndex;
-      this.currentTestConfig = event;
-      if (this.currentTestConfig !== null && event !== undefined) {
-        this.testDetailsForm.reset();
-        this.testDetailsForm.patchValue({
-          url: this.currentTestConfig.url,
-          baseUrl: this.currentTestConfig.baseUrl,
-          basePath: this.currentTestConfig.basePath,
-          testName: this.currentTestConfig.testName,
-          testDescription: this.currentTestConfig.testDescription,
-          endpointAction: this.currentTestConfig.endpointAction,
-          payloadBody: this.currentTestConfig.payloadBody,
-          status: this.currentTestConfig.status
-        });
-        this.responseJsonView = JSON.parse(this.currentTestConfig.response);
-        if (this.currentTestConfig.file !== null) {
-          this.isFileAdded = true;
-          this.fileUploaded = this.currentTestConfig.file;
-        } else {
-          this.isFileAdded = false;
+      // this.currentTestConfig = event;
+      // if (this.currentTestConfig !== null && event !== undefined) {
+      //   this.testDetailsForm.reset();
+      //   this.testDetailsForm.patchValue({
+      //     url: this.currentTestConfig.url,
+      //     baseUrl: this.currentTestConfig.baseUrl,
+      //     basePath: this.currentTestConfig.basePath,
+      //     testName: this.currentTestConfig.testName,
+      //     testDescription: this.currentTestConfig.testDescription,
+      //     endpointAction: this.currentTestConfig.endpointAction,
+      //     payloadBody: this.currentTestConfig.payloadBody,
+      //     status: this.currentTestConfig.status
+      //   });
+      //   this.responseJsonView = JSON.parse(this.currentTestConfig.response);
+      //   if (this.currentTestConfig.file !== null) {
+      //     this.isFileAdded = true;
+      //     this.fileUploaded = this.currentTestConfig.file;
+      //   } else {
+      //     this.isFileAdded = false;
+      //   }
+      //   this.headerVals = this.currentTestConfig.payloadHeaders;
+      //   this.formVals = this.currentTestConfig.formContent;
+      // } else {
+      //   this.ResetFullForm();
+      // }
+
+      if (this.selectedTestConfigs.length === 1) {
+        this.currentTestConfig = this.selectedTestConfigs[0];
+        if (this.currentTestConfig !== null) {
+          this.testDetailsForm.reset();
+          this.testDetailsForm.patchValue({
+            url: this.currentTestConfig.url,
+            baseUrl: this.currentTestConfig.baseUrl,
+            basePath: this.currentTestConfig.basePath,
+            testName: this.currentTestConfig.testName,
+            testDescription: this.currentTestConfig.testDescription,
+            endpointAction: this.currentTestConfig.endpointAction,
+            payloadBody: this.currentTestConfig.payloadBody,
+            status: this.currentTestConfig.status
+          });
+          this.responseJsonView = JSON.parse(this.currentTestConfig.response);
+          if (this.currentTestConfig.file !== null) {
+            this.isFileAdded = true;
+            this.fileUploaded = this.currentTestConfig.file;
+          } else {
+            this.isFileAdded = false;
+          }
+          this.headerVals = this.currentTestConfig.payloadHeaders;
+          this.formVals = this.currentTestConfig.formContent;
         }
-        this.headerVals = this.currentTestConfig.payloadHeaders;
-        this.formVals = this.currentTestConfig.formContent;
       } else {
         this.ResetFullForm();
       }
 
     }
+  }
+
+  urlOnAdd(event): void {
+    this.selectedTestConfigs.push(event);
+    this.urlOnChanged(2);
+
+  }
+
+  urlOnClear(): void {
+    console.log(this.selectedTestConfigs);
+    let ids: string[] = [];
+    if (this.selectedTestConfigs.length > 0) {
+      for (let j: number = 0; j < this.selectedTestConfigs.length; j++) {
+        ids[j] = this.selectedTestConfigs[j].id;
+      }
+      this.testConfigService.deleteTestConfigs(ids).subscribe(res => {
+        if (res === true) {
+          let index = 0;
+          this.toastService.showSuccess('Successfully deleted.');
+          this.selectedTestConfigs = [];
+          ids.forEach(t => {
+            index = this.testConfigurations.findIndex(x => x.id === t);
+            this.testConfigurations.splice(index, 1);
+            this.testConfigurations = [...this.testConfigurations];
+          });
+        } else {
+          this.toastService.showError('Delete Unsuccessful.');
+        }
+      });
+    }
+    this.urlOnChanged(2);
+  }
+
+  urlOnRemove(value): void {
+    const index = this.selectedTestConfigs.findIndex(x => x.id === value.id);
+    if (index !== -1) {
+      this.selectedTestConfigs.splice(index, 1);
+      this.urlOnChanged(2);
+    }
+
   }
 
   private SplitedUrl(urlIn: string): string[] {
@@ -401,6 +506,11 @@ export class TestDetailsComponent implements OnInit {
     if (!this.urlStatus) {
       this.urlStatus = true;
     }
+  }
+
+  bodyTabChanged(tabChangeEvent): void {
+    console.log('index => ', tabChangeEvent.index);
+    this.selectedTabIndex = tabChangeEvent.index;
   }
 
 }
