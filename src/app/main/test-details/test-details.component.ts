@@ -74,7 +74,7 @@ export class TestDetailsComponent implements OnInit {
 
     this.currentUser = JSON.parse(localStorage.getItem('socialusers'));
 
-    this.testConfigService.getTestConfigs(this.backendUrl + '/user/' + this.currentUser.id).subscribe(tconfig => {
+    this.testConfigService.getTestConfigs(this.currentUser.id).subscribe(tconfig => {
       if (tconfig !== null) {
         this.testConfigurations = tconfig;
         console.log(this.testConfigurations);
@@ -130,7 +130,7 @@ export class TestDetailsComponent implements OnInit {
         testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
         testConfig.file = this.fileUploaded;
         testConfig.userId = this.currentUser.id;
-        this.testConfigService.postTestConfig(this.backendUrl, testConfig)
+        this.testConfigService.postTestConfig(testConfig)
           .subscribe(res => {
             if (res !== null) {
               this.toastService.showSuccess('Successfully Saved');
@@ -438,10 +438,26 @@ export class TestDetailsComponent implements OnInit {
 
   urlOnClear(): void {
     console.log(this.selectedTestConfigs);
-    if (this.multiple === false) {
-      this.multiple = true;
+    let ids: string[] = [];
+    if (this.selectedTestConfigs.length > 0) {
+      for (let j: number = 0; j < this.selectedTestConfigs.length; j++) {
+        ids[j] = this.selectedTestConfigs[j].id;
+      }
+      this.testConfigService.deleteTestConfigs(ids).subscribe(res => {
+        if (res === true) {
+          let index = 0;
+          this.toastService.showSuccess('Successfully deleted.');
+          this.selectedTestConfigs = [];
+          ids.forEach(t => {
+            index = this.testConfigurations.findIndex(x => x.id === t);
+            this.testConfigurations.splice(index, 1);
+            this.testConfigurations = [...this.testConfigurations];
+          });
+        } else {
+          this.toastService.showError('Delete Unsuccessful.');
+        }
+      });
     }
-    this.selectedTestConfigs = [];
     this.urlOnChanged(2);
   }
 
