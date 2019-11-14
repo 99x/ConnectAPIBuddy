@@ -77,6 +77,10 @@
   flex: 42;
 }
 
+.url-edit-inactive {
+  border: none;
+}
+
 input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
   display: none;
 }

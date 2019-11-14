@@ -6,24 +6,11 @@
   </div>
 
   <!----------------------------------URL Section--------------------------------------->
-  <!--------------------------------------------------(ngSubmit)="onSubmit()"------------------------------>
   <div class="app-body">
     <form [formGroup]="testDetailsForm">
       <div class="url-wrapper">
         <div class="all-urls-wrapper">
-          <input
-            list="urls"
-            class="url"
-            type="text"
-            formControlName="url"
-            (change)="urlOnChanged(1, $event)"
-            (click)="urlEditOnClick()"
-            [ngClass]="urlStatus ? 'url-edit' : 'url-select'"
-          /><span
-            class="fa fa-chevron-circle-right searchicon"
-            aria-hidden="true"
-          ></span>
-
+          
           <ng-select
             id="urls"
             [items]="testConfigurations"
@@ -72,6 +59,21 @@
               {{ item.url }}
             </ng-template>
           </ng-select>
+
+          <input
+            list="urls"
+            class="url"
+            type="text"
+            formControlName="url"
+            (change)="urlOnChanged(1, $event)"
+            (click)="urlEditOnClick()"
+            [ngClass]="urlStatus ? 'url-edit url-edit-inactive' : 'url-select'"
+          /><span
+            [ngClass]="urlStatus ? 'fa-edit' : 'fa-angle-right'"
+            class=" fa searchicon"
+            aria-hidden="true"
+            
+          ></span>
         </div>
         <div>
           <mat-form-field class="method-wrapper">
@@ -90,7 +92,7 @@
             class="baseurl-list"
             type="text"
             formControlName="baseUrl"
-            placeholder="Base URL"
+            placeholder=" Base URL"
             (change)="baseUrlPathOnChanged()"
             autocomplete="off"
           />
@@ -103,7 +105,7 @@
             class="basepath-list"
             type="text"
             formControlName="basePath"
-            placeholder="Base Path"
+            placeholder=" Base Path"
             (change)="baseUrlPathOnChanged()"
             autocomplete="off"
           />
