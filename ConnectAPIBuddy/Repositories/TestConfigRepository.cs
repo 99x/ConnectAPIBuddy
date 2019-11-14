@@ -114,6 +114,29 @@ namespace ConnectAPIBuddy.Repositories
             }
         }
 
+        //Delete many
+        public async Task<bool> RemoveTestConfigurations(string[] ids)
+        {
+            ObjectId[] internalIds = new ObjectId[ids.Length];
+            try
+            {
+                for(int i=0; i<ids.Length; i++)
+                {
+                    internalIds[i] = GetInternalId(ids[i]);
+                }
+                DeleteResult actionResult
+                = await _context.TestConfig.DeleteManyAsync(
+                    Builders<TestConfiguration>.Filter.In("Id", internalIds));
+
+                return actionResult.IsAcknowledged
+                    && actionResult.DeletedCount > 0;
+
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         //Delete all
         public async Task<bool> RemoveAll()
         {
