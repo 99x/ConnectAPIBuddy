@@ -25,5 +25,8 @@ namespace ConnectAPIBuddy.Repositories
 
         //Remove All(just for developent purposes
         Task<bool> RemoveAll();
+
+        //Remove many
+        Task<bool> RemoveTestConfigurations(string[] ids);
     }
 }
