@@ -240,18 +240,24 @@ export class TestDetailsComponent implements OnInit {
     let blob;
     switch (i) {
       case 1:
-        serializedString = JSON.stringify(this.currentTestConfig);
-        blob = new Blob([serializedString], { type: 'application/json' });
-        saveAs(blob, this.currentTestConfig.testName + this.currentTestConfig.id + '.json');
+        if (this.currentTestConfig !== null) {
+          serializedString = JSON.stringify(this.currentTestConfig);
+          blob = new Blob([serializedString], { type: 'application/json' });
+          saveAs(blob, this.currentTestConfig.testName + this.currentTestConfig.id + '.json');
+        }
+
 
         break;
 
       case 2:
-        this.selectedTestConfigs.forEach(t => {
-          serializedString = JSON.stringify(this.currentTestConfig);
-          blob = new Blob([serializedString], { type: 'application/json' });
-          saveAs(blob, this.currentTestConfig.testName + this.currentTestConfig.id + '.json');
-        });
+        if (this.selectedTestConfigs.length > 0) {
+          this.selectedTestConfigs.forEach(t => {
+            serializedString = JSON.stringify(t);
+            blob = new Blob([serializedString], { type: 'application/json' });
+            saveAs(blob, t.testName + t.id + '.json');
+          });
+        }
+
         break;
 
       case 3:
@@ -441,8 +447,8 @@ export class TestDetailsComponent implements OnInit {
 
   urlOnRemove(value): void {
     const index = this.selectedTestConfigs.findIndex(x => x.id === value.id);
-    if (index > -1) {
-      this.selectedTestConfigs.splice(index);
+    if (index !== -1) {
+      this.selectedTestConfigs.splice(index, 1);
       this.urlOnChanged(2);
     }
 
