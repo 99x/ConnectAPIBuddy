@@ -169,7 +169,6 @@ export class TestDetailsComponent implements OnInit {
 
         } else if (this.f.endpointAction.value === 'POST') {
           let data: any = null;
-          console.log(this.dataType);
           if (this.selectedTabIndex === 0) {
             data = JSON.parse(this.f.payloadBody.value);
 
@@ -279,7 +278,6 @@ export class TestDetailsComponent implements OnInit {
         value: null
       });
     }
-    console.log(this.headerVals);
   }
 
   OnClickRemoveHeader(): void {
@@ -297,7 +295,6 @@ export class TestDetailsComponent implements OnInit {
         value: null
       });
     }
-    console.log(this.formVals);
   }
 
   OnClickRemoveFormVal(): void {
@@ -307,7 +304,6 @@ export class TestDetailsComponent implements OnInit {
   /******************************************* Attach a file *********************************************/
   handleFileInput(files: FileList): void {
     let file: File = null;
-    console.log(files);
     if (files && files.length > 0) {
       if (files[0].size < MAX_SIZE) {
         file = files[0];
@@ -337,24 +333,20 @@ export class TestDetailsComponent implements OnInit {
     // Read the file
     reader.readAsDataURL(file);
     this.toastService.showSuccess('File added');
-    console.log(this.fileUploaded);
   }
 
   // File toggle switch changed
   toggleChange(): void {
     this.isFileAdded = !this.isFileAdded;
-    console.log(this.isFileAdded);
 
   }
 
   // Type radio buttons changed
   dataTypeChanged(value: string): void {
     this.dataType = value;
-    console.log(this.dataType);
   }
 
   OnClickOption(i) {
-    console.log('clicked' + i);
   }
 
   urlOnChanged(i: number, event?): void {
@@ -362,7 +354,7 @@ export class TestDetailsComponent implements OnInit {
     if (i === 1) {
       let cUrl = event.target.value;
       this.testDetailsForm.reset();
-      this.responseJsonView = null;
+      this.responseJsonView = {};
       let split = this.SplitedUrl(cUrl);
       this.testDetailsForm.patchValue({
         url: cUrl,
@@ -371,34 +363,6 @@ export class TestDetailsComponent implements OnInit {
       });
 
     } else if (i === 2) {
-      // console.log(event.target.selectedIndex);
-      // let testIndex = event.target.selectedIndex;
-      // this.currentTestConfig = event;
-      // if (this.currentTestConfig !== null && event !== undefined) {
-      //   this.testDetailsForm.reset();
-      //   this.testDetailsForm.patchValue({
-      //     url: this.currentTestConfig.url,
-      //     baseUrl: this.currentTestConfig.baseUrl,
-      //     basePath: this.currentTestConfig.basePath,
-      //     testName: this.currentTestConfig.testName,
-      //     testDescription: this.currentTestConfig.testDescription,
-      //     endpointAction: this.currentTestConfig.endpointAction,
-      //     payloadBody: this.currentTestConfig.payloadBody,
-      //     status: this.currentTestConfig.status
-      //   });
-      //   this.responseJsonView = JSON.parse(this.currentTestConfig.response);
-      //   if (this.currentTestConfig.file !== null) {
-      //     this.isFileAdded = true;
-      //     this.fileUploaded = this.currentTestConfig.file;
-      //   } else {
-      //     this.isFileAdded = false;
-      //   }
-      //   this.headerVals = this.currentTestConfig.payloadHeaders;
-      //   this.formVals = this.currentTestConfig.formContent;
-      // } else {
-      //   this.ResetFullForm();
-      // }
-
       if (this.selectedTestConfigs.length === 1) {
         this.currentTestConfig = this.selectedTestConfigs[0];
         if (this.currentTestConfig !== null) {
@@ -437,7 +401,6 @@ export class TestDetailsComponent implements OnInit {
   }
 
   urlOnClear(): void {
-    console.log(this.selectedTestConfigs);
     let ids: string[] = [];
     if (this.selectedTestConfigs.length > 0) {
       for (let j: number = 0; j < this.selectedTestConfigs.length; j++) {
@@ -509,7 +472,6 @@ export class TestDetailsComponent implements OnInit {
   }
 
   bodyTabChanged(tabChangeEvent): void {
-    console.log('index => ', tabChangeEvent.index);
     this.selectedTabIndex = tabChangeEvent.index;
   }
 
