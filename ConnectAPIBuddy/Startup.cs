@@ -51,6 +51,7 @@ namespace ConnectAPIBuddy
                    .AllowAnyHeader()
                    ));
 
+            services.AddHttpClient();
 
             services
                 .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
