@@ -22,6 +22,7 @@ import { User } from '../../auth/shared/models/user';
 import { TestSettings } from '../models/TestSettings';
 // constants
 import { MAX_SIZE } from '../../shared/constants';
+import { ApiRequest } from '../models/Request';
 
 
 
@@ -60,6 +61,7 @@ export class TestDetailsComponent implements OnInit {
   selectedTestConfigs: TestConfiguration[] = [];
   selectedTabIndex = 0;
   multiple = false;
+  req: ApiRequest;
 
 
   constructor(
@@ -154,77 +156,102 @@ export class TestDetailsComponent implements OnInit {
         if (this.headerVals.length === 0) {
           this.headerVals.push({ header: 'Content-Type', value: 'application/json' });
         }
+
+
+
         if (this.f.endpointAction.value === 'GET') {
-          this.apiService.getData(url, this.headerVals, this.testSettings).subscribe(res => {
-            if (res.status === 200) {
+          this.req = new ApiRequest();
+          this.req.method = this.f.endpointAction.value;
+          this.req.payloadHeaders = this.headerVals;
+          this.req.url = url;
+          this.apiService.postData(this.req).subscribe(res => {
+            if (res.body.status === 200) {
               this.toastService.showSuccess('Request Successful');
             } else {
               this.toastService.showError('Request Unsuccessful');
             }
-            this.responseJsonView = res.body;
+            this.responseJsonView = res.body.body;
             this.testDetailsForm.patchValue({
-              status: res.status
+              status: res.body.status
             });
           });
 
         } else if (this.f.endpointAction.value === 'POST') {
           let data: any = null;
+          this.req = new ApiRequest();
+          this.req.method = this.f.endpointAction.value;
+          this.req.payloadHeaders = this.headerVals;
+          this.req.url = url;
+
           if (this.selectedTabIndex === 0) {
             data = JSON.parse(this.f.payloadBody.value);
 
             if (this.isFileAdded) {
               data[this.f.fileKey.value] = this.fileUploaded.fileAsBase64;
             }
+            this.req.payloadBody = JSON.stringify(data);
+            this.req.bodyTabSelectedIndex = this.selectedTabIndex;
 
           } else if (this.selectedTabIndex === 1) {
             const formData = new FormData();
+            if (this.isFileAdded) {
+              this.formVals.push({ key: this.f.fileKey.value, value: this.fileUploaded.fileAsBase64 });
+            }
             this.formVals.forEach(f => {
               formData.append(f.key, f.value);
             });
-
-            if (this.isFileAdded) {
-              formData.append(this.f.fileKey.value, this.fileUploaded.fileAsBase64);
-            }
-
             data = formData;
+            this.req.formContent = this.formVals;
+            this.req.bodyTabSelectedIndex = this.selectedTabIndex;
           }
 
-          this.apiService.postData(url, data, this.headerVals, this.testSettings).subscribe(res => {
-            if (res.status === 200) {
+          this.apiService.postData(this.req).subscribe(res => {
+            if (res.body.status === 200) {
               this.toastService.showSuccess('Request Successful');
             } else {
               this.toastService.showError('Request Unsuccessful');
             }
-            this.responseJsonView = res.body;
+            this.responseJsonView = res.body.body;
             this.testDetailsForm.patchValue({
-              status: res.status
+              status: res.body.status
             });
           });
 
         } else if (this.f.endpointAction.value === 'UPDATE') {
           let data = JSON.parse(this.f.payloadBody.value);
-          this.apiService.updateData(url, data, this.headerVals, this.testSettings).subscribe(res => {
-            if (res.status === 200) {
+          this.req = new ApiRequest();
+          this.req.method = this.f.endpointAction.value;
+          this.req.payloadHeaders = this.headerVals;
+          this.req.url = url;
+          this.req.payloadBody = this.f.payloadBody.value;
+
+          this.apiService.postData(this.req).subscribe(res => {
+            if (res.body.status === 200) {
               this.toastService.showSuccess('Request Successful');
             } else {
               this.toastService.showError('Request Unsuccessful');
             }
-            this.responseJsonView = res.body;
+            this.responseJsonView = res.body.body;
             this.testDetailsForm.patchValue({
-              status: res.status
+              status: res.body.status
             });
           });
 
         } else if (this.f.endpointAction.value === 'DELETE') {
-          this.apiService.deleteData(url, this.headerVals, this.testSettings).subscribe(res => {
-            if (res.status === 200) {
+          this.req = new ApiRequest();
+          this.req.method = this.f.endpointAction.value;
+          this.req.payloadHeaders = this.headerVals;
+          this.req.url = url;
+
+          this.apiService.postData(this.req).subscribe(res => {
+            if (res.body.status === 200) {
               this.toastService.showSuccess('Request Successful');
             } else {
               this.toastService.showError('Request Unsuccessful');
             }
-            this.responseJsonView = res.body;
+            this.responseJsonView = res.body.body;
             this.testDetailsForm.patchValue({
-              status: res.status
+              status: res.body.status
             });
           });
         }
