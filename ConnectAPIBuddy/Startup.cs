@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ConnectAPIBuddy.Controllers;
 using ConnectAPIBuddy.Models;
 using ConnectAPIBuddy.Repositories;
 using ConnectAPIBuddy.Services;
