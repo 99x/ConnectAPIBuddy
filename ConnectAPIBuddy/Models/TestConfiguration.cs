@@ -52,6 +52,7 @@ namespace ConnectAPIBuddy.Models
         public string Type { get; set; }
         public long Size { get; set; }
         public string FileAsBase64 { get; set; }
+        public string Key { get; set; }
     }
 
 }
