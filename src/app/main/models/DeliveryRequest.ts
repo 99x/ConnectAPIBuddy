@@ -2,7 +2,7 @@ import { HeaderVal } from './Header';
 import { FormVal } from './FormVal';
 import { TestSettings } from './TestSettings';
 
-export class ApiRequest {
+export class DeliveryRequest {
   url: string;
   method: string;
   payloadHeaders: HeaderVal[];
