@@ -178,7 +178,7 @@
         </div>
       </div>
       <mat-accordion>
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel [expanded]="!isPanelExapnded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Test Details
@@ -373,7 +373,7 @@
       <!----------------------------------Response Section--------------------------------------->
       <!-------------------------------------------------------------------------------->
       <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="isPanelExapnded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Response
