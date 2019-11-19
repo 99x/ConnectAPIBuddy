@@ -10,7 +10,6 @@
     <form [formGroup]="testDetailsForm">
       <div class="url-wrapper">
         <div class="all-urls-wrapper">
-          
           <ng-select
             id="urls"
             [items]="testConfigurations"
@@ -72,7 +71,6 @@
             [ngClass]="urlStatus ? 'fa-edit' : 'fa-angle-right'"
             class=" fa searchicon"
             aria-hidden="true"
-            
           ></span>
         </div>
         <div>
@@ -265,7 +263,7 @@
                           >
                           </mat-slide-toggle>
                         </div>
-                        <div>
+                        <div *ngIf="isFileAdded">
                           <input
                             class="key-file"
                             type="text"
@@ -274,7 +272,7 @@
                           />
                         </div>
                         <div>
-                          <button class="add-file">
+                          <button class="add-file" [disabled]="!isFileAdded">
                             <label>
                               Open file
                               <input

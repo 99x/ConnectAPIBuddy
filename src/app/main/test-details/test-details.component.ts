@@ -113,7 +113,7 @@ export class TestDetailsComponent implements OnInit {
         value: ['']
       }),
       payloadBody: [''],
-      fileKey: [''],
+      fileKey: ['', Validators.required],
       response: [''],
       status: ['']
     });
@@ -401,6 +401,7 @@ export class TestDetailsComponent implements OnInit {
     this.fileUploaded.name = file.name;
     this.fileUploaded.size = file.size;
     this.fileUploaded.type = file.type;
+    this.fileUploaded.key = this.f.fileKey.value;
 
     const reader = new FileReader();
 
@@ -459,11 +460,15 @@ export class TestDetailsComponent implements OnInit {
             endpointAction: this.currentTestConfig.endpointAction,
             payloadBody: this.currentTestConfig.payloadBody,
             status: this.currentTestConfig.status
+
           });
           this.responseJsonView = JSON.parse(this.currentTestConfig.response);
           if (this.currentTestConfig.file !== null) {
             this.isFileAdded = true;
             this.fileUploaded = this.currentTestConfig.file;
+            this.testDetailsForm.patchValue({
+              fileKey: this.fileUploaded.key
+            });
           } else {
             this.isFileAdded = false;
           }
