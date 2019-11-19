@@ -22,7 +22,7 @@ import { User } from '../../auth/shared/models/user';
 import { TestSettings } from '../models/TestSettings';
 // constants
 import { MAX_SIZE } from '../../shared/constants';
-import { ApiRequest } from '../models/Request';
+import { DeliveryRequest } from '../models/DeliveryRequest';
 
 
 
@@ -61,7 +61,8 @@ export class TestDetailsComponent implements OnInit {
   selectedTestConfigs: TestConfiguration[] = [];
   selectedTabIndex = 0;
   multiple = false;
-  req: ApiRequest;
+  isPanelExapnded = false;
+  req: DeliveryRequest;
 
 
   constructor(
@@ -121,7 +122,9 @@ export class TestDetailsComponent implements OnInit {
 
   onClickExecute(isSave: boolean): void {
     const url = this.f.url.value;
+
     /***************************************** Save current Test  ****************************************/
+
     if (isSave) {
       if (!this.testDetailsForm.valid) {
         this.toastService.showError('Enter all required fileds');
@@ -147,8 +150,17 @@ export class TestDetailsComponent implements OnInit {
       }
 
     } else {
-      /***************************************** HTTP default mehods  ****************************************/
-      if (this.f.url.value === null) {
+      this.responseJsonView = {};
+      this.f.status.reset();
+      this.isPanelExapnded = true;
+
+      this.req = new DeliveryRequest();
+      this.req.method = this.f.endpointAction.value;
+      this.req.payloadHeaders = this.headerVals;
+      this.req.url = url;
+      this.req.testSettings = this.testSettings;
+
+      if (url === null) {
         this.toastService.showError('Enter a URL...');
       } else if (this.f.endpointAction.value === null) {
         this.toastService.showError('Select a Http Method');
@@ -157,31 +169,40 @@ export class TestDetailsComponent implements OnInit {
           this.headerVals.push({ header: 'Content-Type', value: 'application/json' });
         }
 
-
+        /***************************************** HTTP default mehods  ****************************************/
 
         if (this.f.endpointAction.value === 'GET') {
-          this.req = new ApiRequest();
-          this.req.method = this.f.endpointAction.value;
-          this.req.payloadHeaders = this.headerVals;
-          this.req.url = url;
+
           this.apiService.postData(this.req).subscribe(res => {
-            if (res.body.status === 200) {
+            if (res.isSuccess === true) {
               this.toastService.showSuccess('Request Successful');
-            } else {
+
+              if (res.content === '') {
+                this.responseJsonView = JSON.parse('{"content": "No content"}');
+              } else {
+                this.responseJsonView = JSON.parse(res.content);
+              }
+              this.testDetailsForm.patchValue({
+                status: res.status
+              });
+            } else if (res.isSuccess === false) {
               this.toastService.showError('Request Unsuccessful');
+
+              this.responseJsonView = {};
+              this.testDetailsForm.patchValue({
+                status: res.status + '\n' + res.statusText
+              });
+            } else {
+              this.responseJsonView = {};
+              this.testDetailsForm.patchValue({
+                status: ''
+              });
             }
-            this.responseJsonView = res.body.body;
-            this.testDetailsForm.patchValue({
-              status: res.body.status
-            });
+
           });
 
         } else if (this.f.endpointAction.value === 'POST') {
           let data: any = null;
-          this.req = new ApiRequest();
-          this.req.method = this.f.endpointAction.value;
-          this.req.payloadHeaders = this.headerVals;
-          this.req.url = url;
 
           if (this.selectedTabIndex === 0) {
             data = JSON.parse(this.f.payloadBody.value);
@@ -206,53 +227,88 @@ export class TestDetailsComponent implements OnInit {
           }
 
           this.apiService.postData(this.req).subscribe(res => {
-            if (res.body.status === 200) {
+            if (res.isSuccess === true) {
               this.toastService.showSuccess('Request Successful');
-            } else {
+
+              if (res.content === '') {
+                this.responseJsonView = JSON.parse('{"content": "No content"}');
+              } else {
+                this.responseJsonView = JSON.parse(res.content);
+              }
+              this.testDetailsForm.patchValue({
+                status: res.status
+              });
+            } else if (res.isSuccess === false) {
               this.toastService.showError('Request Unsuccessful');
+
+              this.responseJsonView = {};
+              this.testDetailsForm.patchValue({
+                status: res.status + '\n' + res.statusText
+              });
+            } else {
+              this.responseJsonView = {};
+              this.testDetailsForm.patchValue({
+                status: ''
+              });
             }
-            this.responseJsonView = res.body.body;
-            this.testDetailsForm.patchValue({
-              status: res.body.status
-            });
           });
 
         } else if (this.f.endpointAction.value === 'UPDATE') {
-          let data = JSON.parse(this.f.payloadBody.value);
-          this.req = new ApiRequest();
-          this.req.method = this.f.endpointAction.value;
-          this.req.payloadHeaders = this.headerVals;
-          this.req.url = url;
           this.req.payloadBody = this.f.payloadBody.value;
 
           this.apiService.postData(this.req).subscribe(res => {
-            if (res.body.status === 200) {
+            if (res.isSuccess === true) {
               this.toastService.showSuccess('Request Successful');
-            } else {
+
+              if (res.content === '') {
+                this.responseJsonView = JSON.parse('{"content": "No content"}');
+              } else {
+                this.responseJsonView = JSON.parse(res.content);
+              }
+              this.testDetailsForm.patchValue({
+                status: res.status
+              });
+            } else if (res.isSuccess === false) {
               this.toastService.showError('Request Unsuccessful');
+
+              this.responseJsonView = {};
+              this.testDetailsForm.patchValue({
+                status: res.status + '\n' + res.statusText
+              });
+            } else {
+              this.responseJsonView = {};
+              this.testDetailsForm.patchValue({
+                status: ''
+              });
             }
-            this.responseJsonView = res.body.body;
-            this.testDetailsForm.patchValue({
-              status: res.body.status
-            });
           });
 
         } else if (this.f.endpointAction.value === 'DELETE') {
-          this.req = new ApiRequest();
-          this.req.method = this.f.endpointAction.value;
-          this.req.payloadHeaders = this.headerVals;
-          this.req.url = url;
-
           this.apiService.postData(this.req).subscribe(res => {
-            if (res.body.status === 200) {
+            if (res.isSuccess === true) {
               this.toastService.showSuccess('Request Successful');
-            } else {
+              if (res.content === '') {
+                this.responseJsonView = JSON.parse('{"content": "No content"}');
+              } else {
+                this.responseJsonView = JSON.parse(res.content);
+              }
+
+              this.testDetailsForm.patchValue({
+                status: res.status
+              });
+            } else if (res.isSuccess === false) {
               this.toastService.showError('Request Unsuccessful');
+
+              this.responseJsonView = {};
+              this.testDetailsForm.patchValue({
+                status: res.status + '\n' + res.statusText
+              });
+            } else {
+              this.responseJsonView = {};
+              this.testDetailsForm.patchValue({
+                status: ''
+              });
             }
-            this.responseJsonView = res.body.body;
-            this.testDetailsForm.patchValue({
-              status: res.body.status
-            });
           });
         }
       }
@@ -475,6 +531,8 @@ export class TestDetailsComponent implements OnInit {
   }
 
   private ResetFullForm(): void {
+    this.isPanelExapnded = false;
+
     this.testDetailsForm.reset();
     this.responseJsonView = {};
     this.formVals = [];
