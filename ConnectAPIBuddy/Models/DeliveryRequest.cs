@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConnectAPIBuddy.Models
 {
-    public class Request
+    public class DeliveryRequest
     {
         public string Url { get; set; }
         public string Method { get; set; }
