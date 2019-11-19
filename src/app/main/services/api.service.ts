@@ -55,7 +55,7 @@ export class ApiService {
       .pipe(
         timeout(this.testSettings.timeOutMs + 2000),
         retry(this.testSettings.maxRetry),
-        catchError((err) => Observable.throw(this.handleError(err)))
+        catchError((err) => (this.handleError(err)))
       );
   }
 
