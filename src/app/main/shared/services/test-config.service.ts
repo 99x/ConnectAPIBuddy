@@ -29,21 +29,21 @@ export class TestConfigService {
   }
 
   // Get Testconfigs for a particular user
-  getTestConfigs(id: string): Observable<TestConfiguration[]> {
+  getTestConfigs(id: string): Observable<TestConfiguration[] | null> {
     return this.httpClient
       .get<TestConfiguration[]>(`${this.BASE_URL}/user/${id}`, { headers: this.httpHeaders })
       .pipe(
         retry(2),
-        catchError(this.handleError)
+        catchError((err) => this.handleError(err))
       );
   }
 
   // Post TestConfigs
-  postTestConfig(data: TestConfiguration): Observable<TestConfiguration> {
+  postTestConfig(data: TestConfiguration): Observable<TestConfiguration | null> {
     return this.httpClient
       .post<TestConfiguration>(this.BASE_URL, data, { headers: this.httpHeaders })
       .pipe(
-        catchError(this.handleError)
+        catchError((err) => this.handleError(err))
       );
   }
 

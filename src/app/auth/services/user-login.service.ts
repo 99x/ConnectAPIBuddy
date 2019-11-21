@@ -14,7 +14,7 @@ import { User } from '../shared/models/user';
 })
 export class UserLoginService {
 
-  private API_URL = 'https://connectapibuddy.azurewebsites.net/api/User/';     // https://localhost:44384/api/User';
+  private BASE_URL = 'https://connectapibuddy-backend-dev.azurewebsites.net/api/User';
   httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json'
   });
@@ -33,27 +33,27 @@ export class UserLoginService {
 
   SaveUser(response: User): Observable<User | null> {
     return this.httpClient
-      .post<User>(this.API_URL, response, { headers: this.httpHeaders })
+      .post<User>(this.BASE_URL, response, { headers: this.httpHeaders })
       .pipe(
-        catchError(this.handleError)
+        catchError((err) => this.handleError(err))
       );
   }
 
-  UserExits(email: string): Observable<User> {
+  UserExits(email: string): Observable<User | null> {
     return this.httpClient
-      .get<User>(this.API_URL + '/exists/' + email, { headers: this.httpHeaders })
+      .get<User>(`${this.BASE_URL}/exists/${email}`, { headers: this.httpHeaders })
       .pipe(
         retry((2)),
-        catchError(this.handleError)
+        catchError((err) => this.handleError(err))
       );
   }
 
-  UserAthenticate(userIn: User): Observable<User> {
+  UserAthenticate(userIn: User): Observable<User | null> {
     return this.httpClient
-      .post<User>(this.API_URL + '/athorized/', userIn, { headers: this.httpHeaders })
+      .post<User>(`${this.BASE_URL}/athorized`, userIn, { headers: this.httpHeaders })
       .pipe(
         retry((2)),
-        catchError(this.handleError)
+        catchError((err) => this.handleError(err))
       );
   }
 
