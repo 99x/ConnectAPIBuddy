@@ -16,7 +16,8 @@ export class ApiService {
 
   private httpHeaders: HttpHeaders;
   private testSettings = new TestSettings();
-  BASE_URL = 'https://localhost:5001/api/TestTrigger';
+  BASE_URL = 'https://connectapibuddy-backend-dev.azurewebsites.net/api/TestTrigger';
+  // BASE_URL = 'https://localhost:5001/api/TestTrigger';
 
   constructor(
     private httpClient: HttpClient,
