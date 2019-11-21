@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { TestSettings } from '../models/TestSettings';
 import { DeliveryRequest } from '../models/DeliveryRequest';
 import { DeliveryResponse } from '../models/DeliveryResponse';
+import { environment } from '../../../environments/environment';
 // services
 import { AlertToastService } from '../../shared/services/alert-toast.service';
 
@@ -16,13 +17,14 @@ export class ApiService {
 
   private httpHeaders: HttpHeaders;
   private testSettings = new TestSettings();
-  BASE_URL = 'https://connectapibuddy-backend-dev.azurewebsites.net/api/TestTrigger';
-  // BASE_URL = 'https://localhost:5001/api/TestTrigger';
+  private BASE_URL: string;
 
   constructor(
     private httpClient: HttpClient,
     public toastService: AlertToastService
-  ) { }
+  ) {
+    this.BASE_URL = environment.apiUrls.backend_url;
+  }
 
   // Handle backend errors
   private handleError(error: HttpErrorResponse): Observable<DeliveryResponse> {
@@ -52,7 +54,7 @@ export class ApiService {
   postData(req: DeliveryRequest): Observable<DeliveryResponse | null> {
     this.httpHeaders = new HttpHeaders();
     return this.httpClient
-      .post<DeliveryResponse>(this.BASE_URL, req, { headers: this.httpHeaders })
+      .post<DeliveryResponse>(`${this.BASE_URL}/TestTrigger`, req, { headers: this.httpHeaders })
       .pipe(
         timeout(this.testSettings.timeOutMs + 2000),
         retry(this.testSettings.maxRetry),

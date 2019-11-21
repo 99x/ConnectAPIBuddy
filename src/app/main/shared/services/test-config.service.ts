@@ -8,15 +8,18 @@ import { Injectable } from '@angular/core';
 import { AlertToastService } from '../../../shared/services/alert-toast.service';
 // models
 import { TestConfiguration } from '../../models/TestConfiguration';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class TestConfigService {
 
-  BASE_URL = 'https://connectapibuddy-backend-dev.azurewebsites.net/api/TestConfig';
+  private BASE_URL: string;
   constructor(
     private httpClient: HttpClient,
     public alertToastservice: AlertToastService
-  ) { }
+  ) {
+    this.BASE_URL = environment.apiUrls.backend_url;
+  }
 
   httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json'
@@ -31,7 +34,7 @@ export class TestConfigService {
   // Get Testconfigs for a particular user
   getTestConfigs(id: string): Observable<TestConfiguration[] | null> {
     return this.httpClient
-      .get<TestConfiguration[]>(`${this.BASE_URL}/user/${id}`, { headers: this.httpHeaders })
+      .get<TestConfiguration[]>(`${this.BASE_URL}/TestConfig/user/${id}`, { headers: this.httpHeaders })
       .pipe(
         retry(2),
         catchError((err) => this.handleError(err))
@@ -41,7 +44,7 @@ export class TestConfigService {
   // Post TestConfigs
   postTestConfig(data: TestConfiguration): Observable<TestConfiguration | null> {
     return this.httpClient
-      .post<TestConfiguration>(this.BASE_URL, data, { headers: this.httpHeaders })
+      .post<TestConfiguration>(`${this.BASE_URL}/TestConfig`, data, { headers: this.httpHeaders })
       .pipe(
         catchError((err) => this.handleError(err))
       );
@@ -50,7 +53,7 @@ export class TestConfigService {
   // Delete TestConfigs
   deleteTestConfigs(ids: string[]): Observable<any> {
     return this.httpClient
-      .post(`${this.BASE_URL}/deleteMany`, ids, { headers: this.httpHeaders })
+      .post(`${this.BASE_URL}/TestConfig/deleteMany`, ids, { headers: this.httpHeaders })
       .pipe(
         catchError(this.handleError)
       );
