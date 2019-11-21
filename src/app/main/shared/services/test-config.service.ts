@@ -12,7 +12,7 @@ import { TestConfiguration } from '../../models/TestConfiguration';
 @Injectable()
 export class TestConfigService {
 
-  BASE_URL = 'https://connectapibuddy.azurewebsites.net/api/TestConfig';
+  BASE_URL = 'https://connectapibuddy-backend-dev.azurewebsites.net/api/TestConfig';
   constructor(
     private httpClient: HttpClient,
     public alertToastservice: AlertToastService
