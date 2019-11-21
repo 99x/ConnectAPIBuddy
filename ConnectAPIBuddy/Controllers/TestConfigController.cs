@@ -66,6 +66,12 @@ namespace ConnectAPIBuddy.Controllers
             return await _testConfigService.RemoveTestConfiguation(id);
         }
 
+        [HttpPost("deleteMany")]
+        public async Task<bool> DeleteMany(string[] ids)
+        {
+            return await _testConfigService.RemoveTestConfigurations(ids);
+        }
+
         [HttpDelete("Admin/delete")]
         public async Task<bool> DeleteAll()     /***********Only for developing purposes*****************/
         {
