@@ -88,17 +88,17 @@
   margin-left: -30px;
   border-radius: 0px;
 }
+
 .dropdown-toggle-split::after {
   margin-left: 5px;
   color: #0e0c0c;
 }
 
-.mat-toolbar.mat-primary {
-  /* background: #d1d1d2; */
-  background-color: #021126;
-  color: #fff;
-}
 .mat-raised-button {
-  color: #0e0c0c;
-  background-color: #ffffffd1;
+  color: #f6faff;
+  background-color: #2185d0;
+}
+
+.test-group {
+  visibility: hidden;
 }

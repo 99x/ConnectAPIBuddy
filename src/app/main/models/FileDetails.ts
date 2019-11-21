@@ -3,4 +3,5 @@ export class FileDetails {
     type: string;
     size: number;
     fileAsBase64: string;
+    key: string;
 }

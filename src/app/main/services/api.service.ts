@@ -1,198 +1,67 @@
-import { Injectable } from '@angular/core';
-import { Observable, throwError, of, Observer, TimeoutError } from 'rxjs';
+// rxjs
+import { Observable, throwError, of, Observer, TimeoutError, from } from 'rxjs';
 import { retry, catchError, delay, mergeMap, retryWhen, timeout } from 'rxjs/operators';
+// angular
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { HeaderVal } from '../models/Header';
+// models
 import { TestSettings } from '../models/TestSettings';
+import { DeliveryRequest } from '../models/DeliveryRequest';
+import { DeliveryResponse } from '../models/DeliveryResponse';
+import { environment } from '../../../environments/environment';
+// services
+import { AlertToastService } from '../../shared/services/alert-toast.service';
 
 @Injectable()
 export class ApiService {
 
   private httpHeaders: HttpHeaders;
   private testSettings = new TestSettings();
+  private BASE_URL: string;
 
   constructor(
-    private httpClient: HttpClient
-  ) { }
+    private httpClient: HttpClient,
+    public toastService: AlertToastService
+  ) {
+    this.BASE_URL = environment.apiUrls.backend_url;
+  }
 
-  // Handle API errors
-  private handleError(error: HttpErrorResponse) {
-    let errorMessage;
+  // Handle backend errors
+  private handleError(error: HttpErrorResponse): Observable<DeliveryResponse> {
+
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred
-      errorMessage = {
-        body: error,
-        status: error.error.message
-      };
+      this.toastService.showError(error.error.message);
 
     } else if (error instanceof TimeoutError) {
       // Timeout error occured
-      errorMessage = {
-        body: [],
-        status: 'Could not get any response. ' + error.message
-      };
+      this.toastService.showError('Could not get any response. ' + error.message);
 
     } else {
       // The backend returned an unsuccessful response code
       if (error.status === 0) {
-        errorMessage = {
-          body: [],
-          status: 'Could not get any response. There was an error connecting to ' + error.url
-        };
+        this.toastService.showError('Could not get any response. There was an error connecting to ' + error.url);
+
       } else {
-        errorMessage = {
-          body: error.error,
-          status: error.status + '\n' + error.statusText
-        };
+        this.toastService.showError(error.statusText);
       }
-
     }
-    return of(errorMessage);
+    return of(null);
   }
 
-
-  // Get data
-  getData(url: string, headers: HeaderVal[], testSettings: TestSettings): Observable<any> {
-    this.httpHeaders = new HttpHeaders();
-    if (headers.length > 0) {
-      headers.forEach(element => {
-        this.httpHeaders.append(element.header, element.value);
-      });
-    }
-    if (testSettings !== null) {
-      this.testSettings = testSettings;
-    }
-
-    return this.httpClient
-      .get(url, { observe: 'response', headers: this.httpHeaders })
-      .pipe(
-        timeout(this.testSettings.timeOutMs),
-        retry(this.testSettings.maxRetry),
-        catchError(this.handleError)
-      );
-  }
 
   // Post data
-  postData(url: string, body: any, headers: HeaderVal[], testSettings: TestSettings): Observable<any> {
+  postData(req: DeliveryRequest): Observable<DeliveryResponse | null> {
     this.httpHeaders = new HttpHeaders();
-    if (headers.length > 0) {
-      headers.forEach(element => {
-        this.httpHeaders.append(element.header, element.value);
-      });
-    }
-    if (testSettings !== null) {
-      this.testSettings = testSettings;
-    }
     return this.httpClient
-      .post(url, body, { observe: 'response', headers: this.httpHeaders })
+      .post<DeliveryResponse>(`${this.BASE_URL}/TestTrigger`, req, { headers: this.httpHeaders })
       .pipe(
-        timeout(this.testSettings.timeOutMs),
+        timeout(this.testSettings.timeOutMs + 2000),
         retry(this.testSettings.maxRetry),
-        catchError(this.handleError)
-      );
-  }
-
-  // Update data
-  updateData(url: string, data: object, headers: HeaderVal[], testSettings: TestSettings): Observable<any> {
-    this.httpHeaders = new HttpHeaders();
-    if (headers.length > 0) {
-      headers.forEach(element => {
-        this.httpHeaders.append(element.header, element.value);
-      });
-    }
-    if (testSettings !== null) {
-      this.testSettings = testSettings;
-    }
-    return this.httpClient
-      .put(url, data, { observe: 'response', headers: this.httpHeaders })
-      .pipe(
-        timeout(this.testSettings.timeOutMs),
-        retry(this.testSettings.maxRetry),
-        catchError(this.handleError)
-      );
-  }
-
-  // Delete data
-  deleteData(url: string, headers: HeaderVal[], testSettings: TestSettings): Observable<any> {
-    this.httpHeaders = new HttpHeaders();
-    if (headers.length > 0) {
-      headers.forEach(element => {
-        this.httpHeaders.append(element.header, element.value);
-      });
-    }
-    if (testSettings !== null) {
-      this.testSettings = testSettings;
-    }
-    return this.httpClient
-      .delete(url, { observe: 'response', headers: this.httpHeaders })
-      .pipe(
-        timeout(this.testSettings.timeOutMs),
-        retry(this.testSettings.maxRetry),
-        catchError(this.handleError)
+        catchError((err) => (this.handleError(err)))
       );
   }
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // getErrorMessage() {
-  //   return 'Tried to Load Resource over XHR for {{this.maxRetries}} times without success. Giving up.';
-  // }
-
-  // delayedRetry() {
-  //   return (src: Observable<any>) =>
-  //     src.pipe(
-  //       timeout(this.timeOut),
-  //       retryWhen((errors: Observable<any>) => errors.pipe(
-  //         delay(this.delayMs),
-  //         mergeMap(error => this.maxRetries-- > 0 ? of(error) : throwError(this.getErrorMessage())
-  //         ))
-  //       )
-  //     );
-  // }
 

@@ -1,9 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@ng-select/ng-select/themes/default.theme.css";
+
 @import "./mat-expansion.css";
 @import "./mat-tab.css";
 @import "./mat-select.css";
-
+@import "./mat-toolbar.css";
+@import "./ng-select.css";
 html,
 body {
   height: 100%;

@@ -66,7 +66,7 @@
   transition: flex 0.4s ease-in-out;
   -moz-transition: flex 0.4s ease-in-out;
   -o-transition: flex 0.4s ease-in-out;
-  color: #f6faff;
+  color: #f87060;
 }
 
 .url-edit {
@@ -75,6 +75,10 @@
 
 .url-select {
   flex: 42;
+}
+
+.url-edit-inactive {
+  border: none;
 }
 
 input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
@@ -235,6 +239,13 @@ table tr:nth-child(even) {
   background: #2185d0;
 }
 
+.add-file:hover {
+  cursor: pointer;
+}
+
+.add-file:disabled {
+  background: #b1b1b17d;
+}
 .key-value {
   float: right;
   margin-right: 1cm;
@@ -249,6 +260,10 @@ table tr:nth-child(even) {
   border-radius: 30px;
   padding-left: 5px;
   background: #011a3b;
+}
+
+.key-file:disabled {
+  background: #b1b1b17d;
 }
 
 .raw {

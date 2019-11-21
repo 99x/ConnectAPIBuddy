@@ -60,7 +60,6 @@ export class NavBarComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result) {
-        console.log(result);
         this.testSettings = result;
         this.settingEvent.emit(this.testSettings);
       }
