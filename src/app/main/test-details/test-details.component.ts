@@ -113,7 +113,7 @@ export class TestDetailsComponent implements OnInit {
         value: ['']
       }),
       payloadBody: [''],
-      fileKey: ['', Validators.required],
+      fileKey: [''],
       response: [''],
       status: ['']
     });
