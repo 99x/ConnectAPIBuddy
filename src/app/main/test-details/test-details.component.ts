@@ -35,33 +35,31 @@ import { DeliveryRequest } from '../models/DeliveryRequest';
 
 export class TestDetailsComponent implements OnInit {
 
-  // form variables
-  methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
-  urls: object[] = [];
-  baseurls: string[] = [];
-  basepaths: string[] = [];
 
-  headerVals: HeaderVal[] = [];
-  formVals: FormVal[] = [];
-
-  modalOptions: NgbModalOptions;
   testDetailsForm: FormGroup;
-  testName: AbstractControl;
-  fileUploaded: FileDetails;   // Uploaded file details
-  responseJsonView: object = {};  // Response view in JSON format
-  isFileAdded = false; // Whether file attached or not
-  dataType: string = 'raw';  // defult seleted tab
   currentUser: User;
   testConfigurations: TestConfiguration[];
   currentTestConfig: TestConfiguration;
   testSettings = new TestSettings();
-  urlStatus: boolean = true;
   selectedTestConfigs: TestConfiguration[] = [];
-  selectedTabIndex = 0;
-  multiple = false;
-  isPanelExapnded = false;
   req: DeliveryRequest;
 
+  urls: object[] = [];
+  baseurls: string[] = [];
+  basepaths: string[] = [];
+  headerVals: HeaderVal[] = [];
+  formVals: FormVal[] = [];
+  modalOptions: NgbModalOptions;
+  fileUploaded: FileDetails;   // Uploaded file details
+
+  methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
+  urlStatus: boolean = true;
+  selectedTabIndex = 0;
+  dataType: string = 'raw';  // defult seleted tab
+  responseJsonView: object = {};  // Response view in JSON format
+  isFileAdded = false; // Whether file attached or not
+  multiple = false;
+  isPanelExapnded = false;
 
   constructor(
     private fb: FormBuilder,
@@ -81,8 +79,13 @@ export class TestDetailsComponent implements OnInit {
         console.log(this.testConfigurations);
         this.testConfigurations.forEach(x => {
           this.urls.push({ url: x.url, method: x.endpointAction });
-          this.baseurls.push(x.baseUrl);
-          this.basepaths.push(x.basePath);
+          if(this.baseurls.findIndex(s => s === x.baseUrl) === -1){
+            this.baseurls.push(x.baseUrl);
+          }
+          if(this.basepaths.findIndex(l => l === x.basePath) === -1){
+            this.basepaths.push(x.basePath);
+          }
+
         });
       } else {
         this.toastService.showError('Couldn\'t retrive Test configurations.');
