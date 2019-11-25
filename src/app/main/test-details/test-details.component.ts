@@ -35,8 +35,6 @@ import { DeliveryRequest } from '../models/DeliveryRequest';
 
 export class TestDetailsComponent implements OnInit {
 
-  backendUrl = 'https://connectapibuddy.azurewebsites.net/api/TestConfig';   // 'https://localhost:44384/api/TestConfig';
-
   // form variables
   methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
   urls: object[] = [];

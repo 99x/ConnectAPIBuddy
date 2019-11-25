@@ -7,6 +7,7 @@ export const environment = {
   enableDebug: true,
 
   apiUrls: {
-    backend_url: 'https://localhost:5001/api'
+    // backend_url: 'https://localhost:5001/api'
+    backend_url: 'https://connectapibuddy-backend-dev.azurewebsites.net/api'
   }
 };
