@@ -490,27 +490,32 @@ export class TestDetailsComponent implements OnInit {
 
   urlOnClear(): void {
     let ids: string[] = [];
-    if (this.selectedTestConfigs.length > 0) {
-      for (let j: number = 0; j < this.selectedTestConfigs.length; j++) {
-        ids[j] = this.selectedTestConfigs[j].id;
-      }
-      this.testConfigService.deleteTestConfigs(ids).subscribe(res => {
-        if (res === true) {
-          let index = 0;
-          this.toastService.showSuccess('Successfully deleted.');
-          this.selectedTestConfigs = [];
-          this.resetFullForm()
-          ids.forEach(t => {
-            index = this.testConfigurations.findIndex(x => x.id === t);
-            this.testConfigurations.splice(index, 1);
-            this.testConfigurations = [...this.testConfigurations];
-          });
-        } else {
-          this.toastService.showError('Delete Unsuccessful.');
+    if(window.confirm("Are you sure to delete?")){
+      if (this.selectedTestConfigs.length > 0) {
+        for (let j: number = 0; j < this.selectedTestConfigs.length; j++) {
+          ids[j] = this.selectedTestConfigs[j].id;
         }
-      });
+        this.testConfigService.deleteTestConfigs(ids).subscribe(res => {
+          if (res === true) {
+            let index = 0;
+            this.toastService.showSuccess('Successfully deleted.');
+            this.selectedTestConfigs = [];
+            this.resetFullForm()
+            ids.forEach(t => {
+              index = this.testConfigurations.findIndex(x => x.id === t);
+              this.testConfigurations.splice(index, 1);
+              this.testConfigurations = [...this.testConfigurations];
+            });
+          } else {
+            this.toastService.showError('Delete Unsuccessful.');
+          }
+        });
+      } else {
+        this.toastService.showError("Select a Test Case")
+      }
+      this.urlOnChanged(2);
     }
-    this.urlOnChanged(2);
+
   }
 
   urlOnRemove(value): void {
