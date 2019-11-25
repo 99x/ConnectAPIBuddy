@@ -20,6 +20,7 @@ import { TestSettings } from '../models/TestSettings';
 })
 export class NavBarComponent implements OnInit {
   @Output() settingEvent = new EventEmitter<TestSettings>();
+  @Output() newClickEvent = new EventEmitter();
 
   testSettings = new TestSettings();
   private modalOptions: NgbModalOptions;
@@ -67,6 +68,6 @@ export class NavBarComponent implements OnInit {
   }
 
   newClick(): void {
-    this.t.testDetailsForm.reset();
+    this.newClickEvent.emit();
   }
 }

@@ -76,7 +76,6 @@ export class TestDetailsComponent implements OnInit {
     this.testConfigService.getTestConfigs(this.currentUser.id).subscribe(tconfig => {
       if (tconfig !== null) {
         this.testConfigurations = tconfig;
-        console.log(this.testConfigurations);
         this.testConfigurations.forEach(x => {
           this.urls.push({ url: x.url, method: x.endpointAction });
           if(this.baseurls.findIndex(s => s === x.baseUrl) === -1){
@@ -536,7 +535,7 @@ export class TestDetailsComponent implements OnInit {
 
   }
 
-  private ResetFullForm(): void {
+  ResetFullForm(): void {
     this.isPanelExapnded = false;
 
     this.testDetailsForm.reset();

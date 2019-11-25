@@ -2,7 +2,7 @@
   <!----------------------------------Toolbar--------------------------------------->
   <!-------------------------------------------------------------------------------->
   <div class="navbar-wrapper">
-    <app-nav-bar (settingEvent)="receiveSettings($event)"></app-nav-bar>
+    <app-nav-bar (settingEvent)="receiveSettings($event)" (newClickEvent)="ResetFullForm()"></app-nav-bar>
   </div>
 
   <!----------------------------------URL Section--------------------------------------->
@@ -29,20 +29,7 @@
             (clear)="urlOnClear()"
             [ngClass]="urlStatus ? 'url-select' : 'url-edit'"
           >
-            <ng-template
-              ng-optgroup-tmp
-              let-item="item"
-              let-item$="item$"
-              let-index="index"
-            >
-              <input
-                id="item-{{ index }}"
-                type="checkbox"
-                [ngModel]="item$.selected"
-                [ngModelOptions]="{ standalone: true }"
-              />
-              {{ item.endpointAction | uppercase }}
-            </ng-template>
+
             <ng-template
               ng-option-tmp
               let-item="item"
