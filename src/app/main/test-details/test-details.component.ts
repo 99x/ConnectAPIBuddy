@@ -476,7 +476,7 @@ export class TestDetailsComponent implements OnInit {
           this.formVals = this.currentTestConfig.formContent;
         }
       } else {
-        this.ResetFullForm();
+        this.resetFullForm();
       }
 
     }
@@ -499,6 +499,7 @@ export class TestDetailsComponent implements OnInit {
           let index = 0;
           this.toastService.showSuccess('Successfully deleted.');
           this.selectedTestConfigs = [];
+          this.resetFullForm()
           ids.forEach(t => {
             index = this.testConfigurations.findIndex(x => x.id === t);
             this.testConfigurations.splice(index, 1);
@@ -535,7 +536,7 @@ export class TestDetailsComponent implements OnInit {
 
   }
 
-  ResetFullForm(): void {
+  resetFullForm(): void {
     this.isPanelExapnded = false;
 
     this.testDetailsForm.reset();
