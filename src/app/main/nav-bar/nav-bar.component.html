@@ -1,49 +1,73 @@
 <!--Toolbar-->
 <div>
-    <div class="nav-wrapper">
-        <mat-toolbar class="app-header" color="primary">
-            <div class="bar">
-                <span class="nav-tool-items">
-                    <div class="items">
-                        <span class="left-side">
-                            <a mat-button mat-raised-button (click)="newClick()">
-                                <span class="btn-label">
-                                    <i class="fa fa-plus"></i></span>New</a>
-
-                            <a mat-button mat-raised-button>
-                                <input type="file" style="display: none" file-handler>
-                                <span class="btn-label">
-                                    <i class="fa fa-upload"></i></span>Load</a>
-
-                            <mat-select class="test-group" [(value)]="selectedTenant">
-                                <mat-option *ngFor="let tenant of tenants" [value]="tenant">{{tenant}}</mat-option>
-                                <!-- <mat-option value="" disabled selected>Select...</mat-option>
+  <div class="nav-wrapper">
+    <mat-toolbar class="app-header" color="primary">
+      <div class="bar">
+        <span class="nav-tool-items">
+          <div class="items">
+            <span class="left-side">
+              <a mat-button mat-raised-button (click)="newClick()">
+                <span class="btn-label"> <i class="fa fa-plus"></i></span>New</a
+              >
+              <input
+                type="file"
+                style="display: none"
+                accept=".json"
+                (change)="handleFileImport($event.target.files)"
+                #file
+              />
+              <a mat-button mat-raised-button (click)="file.click()">
+                <span class="btn-label"> <i class="fa fa-upload"></i></span
+                >Load</a
+              >
+              <mat-select class="test-group" [(value)]="selectedTenant">
+                <mat-option *ngFor="let tenant of tenants" [value]="tenant">{{
+                  tenant
+                }}</mat-option>
+                <!-- <mat-option value="" disabled selected>Select...</mat-option>
                                 <mat-option value="Localhost">Localhost</mat-option>
                                 <mat-option value="Connect">Connect</mat-option> -->
-                            </mat-select>
-                        </span>
-                        <span class="right-side">
-                            <button class="btn" (click)="openModal()"><i class="fa fa-cogs"></i></button>
+              </mat-select>
+            </span>
+            <span class="right-side">
+              <button class="btn" (click)="openModal()">
+                <i class="fa fa-cogs"></i>
+              </button>
 
-                            <div class="btn-group" dropdown placement="bottom right">
-                                <a id="button-split" type="button" dropdownToggle
-                                    class="btn-danger dropdown-toggle dropdown-toggle-split"
-                                    aria-controls="dropdown-split">
-                                    <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
-                                        class="z-depth-0 img" alt="avatar image" height="35">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Split button!</span>
-                                </a>
+              <div class="btn-group" dropdown placement="bottom right">
+                <a
+                  id="button-split"
+                  type="button"
+                  dropdownToggle
+                  class="btn-danger dropdown-toggle dropdown-toggle-split"
+                  aria-controls="dropdown-split"
+                >
+                  <img
+                    src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
+                    class="z-depth-0 img"
+                    alt="avatar image"
+                    height="35"
+                  />
+                  <span class="caret"></span>
+                  <span class="sr-only">Split button!</span>
+                </a>
 
-                                <ul id="dropdown-split" *dropdownMenu class="dropdown-menu dropdown-menu-right"
-                                    role="menu" aria-labelledby="button-split">
-                                    <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a></li>
-                                </ul>
-                            </div>
-                        </span>
-                    </div>
-                </span>
-            </div>
-        </mat-toolbar>
-    </div>
+                <ul
+                  id="dropdown-split"
+                  *dropdownMenu
+                  class="dropdown-menu dropdown-menu-right"
+                  role="menu"
+                  aria-labelledby="button-split"
+                >
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="logout()">Log out</a>
+                  </li>
+                </ul>
+              </div>
+            </span>
+          </div>
+        </span>
+      </div>
+    </mat-toolbar>
+  </div>
 </div>

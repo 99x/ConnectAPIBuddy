@@ -450,36 +450,41 @@ export class TestDetailsComponent implements OnInit {
       if (this.selectedTestConfigs.length === 1) {
         this.currentTestConfig = this.selectedTestConfigs[0];
         if (this.currentTestConfig !== null) {
-          this.testDetailsForm.reset();
-          this.testDetailsForm.patchValue({
-            url: this.currentTestConfig.url,
-            baseUrl: this.currentTestConfig.baseUrl,
-            basePath: this.currentTestConfig.basePath,
-            testName: this.currentTestConfig.testName,
-            testDescription: this.currentTestConfig.testDescription,
-            endpointAction: this.currentTestConfig.endpointAction,
-            payloadBody: this.currentTestConfig.payloadBody,
-            status: this.currentTestConfig.status
-
-          });
-          this.responseJsonView = JSON.parse(this.currentTestConfig.response);
-          if (this.currentTestConfig.file !== null) {
-            this.isFileAdded = true;
-            this.fileUploaded = this.currentTestConfig.file;
-            this.testDetailsForm.patchValue({
-              fileKey: this.fileUploaded.key
-            });
-          } else {
-            this.isFileAdded = false;
-          }
-          this.headerVals = this.currentTestConfig.payloadHeaders;
-          this.formVals = this.currentTestConfig.formContent;
+          this.setDataUI(this.currentTestConfig);
         }
       } else {
         this.resetFullForm();
       }
 
     }
+  }
+
+  setDataUI(testConfigIn: TestConfiguration): void {
+    this.resetFullForm();
+    this.urlStatus = false;
+    this.testDetailsForm.patchValue({
+      url: testConfigIn.url,
+      baseUrl: testConfigIn.baseUrl,
+      basePath: testConfigIn.basePath,
+      testName: testConfigIn.testName,
+      testDescription: testConfigIn.testDescription,
+      endpointAction: testConfigIn.endpointAction,
+      payloadBody: testConfigIn.payloadBody,
+      status: testConfigIn.status
+
+    });
+    this.responseJsonView = JSON.parse(testConfigIn.response);
+    if (testConfigIn.file !== null) {
+      this.isFileAdded = true;
+      this.fileUploaded = testConfigIn.file;
+      this.testDetailsForm.patchValue({
+        fileKey: this.fileUploaded.key
+      });
+    } else {
+      this.isFileAdded = false;
+    }
+    this.headerVals = testConfigIn.payloadHeaders;
+    this.formVals = testConfigIn.formContent;
   }
 
   urlOnAdd(event): void {
@@ -543,7 +548,6 @@ export class TestDetailsComponent implements OnInit {
 
   resetFullForm(): void {
     this.isPanelExapnded = false;
-
     this.testDetailsForm.reset();
     this.responseJsonView = {};
     this.formVals = [];
@@ -569,6 +573,11 @@ export class TestDetailsComponent implements OnInit {
 
   bodyTabChanged(tabChangeEvent): void {
     this.selectedTabIndex = tabChangeEvent.index;
+  }
+
+  importTestConfig(importedFile): void{
+    this.toastService.showSuccess('Import Successful');
+    this.setDataUI(importedFile);
   }
 
 }

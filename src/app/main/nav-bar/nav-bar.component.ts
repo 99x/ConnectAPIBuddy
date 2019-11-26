@@ -7,11 +7,12 @@ import { SocialLoginModule, AuthServiceConfig, AuthService } from 'angular-6-soc
 // components
 import { TestSettingsComponent } from '../test-settings/test-settings.component';
 import { TestDetailsComponent } from '../test-details/test-details.component';
-
-/// models
+// models
 import { User } from '../../auth/shared/models/user';
 import { TestConfiguration } from '../models/TestConfiguration';
 import { TestSettings } from '../models/TestSettings';
+// services
+import{ AlertToastService } from '../../shared/services/alert-toast.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -21,8 +22,10 @@ import { TestSettings } from '../models/TestSettings';
 export class NavBarComponent implements OnInit {
   @Output() settingEvent = new EventEmitter<TestSettings>();
   @Output() newClickEvent = new EventEmitter();
+  @Output() importClickEvent = new EventEmitter<TestConfiguration>()
 
   testSettings = new TestSettings();
+  testConfigIn;
   private modalOptions: NgbModalOptions;
   private form: FormGroup;
   t: TestDetailsComponent;
@@ -33,7 +36,8 @@ export class NavBarComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     public OAuth: AuthService,
-    private router: Router
+    private router: Router,
+    private toastService: AlertToastService
   ) {
     this.modalOptions = {
       backdrop: 'static',
@@ -69,5 +73,21 @@ export class NavBarComponent implements OnInit {
 
   newClick(): void {
     this.newClickEvent.emit();
+  }
+
+  handleFileImport(event) {
+    try {
+      let file = event[0];
+      let fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        this.testConfigIn = new TestConfiguration(JSON.parse(fileReader.result.toString()));
+        this.importClickEvent.emit(this.testConfigIn);
+      }
+      fileReader.readAsText(file);
+
+    } catch{
+      this.toastService.showError('Import Unsuccssful');
+    }
+
   }
 }
