@@ -2,7 +2,11 @@
   <!----------------------------------Toolbar--------------------------------------->
   <!-------------------------------------------------------------------------------->
   <div class="navbar-wrapper">
-    <app-nav-bar (settingEvent)="receiveSettings($event)" (newClickEvent)="resetFullForm()" (importClickEvent)="importTestConfig($event)"></app-nav-bar>
+    <app-nav-bar
+      (settingEvent)="receiveSettings($event)"
+      (newClickEvent)="resetFullForm()"
+      (importClickEvent)="importTestConfig($event)"
+    ></app-nav-bar>
   </div>
 
   <!----------------------------------URL Section--------------------------------------->
@@ -29,7 +33,6 @@
             (clear)="urlOnClear()"
             [ngClass]="urlStatus ? 'url-select' : 'url-edit'"
           >
-
             <ng-template
               ng-option-tmp
               let-item="item"
@@ -103,7 +106,7 @@
             <button
               type="button"
               class="btn btn-danger"
-              (click)="onClickExecute(false)"
+              (click)="onClickExecute(false,false)"
             >
               Execute
             </button>
@@ -125,7 +128,10 @@
               aria-labelledby="button-split"
             >
               <li role="menuitem">
-                <a class="dropdown-item" (click)="onClickExecute(true)">Save</a>
+                <a class="dropdown-item" (click)="onClickExecute(true,false)">Save</a>
+              </li>
+              <li role="menuitem" [ngStyle]="{'display': newTestCase ? 'none' : 'block'}">
+                <a class="dropdown-item" (click)="onClickExecute(false,true)">Update</a>
               </li>
             </ul>
           </div>

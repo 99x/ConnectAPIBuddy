@@ -55,7 +55,16 @@ export class TestConfigService {
     return this.httpClient
       .post(`${this.BASE_URL}/TestConfig/deleteMany`, ids, { headers: this.httpHeaders })
       .pipe(
-        catchError(this.handleError)
+        catchError((err) => this.handleError(err))
       );
+  }
+
+  // Update a TestConfig
+  updateTestConfig(data: TestConfiguration): Observable<any> {
+    return this.httpClient
+      .put(`${this.BASE_URL}/TestConfig/${data.id}`, data, {headers: this.httpHeaders})
+      .pipe(
+        catchError((err) => this.handleError(err))
+      )
   }
 }

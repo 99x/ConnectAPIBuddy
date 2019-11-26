@@ -2,7 +2,7 @@
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 // angular
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, DoCheck } from '@angular/core';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -33,7 +33,7 @@ import { DeliveryRequest } from '../models/DeliveryRequest';
   providers: [ApiService]
 })
 
-export class TestDetailsComponent implements OnInit {
+export class TestDetailsComponent implements OnInit, DoCheck {
 
 
   testDetailsForm: FormGroup;
@@ -60,6 +60,7 @@ export class TestDetailsComponent implements OnInit {
   isFileAdded = false; // Whether file attached or not
   multiple = false;
   isPanelExapnded = false;
+  newTestCase = true;
 
   constructor(
     private fb: FormBuilder,
@@ -78,10 +79,10 @@ export class TestDetailsComponent implements OnInit {
         this.testConfigurations = tconfig;
         this.testConfigurations.forEach(x => {
           this.urls.push({ url: x.url, method: x.endpointAction });
-          if(this.baseurls.findIndex(s => s === x.baseUrl) === -1){
+          if (this.baseurls.findIndex(s => s === x.baseUrl) === -1) {
             this.baseurls.push(x.baseUrl);
           }
-          if(this.basepaths.findIndex(l => l === x.basePath) === -1){
+          if (this.basepaths.findIndex(l => l === x.basePath) === -1) {
             this.basepaths.push(x.basePath);
           }
 
@@ -93,6 +94,14 @@ export class TestDetailsComponent implements OnInit {
     });
 
     this.formInitialize();
+  }
+
+  ngDoCheck() {
+    if (this.currentTestConfig === null) {
+      this.newTestCase = true;
+    } else {
+      this.newTestCase = false;
+    }
   }
 
   /***************************************** Test Details form ****************************************/
@@ -118,9 +127,23 @@ export class TestDetailsComponent implements OnInit {
       status: ['']
     });
   }
+
   get f() { return this.testDetailsForm.controls; } // get form controls
 
-  onClickExecute(isSave: boolean): void {
+  getDataFromUI(update:boolean): TestConfiguration {
+    let testConfig = new TestConfiguration(this.testDetailsForm.value);
+    testConfig.payloadHeaders = this.headerVals;
+    testConfig.formContent = this.formVals;
+    testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
+    testConfig.file = this.fileUploaded;
+    testConfig.userId = this.currentUser.id;
+    if(update){
+      testConfig.id = this.currentTestConfig.id;
+    }
+    return testConfig;
+  }
+
+  onClickExecute(isSave: boolean, isUpdate: boolean): void {
     const url = this.f.url.value;
 
     /***************************************** Save current Test  ****************************************/
@@ -129,26 +152,38 @@ export class TestDetailsComponent implements OnInit {
       if (!this.testDetailsForm.valid) {
         this.toastService.showError('Enter all required fileds');
       } else {
-        let testConfig = new TestConfiguration(this.testDetailsForm.value);
-        testConfig.payloadHeaders = this.headerVals;
-        testConfig.formContent = this.formVals;
-        testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
-        testConfig.file = this.fileUploaded;
-        testConfig.userId = this.currentUser.id;
-        this.testConfigService.postTestConfig(testConfig)
+        let testConfigOut = this.getDataFromUI(false);
+
+        this.testConfigService.postTestConfig(testConfigOut)
           .subscribe(res => {
-            if (res !== null) {
+            if (res === null) {
+              this.toastService.showError('failed');
+            } else {
               this.toastService.showSuccess('Successfully Saved');
               this.testConfigurations = [...this.testConfigurations, res];
+              this.currentTestConfig = res;
               this.urls.push({ url: res.url, method: res.endpointAction });
               this.baseurls.push(res.baseUrl);
               this.basepaths.push(res.basePath);
-            } else {
-              this.toastService.showError('failed');
+
             }
           });
       }
 
+    } else if (isUpdate) {
+      let testConfigOut = this.getDataFromUI(true);
+      this.testConfigService.updateTestConfig(testConfigOut).subscribe( res => {
+        if(res === null) {
+          this.toastService.showError('Update Unsuccessful');
+        }else{
+          this.toastService.showSuccess('Update Successful');
+          this.testConfigurations[this.testConfigurations.findIndex(x => x.id === this.currentTestConfig.id)] = testConfigOut;
+          this.testConfigurations = [...this.testConfigurations]
+          this.currentTestConfig = testConfigOut;
+
+
+        }
+      })
     } else {
       this.responseJsonView = {};
       this.f.status.reset();
@@ -454,6 +489,7 @@ export class TestDetailsComponent implements OnInit {
         }
       } else {
         this.resetFullForm();
+        this.currentTestConfig = null;
       }
 
     }
@@ -495,7 +531,7 @@ export class TestDetailsComponent implements OnInit {
 
   urlOnClear(): void {
     let ids: string[] = [];
-    if(window.confirm("Are you sure to delete?")){
+    if (window.confirm("Are you sure to delete?")) {
       if (this.selectedTestConfigs.length > 0) {
         for (let j: number = 0; j < this.selectedTestConfigs.length; j++) {
           ids[j] = this.selectedTestConfigs[j].id;
@@ -575,7 +611,7 @@ export class TestDetailsComponent implements OnInit {
     this.selectedTabIndex = tabChangeEvent.index;
   }
 
-  importTestConfig(importedFile): void{
+  importTestConfig(importedFile): void {
     this.toastService.showSuccess('Import Successful');
     this.setDataUI(importedFile);
   }
