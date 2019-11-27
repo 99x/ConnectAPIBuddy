@@ -21,6 +21,8 @@
             [closeOnSelect]="false"
             [selectableGroup]="true"
             [selectableGroupAsModel]="false"
+            [searchFn]="customSearchFn"
+            [ngClass]="urlStatus ? 'url-select' : 'url-edit'"
             bindLabel="url"
             autofocus
             bindValue="id"
@@ -31,7 +33,6 @@
             (click)="urlSelectOnClick()"
             (remove)="urlOnRemove($event.value)"
             (clear)="urlOnClear()"
-            [ngClass]="urlStatus ? 'url-select' : 'url-edit'"
           >
             <ng-template
               ng-option-tmp
@@ -373,8 +374,6 @@
           <div class="response-wrapper">
             <div class="response-box">
               <label class="lbl">Response</label>
-              <!-- <textarea class="box" matInput placeholder="Response" rows="3"
-                        formControlName="response"></textarea> -->
               <div class="json-viwer">
                 <ngx-json-viewer
                   [json]="responseJsonView"

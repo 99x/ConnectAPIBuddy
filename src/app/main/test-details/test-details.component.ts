@@ -616,4 +616,9 @@ export class TestDetailsComponent implements OnInit, DoCheck {
     this.setDataUI(importedFile);
   }
 
+  customSearchFn(term: string, item) {
+    term = term.toLocaleLowerCase();
+    return item.testName.toLocaleLowerCase().indexOf(term) > -1 || item.url.toLocaleLowerCase().indexOf(term) > -1;
+  }
+
 }
