@@ -13,6 +13,7 @@ import { AlertToastComponent } from './shared/components/alert-toast/alert-toast
 import { PageNotFoundComponent } from './shared/pages/page-not-found/page-not-found.component';
 import { LodingScreenComponent } from './shared/components/loding-screen/loding-screen.component';
 import { LoadingScreenInterceptor } from './shared/interseptors/loading-screen-interceptor';
+import { ThemeModule } from './theme/theme.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { LoadingScreenInterceptor } from './shared/interseptors/loading-screen-i
     MainModule,
     MDBBootstrapModule.forRoot(),
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    ThemeModule
   ],
   providers: [
     {

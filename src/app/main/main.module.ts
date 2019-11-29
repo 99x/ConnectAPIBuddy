@@ -12,7 +12,7 @@ import { TestConfigService } from './shared/services/test-config.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { MainComponent } from './main.component';
-
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 
 @NgModule({
@@ -32,7 +32,7 @@ import { MainComponent } from './main.component';
     FormsModule,
     NgSelectModule,
     NgOptionHighlightModule,
-
+    FontAwesomeModule
   ],
   entryComponents: [
     TestSettingsComponent
