@@ -18,13 +18,13 @@ body {
 
 .dropdown.show,
 .dropdown-menu {
-  background-color: #424242;
-  color: #2185d0 !important;
+  background-color: var(--dropdown-bg,#424242);
+  color: var(--dropdown-color,#2185d0) !important;
 }
 
 .dropdown-item:focus,
 .dropdown-item:hover {
-  color: #ffffff !important;
+  color:  var(--dropdown-item-hover-color,#ffffff) !important;
   text-decoration: none;
-  background-color: #9c9c9e;
+  /* background-color: var(--dropdown-item-hover-bg,#9c9c9e); */
 }

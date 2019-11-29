@@ -102,3 +102,8 @@
 .test-group {
   visibility: hidden;
 }
+
+.theme-switch {
+  display: inline-flex;
+  padding: 0px 24px;
+}

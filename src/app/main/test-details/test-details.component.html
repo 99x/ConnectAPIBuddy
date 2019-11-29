@@ -42,6 +42,7 @@
             >
               <input
                 id="item-{{ index }}"
+                class="ng-textbox"
                 type="checkbox"
                 [ngModel]="item$.selected"
                 [ngModelOptions]="{ standalone: true }"
@@ -68,7 +69,6 @@
           <mat-form-field class="method-wrapper">
             <mat-label>HTTP Method</mat-label>
             <mat-select formControlName="endpointAction">
-              <mat-option value="" selected disabled>Select</mat-option>
               <mat-option *ngFor="let method of methods" [value]="method">{{
                 method
               }}</mat-option>
@@ -107,7 +107,7 @@
             <button
               type="button"
               class="btn btn-danger"
-              (click)="onClickExecute(false,false)"
+              (click)="onClickExecute(false, false)"
             >
               Execute
             </button>
@@ -129,10 +129,17 @@
               aria-labelledby="button-split"
             >
               <li role="menuitem">
-                <a class="dropdown-item" (click)="onClickExecute(true,false)">Save</a>
+                <a class="dropdown-item" (click)="onClickExecute(true, false)"
+                  >Save</a
+                >
               </li>
-              <li role="menuitem" [ngStyle]="{'display': newTestCase ? 'none' : 'block'}">
-                <a class="dropdown-item" (click)="onClickExecute(false,true)">Update</a>
+              <li
+                role="menuitem"
+                [ngStyle]="{ display: newTestCase ? 'none' : 'block' }"
+              >
+                <a class="dropdown-item" (click)="onClickExecute(false, true)"
+                  >Update</a
+                >
               </li>
             </ul>
           </div>
@@ -208,7 +215,7 @@
                     <div class="header-wrapper">
                       <div class="add-values" formGroupName="payloadHeaders">
                         <button
-                          class="add-remove"
+                          class="btn add-remove"
                           type="button"
                           (click)="OnClickRemoveHeader()"
                         >
@@ -216,7 +223,7 @@
                         </button>
                         <button
                           type="button"
-                          class="add-remove"
+                          class="btn add-remove"
                           (click)="OnClickAddHeader()"
                         >
                           Add
@@ -224,13 +231,13 @@
                         <input
                           class="key-value"
                           type="text"
-                          placeholder="  value"
+                          placeholder="value"
                           formControlName="value"
                         />
                         <input
                           class="key-value"
                           type="text"
-                          placeholder="  header"
+                          placeholder="header"
                           formControlName="header"
                         />
                       </div>
@@ -266,7 +273,7 @@
                           />
                         </div>
                         <div>
-                          <button class="add-file" [disabled]="!isFileAdded">
+                          <button class="btn add-file" [disabled]="!isFileAdded">
                             <label>
                               Open file
                               <input
@@ -278,15 +285,6 @@
                             </label>
                           </button>
                         </div>
-                        <!-- <mat-radio-group
-                          (change)="dataTypeChanged($event.value)"
-                        >
-                          <mat-radio-button
-                            value="raw"
-                            checked
-                          ></mat-radio-button>
-                          <mat-radio-button value="form"></mat-radio-button>
-                        </mat-radio-group> -->
                       </div>
                       <!-- Nav tabs -->
                       <mat-tab-group
@@ -315,14 +313,14 @@
                                 formGroupName="formContent"
                               >
                                 <button
-                                  class="add-remove"
+                                  class="btn add-remove"
                                   type="button"
                                   (click)="OnClickRemoveFormVal()"
                                 >
                                   Remove
                                 </button>
                                 <button
-                                  class="add-remove"
+                                  class="btn add-remove"
                                   type="button"
                                   (click)="OnClickAddFormVal()"
                                 >
@@ -331,13 +329,13 @@
                                 <input
                                   class="key-value"
                                   type="text"
-                                  placeholder="  value"
+                                  placeholder="value"
                                   formControlName="value"
                                 />
                                 <input
                                   class="key-value"
                                   type="text"
-                                  placeholder="  key"
+                                  placeholder="key"
                                   formControlName="key"
                                 />
                               </div>
@@ -399,6 +397,6 @@
       </mat-accordion>
     </form>
   </div>
-
-  <div class="footer-wrapper"></div>
+  <div class="footer-wrapper">
+  </div>
 </div>

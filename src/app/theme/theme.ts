@@ -1,0 +1,118 @@
+export interface Theme {
+  name: string;
+  properties: any;
+}
+
+export const light: Theme = {
+  name: 'light',
+  properties: {
+    '--bg-primary': '',
+    '--bg-color-primary': '',
+    '--placeholder-color': '',
+    '--status-color': '',
+    '--btn-border-color': '#2185d0',
+    '--input-border-color': '#2185d0',
+    '--disabled-color': '#b1b1b17d',
+    '--table-child-odd-bg': '',
+    '--table-child-even-bg': '',
+    '--dropdown-bg': '#424242',
+    '--dropdown-color': '#2185d0',
+    '--dropdown-item-hover-color': '',
+    '--dropdown-item-hover-bg': '',
+    '--btn-dropdown-toggle-box-color': '',
+    '--ng-select-container-bg': '',
+    '--ng-container-active-bg': '',
+    '--ng-dropdown-panel-items-group-header-bg': '#5D5965',
+    '--ng-dropdown-panel-items-group-header-color': '',
+    '--ng-dropdown-panel-items-bg': '',
+    '--ng-dropdown-panel-items-color': '',
+    '--ng-dropdown-panel-items-marked-bg': '',
+    '--ng-dropdown-panel-items-marked-color': '',
+    '--ng-dropdown-panel-items-hover-bg': '',
+    '--ng-dropdown-panel-items-hover-color': '',
+    '--mat-toolbar-bg': '',
+    '--mat-toolbar-color': '',
+    '--mat-toolbar-raised-btn-bg': '',
+    '--mat-toolbar-raised-btn-color': '',
+    '--mat-select-bg': '',
+    '--mat-select-value-color': '',
+    '--mat-select-arrow': '',
+    '--mat-select-panel-bg': '',
+    '--mat-select-item-bg': '',
+    '--mat-select-item-color': '',
+    '--mat-select-item-hover-bg': '',
+    '--mat-select-item-hover-color': '',
+    '--mat-expansion-body-bg': '',
+    '--mat-expansion-body-color': '',
+    '--mat-expansion-header-bg': '',
+    '--mat-expansion-header-color': '',
+    '--mat-expansion-header-focus-bg': '',
+    '--mat-expansion-header-focus-color': '',
+    '--mat-expansion-header-hover-bg': '',
+    '--mat-expansion-header-hover-color': '',
+    '--mat-tab-label-color': '',
+    '--mat-tab-ink-bar': '',
+  }
+}
+
+export const dark: Theme = {
+  name: 'dark',
+  properties: {
+    '--bg-primary': '#041424',
+    '--color-primary': '#F6FAFF',
+    '--placeholder-color': '#F6FAFF',
+    '--status-color': '#05f1a5',
+    '--input-border-color': '',
+    '--disabled-color': '#BEBBBD',
+
+    '--table-child-odd-bg': '#b1b1b17d',
+    '--table-child-even-bg': '#0B68F1',
+
+    '--dropdown-bg': '#424242',
+    '--dropdown-color': '#2185d0',
+    '--dropdown-item-hover-color': '#ED7668',
+    '--dropdown-item-hover-bg': '',
+    '--btn-dropdown-toggle-box-color': '',
+
+    '--ng-select-container-bg': '#f2f3f54d',
+    '--ng-container-active-bg': '#212529',
+    '--ng-container-active-color': '#F6FAFF',
+    '--ng-dropdown-panel-items-group-header-bg': '#041426',
+    '--ng-dropdown-panel-items-group-header-color': '#f6faff',
+    '--ng-dropdown-panel-items-bg': '#042454',
+    '--ng-dropdown-panel-items-color': '#F6FAFF',
+    '--ng-dropdown-panel-items-marked-bg': '#0000001f',
+    '--ng-dropdown-panel-items-marked-color': '#0B68F1',
+    '--ng-dropdown-panel-items-hover-bg': '',
+    '--ng-dropdown-panel-items-hover-color': '#ED7668',
+
+    '--mat-toolbar-bg': '',
+    '--mat-toolbar-color': '',
+    '--mat-toolbar-raised-btn-bg': '',
+    '--mat-toolbar-raised-btn-color': '',
+
+    '--mat-select-value-color': '#0B68F1',
+    '--mat-select-arrow': '#1360D4',
+    '--mat-select-arrow-after':'#0B68F1',
+    '--mat-select-panel-bg': '#042454',
+    '--mat-select-item-bg': '#042454',
+    '--mat-select-item-color': '#F6FAFF',
+    '--mat-select-item-hover-bg': '#042454',
+    '--mat-select-item-hover-color': '#ED7668',
+    '--mat-select-item-marked': '#0B68F1',
+    '--mat-select-item-active-bg': '#0000001f',
+
+    '--mat-expansion-body-bg': '#011a3b',
+    '--mat-expansion-content-color': '#F6FAFF',
+    '--mat-expansion-header-bg': '#0B68F1',
+    '--mat-expansion-header-title': '#F6FAFF',
+    '--mat-expansion-header-active-bg': '#021126',
+    '--mat-expansion-header-focus-bg': '#1360D4',
+    '--mat-expansion-header-hover-bg': '#6DA7F7',
+    '--mat-expansion-arrow': '#ED7668',
+
+    '--mat-tab-label-color': '#F6FAFF',
+    '--mat-tab-ink-bar': '#0B68F1',
+
+  }
+}

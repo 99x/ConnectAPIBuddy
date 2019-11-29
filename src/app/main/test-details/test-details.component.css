@@ -1,7 +1,7 @@
-/*@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";*/
+
 .body {
-  background: #021126;
-  color: #f6faff;
+  background: var(--bg-primary,#021126);
+  color: var(--color-primary,#f6faff);
 }
 .app-body {
   position: relative;
@@ -101,7 +101,7 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
 .btn-danger {
   background-color: #2185d0;
   color: #ffffff;
-  border: #000000;
+  border: #2185d0;
 }
 
 .btn-danger:not(:disabled):not(.disabled).active,
@@ -148,7 +148,6 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
   font-size: 17px;
   color: #f6faff;
   padding-top: 10px;
-  background: #011a3b;
 }
 
 .box,
@@ -161,7 +160,7 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
 .key-file {
   color: #f6faff;
   outline: none !important;
-  border: 1px solid #fff; /* #2185d0;*/
+  border: 1px solid var(--input-border-color,#fff);
   background: #011a3b;
   padding: 5px 5px;
 }
@@ -178,7 +177,7 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
 
 .form-wrapper {
   width: 90%;
-  border: 1px solid #fff;
+  border: 1px solid var(--input-border-color,#fff);
 }
 
 .raw-wrapper {
@@ -201,7 +200,7 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
 
 .show-values {
   height: 160px;
-  background: #dfe4e466;
+  background: #bebbbd36;
 }
 
 table,
@@ -212,18 +211,18 @@ td {
 }
 
 table tr:nth-child(odd) {
-  background-color: #b1b1b17d;
+  background-color: var(--table-child-odd-bg,#b1b1b17d);
 }
 
 table tr:nth-child(even) {
-  background-color: #2185d0;
+  background-color: var(--table-child-odd-bg,#2185d0);
 }
 
 .add-remove {
   float: right;
-  margin: 5px 5px;
-  border-radius: 6px;
-  color: white;
+  margin: 3px 5px;
+  padding: 0.2rem 0.2rem;
+  color: inherit;
   outline: none;
   border: 1px solid #2185d0;
   background: #2185d0;
@@ -232,9 +231,8 @@ table tr:nth-child(even) {
 .add-file {
   float: right;
   margin: 5px 10px;
-  padding: 0px 5px;
-  border-radius: 6px;
-  color: white;
+  padding: 3px 5px;
+  color: inherit;
   outline: none;
   border: 1px solid #2185d0;
   background: #2185d0;
@@ -245,22 +243,22 @@ table tr:nth-child(even) {
 }
 
 .add-file:disabled {
-  background: #b1b1b17d;
+  background: var(--disabled-color,#b1b1b17d);
 }
 .key-value {
   float: right;
   margin-right: 1cm;
-  margin-top: 5px;
+  margin-top: 3px;
   border-radius: 30px;
-  padding-left: 5px;
-  background: #011a3b;
+  padding-left: 0.7rem;
+  background: inherit;
 }
 
 .key-file {
   width: 100%;
   border-radius: 30px;
-  padding-left: 5px;
-  background: #011a3b;
+  padding-left: 0.7rem;
+  background: inherit;
 }
 
 .key-file:disabled {
@@ -271,7 +269,6 @@ table tr:nth-child(even) {
   width: 85%;
   height: 200px;
   padding: 5px 10px;
-  background: #dfe4e466;
   border: 1px solid;
 }
 
@@ -299,7 +296,7 @@ table tr:nth-child(even) {
   overflow: scroll;
   overflow-x: hidden;
   outline: none;
-  border: 2px solid #fff;
+  border: 2px solid var(--input-border-color,#fff);
 }
 
 .status-box {
@@ -314,7 +311,7 @@ table tr:nth-child(even) {
 }
 
 .status {
-  color: #05f1a5;
+  color: var(--status-color,#05f1a5);
   border: 2px solid #f6faff;
 }
 
@@ -329,7 +326,7 @@ table tr:nth-child(even) {
 }
 
 textarea.mat-input-element {
-  padding: 5px 5px;
+  padding: 0.5rem 0.5rem;
   margin: 0;
 }
 ::ng-deep .mat-slide-toggle-bar {
@@ -342,40 +339,49 @@ textarea.mat-input-element {
   margin: 0px 35px !important;
 }
 
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background: #2185d0;
+
+}
+
+input[type=checkbox] {
+  visibility: hidden;
+}
+
 ::placeholder {
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
   opacity: 0.6; /* Firefox */
 }
 
 :-ms-input-placeholder {
   /* Internet Explorer 10-11 */
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 
 ::-ms-input-placeholder {
   /* Microsoft Edge */
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 textarea:-ms-input-placeholder {
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 
 textarea::placeholder {
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 textarea::-webkit-input-placeholder {
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 
 textarea:-moz-placeholder {
   /* Firefox 18- */
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 
 textarea::-moz-placeholder {
   /* Firefox 19+ */
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 textarea ::-webkit-input-placeholder {
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }

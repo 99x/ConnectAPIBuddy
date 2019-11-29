@@ -62,6 +62,7 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   isPanelExapnded = false;
   newTestCase = true;
 
+
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
@@ -71,7 +72,6 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   ) { }
 
   ngOnInit() {
-
     this.currentUser = JSON.parse(localStorage.getItem('socialusers'));
 
     this.testConfigService.getTestConfigs(this.currentUser.id).subscribe(tconfig => {

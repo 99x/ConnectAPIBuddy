@@ -1,18 +1,23 @@
 // angular
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SocialLoginModule, AuthServiceConfig, AuthService } from 'angular-6-social-login';
+import { AuthService } from 'angular-6-social-login';
 // components
 import { TestSettingsComponent } from '../test-settings/test-settings.component';
 import { TestDetailsComponent } from '../test-details/test-details.component';
 // models
-import { User } from '../../auth/shared/models/user';
 import { TestConfiguration } from '../models/TestConfiguration';
 import { TestSettings } from '../models/TestSettings';
 // services
 import{ AlertToastService } from '../../shared/services/alert-toast.service';
+import {
+  faLightbulb as faSolidLightbulb,
+  IconDefinition
+} from "@fortawesome/free-solid-svg-icons";
+import { faLightbulb as faRegularLightbulb } from "@fortawesome/free-regular-svg-icons";
+import { ThemeService } from 'src/app/theme/theme.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -31,13 +36,15 @@ export class NavBarComponent implements OnInit {
   t: TestDetailsComponent;
   tenants = ['Localhost', 'www.Connect.com'];
   selectedTenant = 'Localhost';
+  faLightbulb: IconDefinition;
 
 
   constructor(
     private modalService: NgbModal,
     public OAuth: AuthService,
     private router: Router,
-    private toastService: AlertToastService
+    private toastService: AlertToastService,
+    private themeService: ThemeService
   ) {
     this.modalOptions = {
       backdrop: 'static',
@@ -47,6 +54,7 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setLightbulb();
   }
 
   logout(): void {
@@ -89,5 +97,23 @@ export class NavBarComponent implements OnInit {
       this.toastService.showError('Import Unsuccssful');
     }
 
+  }
+
+  setLightbulb() {
+    if (this.themeService.isDarkTheme()) {
+      this.faLightbulb = faRegularLightbulb;
+    } else {
+      this.faLightbulb = faSolidLightbulb;
+    }
+  }
+
+  toggleTheme() {
+    if (this.themeService.isDarkTheme()) {
+      this.themeService.setLightTheme();
+    } else {
+      this.themeService.setDarkTheme();
+    }
+
+    this.setLightbulb();
   }
 }
