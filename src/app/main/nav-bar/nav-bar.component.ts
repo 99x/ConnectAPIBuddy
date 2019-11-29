@@ -18,6 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faLightbulb as faRegularLightbulb } from "@fortawesome/free-regular-svg-icons";
 import { ThemeService } from 'src/app/theme/theme.service';
+import { User } from 'src/app/auth/shared/models/user';
 
 @Component({
   selector: 'app-nav-bar',
@@ -37,6 +38,8 @@ export class NavBarComponent implements OnInit {
   tenants = ['Localhost', 'www.Connect.com'];
   selectedTenant = 'Localhost';
   faLightbulb: IconDefinition;
+  currentUser: User;
+  userImage = 'https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg';
 
 
   constructor(
@@ -54,6 +57,10 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem('socialusers'));
+    if(this.currentUser.image !== null){
+      this.userImage = this.currentUser.image;
+    }
     this.setLightbulb();
   }
 

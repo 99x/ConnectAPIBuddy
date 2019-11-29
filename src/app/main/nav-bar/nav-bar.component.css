@@ -71,7 +71,7 @@
 }
 
 .btn-danger.dropdown-toggle {
-  background-color: #d7d7d8;
+  background-color: var(--mat-toolbar-dropdown-bg,#021126);
 }
 
 .mat-toolbar .mat-select-value {
@@ -81,7 +81,7 @@
 
 .fa-cogs {
   font-size: 40px;
-  color: #d7d7d8;
+  color: var(--icon-cogs,#d7d7d8);
 }
 
 .img {
@@ -91,12 +91,12 @@
 
 .dropdown-toggle-split::after {
   margin-left: 5px;
-  color: #0e0c0c;
+  color: var(--mat-toolbar-dropdown-arrow-color,#0b68f1);
 }
 
 .mat-raised-button {
-  color: #f6faff;
-  background-color: #2185d0;
+  color: var(--mat-toolbar-raised-btn-color,#f6faff);
+  background-color: var(--mat-toolbar-raised-btn-bg,#2185d0);
 }
 
 .test-group {
@@ -106,4 +106,5 @@
 .theme-switch {
   display: inline-flex;
   padding: 0px 24px;
+  color: var(--icon-bulb,#0b68f1);
 }

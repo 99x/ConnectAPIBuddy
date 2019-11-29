@@ -26,5 +26,5 @@ body {
 .dropdown-item:hover {
   color:  var(--dropdown-item-hover-color,#ffffff) !important;
   text-decoration: none;
-  /* background-color: var(--dropdown-item-hover-bg,#9c9c9e); */
+  background-color: var(--dropdown-item-hover-bg,#9c9c9e);
 }

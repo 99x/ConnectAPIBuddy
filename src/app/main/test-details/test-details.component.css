@@ -46,8 +46,8 @@
   pointer-events: none;
   top: 26px;
   left: -30px;
-  background: #021126;
-  color: white;
+  background: var(--bg-primary,#021126);
+  color: var(--icon-edit,white);
   font-size: 30px;
   z-index: 1;
 }
@@ -66,7 +66,7 @@
   transition: flex 0.4s ease-in-out;
   -moz-transition: flex 0.4s ease-in-out;
   -o-transition: flex 0.4s ease-in-out;
-  color: #f87060;
+  color: var(--status-color,#f87060);
 }
 
 .url-edit {
@@ -163,6 +163,7 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
   border: 1px solid var(--input-border-color,#fff);
   background: #011a3b;
   padding: 5px 5px;
+  border-radius: 4px;
 }
 
 .test-description {
@@ -215,7 +216,7 @@ table tr:nth-child(odd) {
 }
 
 table tr:nth-child(even) {
-  background-color: var(--table-child-odd-bg,#2185d0);
+  background-color: var(--table-child-even-bg,#2185d0);
 }
 
 .add-remove {
@@ -270,6 +271,7 @@ table tr:nth-child(even) {
   height: 200px;
   padding: 5px 10px;
   border: 1px solid;
+  color: var(--status-color,#f6faff);
 }
 
 /* ::ng-deep .mat-radio-outer-circle {
@@ -297,6 +299,7 @@ table tr:nth-child(even) {
   overflow-x: hidden;
   outline: none;
   border: 2px solid var(--input-border-color,#fff);
+  border-radius: 7px;
 }
 
 .status-box {
@@ -328,6 +331,7 @@ table tr:nth-child(even) {
 textarea.mat-input-element {
   padding: 0.5rem 0.5rem;
   margin: 0;
+  border-radius: 7px;
 }
 ::ng-deep .mat-slide-toggle-bar {
   position: relative;
