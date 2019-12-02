@@ -57,12 +57,13 @@
             type="text"
             formControlName="url"
             (change)="urlOnChanged(1, $event)"
-            (click)="urlEditOnClick()"
             [ngClass]="urlStatus ? 'url-edit url-edit-inactive' : 'url-select'"
           /><span
-            [ngClass]="urlStatus ? 'fa-edit' : 'fa-angle-right'"
-            class=" fa searchicon"
-            aria-hidden="true"
+            ><i
+              [ngClass]="urlStatus ? 'fa-edit' : 'fa-angle-right'"
+              class=" fa searchicon"
+             (click)="urlEditOnClick()"
+            ></i
           ></span>
         </div>
         <div>
@@ -273,7 +274,10 @@
                           />
                         </div>
                         <div>
-                          <button class="btn add-file" [disabled]="!isFileAdded">
+                          <button
+                            class="btn add-file"
+                            [disabled]="!isFileAdded"
+                          >
                             <label>
                               Open file
                               <input
@@ -397,6 +401,5 @@
       </mat-accordion>
     </form>
   </div>
-  <div class="footer-wrapper">
-  </div>
+  <div class="footer-wrapper"></div>
 </div>

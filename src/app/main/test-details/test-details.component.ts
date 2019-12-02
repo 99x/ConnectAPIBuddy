@@ -599,6 +599,8 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   urlEditOnClick(): void {
     if (this.urlStatus) {
       this.urlStatus = false;
+    } else {
+      this.urlStatus = true;
     }
   }
   urlSelectOnClick(): void {
