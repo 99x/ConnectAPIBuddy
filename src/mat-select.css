@@ -63,15 +63,15 @@
   background: var(--mat-select-item-active-bg,#0000001f);
   color: #2185d0;
 }
-.mat-form-field-label {
-  color: var(--placeholder-color,#f6faff) !important;
+.app-body .mat-form-field-label {
+  color: var(--placeholder-color,#f6faff) !important ;
 }
-.mat-form-field-ripple {
+.app-body .mat-form-field-ripple {
   background-color: var(--input-border-color,#f87060) !important;
 }
 
-.mat-form-field-underline{
-  background-color: var(--input-border-color,#f87060) !important;
+.app-body .mat-form-field-underline{
+  background-color: var(--input-border-color,#F6Faff) !important;
 }
 
 .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
