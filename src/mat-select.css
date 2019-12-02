@@ -64,12 +64,20 @@
   color: #2185d0;
 }
 .mat-form-field-label {
-  color: #f6faff !important;
+  color: var(--placeholder-color,#f6faff) !important;
 }
 .mat-form-field-ripple {
-  background-color: #f87060 !important;
+  background-color: var(--input-border-color,#f87060) !important;
+}
+
+.mat-form-field-underline{
+  background-color: var(--input-border-color,#f87060) !important;
 }
 
 .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: var(--mat-select-item-marked,#c2185b);
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: .5375em 0;
 }

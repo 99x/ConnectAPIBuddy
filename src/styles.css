@@ -13,7 +13,8 @@ body {
 body {
   margin: 0;
   font-family: "Muli", Arial, sans-serif;
-  background: #021126;
+  background: var(--bg-primary,#021126);
+  /* color: var(--color-primary,#f6f6f6); */
 }
 
 .dropdown.show,

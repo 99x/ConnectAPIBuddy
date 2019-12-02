@@ -55,7 +55,7 @@
 }
 
 .mat-tab-body-wrapper {
-  color: var(--input-border-color,#fff);
+  color: var(--color-primary,#fff);
 }
 
 .mat-tab-label-active {
