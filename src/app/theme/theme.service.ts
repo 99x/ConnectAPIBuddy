@@ -12,8 +12,8 @@ export class ThemeService {
     return this.availableThemes;
   }
 
-  getActiveTheme(): Theme {
-    return this.active;
+  getActiveTheme(): string {
+    return this.active.name;
   }
 
   isDarkTheme(): boolean {
@@ -21,15 +21,15 @@ export class ThemeService {
   }
 
   setDarkTheme(): void {
-    this.setActiveTheme(dark);
+    this.setActiveTheme('dark');
   }
 
   setLightTheme(): void {
-    this.setActiveTheme(light);
+    this.setActiveTheme('light');
   }
 
-  setActiveTheme(theme: Theme): void {
-    this.active = theme;
+  setActiveTheme(theme: string): void {
+    this.active = this.availableThemes[this.availableThemes.findIndex(x => x.name === theme)];
 
     Object.keys(this.active.properties).forEach(property => {
       document.documentElement.style.setProperty(

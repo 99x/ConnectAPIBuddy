@@ -11,7 +11,7 @@ import { TestDetailsComponent } from '../test-details/test-details.component';
 import { TestConfiguration } from '../models/TestConfiguration';
 import { TestSettings } from '../models/TestSettings';
 // services
-import{ AlertToastService } from '../../shared/services/alert-toast.service';
+import { AlertToastService } from '../../shared/services/alert-toast.service';
 import {
   faLightbulb as faSolidLightbulb,
   IconDefinition
@@ -58,19 +58,21 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('socialusers'));
-    if(this.currentUser.image !== null){
+    if (this.currentUser.image !== null) {
       this.userImage = this.currentUser.image;
     }
     this.setLightbulb();
   }
 
   logout(): void {
-    alert('All unsaved data will be lost');
-    localStorage.clear();
-    if (this.OAuth.authState !== null) {
-      this.OAuth.signOut();
+    if (window.confirm('All unsaved data will be lost. Do you want to logout?')) {
+      localStorage.clear();
+      if (this.OAuth.authState !== null) {
+        this.OAuth.signOut();
+      }
+      this.router.navigate([`/login`]);
     }
-    this.router.navigate([`/login`]);
+
   }
 
   openModal(): void {
