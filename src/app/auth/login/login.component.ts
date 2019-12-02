@@ -24,6 +24,8 @@ export class LoginComponent implements OnInit {
   private currentUser: User;
 
   loginForm: FormGroup;
+  emailPattern= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}$/
 
   constructor(
     public OAuth: AuthService,
@@ -34,8 +36,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-      email: new FormControl('', Validators.required),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)])
+      email: new FormControl('', [Validators.pattern(this.emailPattern), Validators.required]),
+      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern(this.passwordPattern)])
     });
   }
 

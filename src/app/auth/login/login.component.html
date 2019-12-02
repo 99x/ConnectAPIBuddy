@@ -44,7 +44,16 @@
             loginForm.get('email').touched
           "
         >
-          *username is required
+          *email is required
+        </div>
+        <div
+          class="error"
+          *ngIf="
+            loginForm.get('email').hasError('pattern') &&
+            loginForm.get('email').touched
+          "
+        >
+          *not a valid email
         </div>
 
         <mat-form-field class="login-full-width">
@@ -63,6 +72,15 @@
           "
         >
           *password is required
+        </div>
+        <div
+          class="error"
+          *ngIf="
+            loginForm.get('password').hasError('pattern') &&
+            loginForm.get('password').touched
+          "
+        >
+          *not a valid password
         </div>
       </mat-card-content>
       <button

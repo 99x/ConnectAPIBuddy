@@ -62,6 +62,15 @@
         >
           *email is required
         </div>
+        <div
+          class="error"
+          *ngIf="
+            userRegistrationForm.get('email').hasError('pattern') &&
+            userRegistrationForm.get('email').touched
+          "
+        >
+          *not a valid email
+        </div>
 
         <mat-form-field class="register-full-width">
           <input
@@ -80,6 +89,15 @@
         >
           *password is required
         </div>
+        <div
+          class="error"
+          *ngIf="
+            userRegistrationForm.get('password').hasError('pattern') &&
+            userRegistrationForm.get('password').touched
+          "
+        >
+          *not a valid password
+        </div>
         <mat-form-field class="register-full-width">
           <input
             matInput
@@ -96,6 +114,15 @@
           "
         >
           *confirmPassword is required
+        </div>
+        <div
+          class="error"
+          *ngIf="
+            userRegistrationForm.get('password').hasError('pattern') &&
+            userRegistrationForm.get('password').touched
+          "
+        >
+          *not a valid password
         </div>
       </mat-card-content>
 

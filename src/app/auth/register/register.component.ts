@@ -22,6 +22,8 @@ export class RegisterComponent implements OnInit {
 
   userRegistrationForm: FormGroup;
   private newUser: User;
+  emailPattern= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}$/
 
   constructor(
     private userLoginService: UserLoginService,
@@ -32,9 +34,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.userRegistrationForm = new FormGroup({
       name: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)])
+      email: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern(this.passwordPattern)]),
+      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern(this.passwordPattern)])
     });
   }
 
