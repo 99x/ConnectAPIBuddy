@@ -1,11 +1,10 @@
 /* label style */
 
 .mat-tab-label {
-  /*black*/
   min-width: 10px !important;
   font-family: "Muli", Arial, sans-serif;
   font-size: 17px;
-  color: #f6faff;
+  color: var(--mat-tab-label-color,#f6faff);
   font-weight: 500;
   opacity: 1 !important;
 }
@@ -23,22 +22,23 @@
 
 .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-  background-color: rgb(33, 133, 208); /*rgba(149, 165, 166, 0.3);*/
+  background-color: var(--mat-tab-ink-bar,rgb(33, 133, 208)); /*rgba(149, 165, 166, 0.3);*/
   height: 38px;
   border-radius: 100px;
   margin-bottom: 5px;
   outline: none !important;
-  border: 1px solid #fff;
+  border: 1px solid var(--btn-border-color,#fff);
   opacity: 0.4;
 }
 
 .mat-tab-group {
   outline: none !important;
-  border: 1px solid #fff;
+  border: 1px solid var(--input-border-color,#fff);
+  border-radius: 7px;
 }
 
 .mat-form-field.mat-primary .mat-select {
-  color: #fff; /*black;*/
+  color: var(--input-border-color,#fff);
 }
 
 .mat-tab-body.mat-tab-body-active {
@@ -55,10 +55,10 @@
 }
 
 .mat-tab-body-wrapper {
-  color: white;
+  color: var(--color-primary,#fff);
 }
 
 .mat-tab-label-active {
-  color: #fff;
+  color: var(--input-border-color,#fff);
   opacity: 1 !important;
 }

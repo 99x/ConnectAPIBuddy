@@ -2,7 +2,7 @@
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 // angular
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, DoCheck } from '@angular/core';
 import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -33,36 +33,36 @@ import { DeliveryRequest } from '../models/DeliveryRequest';
   providers: [ApiService]
 })
 
-export class TestDetailsComponent implements OnInit {
+export class TestDetailsComponent implements OnInit, DoCheck {
 
-  backendUrl = 'https://connectapibuddy.azurewebsites.net/api/TestConfig';   // 'https://localhost:44384/api/TestConfig';
 
-  // form variables
-  methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
-  urls: object[] = [];
-  baseurls: string[] = [];
-  basepaths: string[] = [];
-
-  headerVals: HeaderVal[] = [];
-  formVals: FormVal[] = [];
-
-  modalOptions: NgbModalOptions;
   testDetailsForm: FormGroup;
-  testName: AbstractControl;
-  fileUploaded: FileDetails;   // Uploaded file details
-  responseJsonView: object = {};  // Response view in JSON format
-  isFileAdded = false; // Whether file attached or not
-  dataType: string = 'raw';  // defult seleted tab
   currentUser: User;
   testConfigurations: TestConfiguration[];
   currentTestConfig: TestConfiguration;
   testSettings = new TestSettings();
-  urlStatus: boolean = true;
   selectedTestConfigs: TestConfiguration[] = [];
+  req: DeliveryRequest;
+
+  urls: object[] = [];
+  baseurls: string[] = [];
+  basepaths: string[] = [];
+  headerVals: HeaderVal[] = [];
+  formVals: FormVal[] = [];
+  modalOptions: NgbModalOptions;
+  fileUploaded: FileDetails;   // Uploaded file details
+
+  methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
+  urlStatus: boolean = true;
   selectedTabIndex = 0;
+  dataType: string = 'raw';  // defult seleted tab
+  responseJsonView: object = {};  // Response view in JSON format
+  isFileAdded = false; // Whether file attached or not
   multiple = false;
   isPanelExapnded = false;
-  req: DeliveryRequest;
+  newTestCase = true;
+
+  rawInputPattern = /^\{(.*\s)*\}$/
 
 
   constructor(
@@ -74,17 +74,20 @@ export class TestDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.currentUser = JSON.parse(localStorage.getItem('socialusers'));
 
     this.testConfigService.getTestConfigs(this.currentUser.id).subscribe(tconfig => {
       if (tconfig !== null) {
         this.testConfigurations = tconfig;
-        console.log(this.testConfigurations);
         this.testConfigurations.forEach(x => {
           this.urls.push({ url: x.url, method: x.endpointAction });
-          this.baseurls.push(x.baseUrl);
-          this.basepaths.push(x.basePath);
+          if (this.baseurls.findIndex(s => s === x.baseUrl) === -1) {
+            this.baseurls.push(x.baseUrl);
+          }
+          if (this.basepaths.findIndex(l => l === x.basePath) === -1) {
+            this.basepaths.push(x.basePath);
+          }
+
         });
       } else {
         this.toastService.showError('Couldn\'t retrive Test configurations.');
@@ -93,6 +96,14 @@ export class TestDetailsComponent implements OnInit {
     });
 
     this.formInitialize();
+  }
+
+  ngDoCheck() {
+    if (this.currentTestConfig === null) {
+      this.newTestCase = true;
+    } else {
+      this.newTestCase = false;
+    }
   }
 
   /***************************************** Test Details form ****************************************/
@@ -112,15 +123,29 @@ export class TestDetailsComponent implements OnInit {
         key: [''],
         value: ['']
       }),
-      payloadBody: [''],
+      payloadBody: ['', Validators.pattern(this.rawInputPattern)],
       fileKey: [''],
       response: [''],
       status: ['']
     });
   }
+
   get f() { return this.testDetailsForm.controls; } // get form controls
 
-  onClickExecute(isSave: boolean): void {
+  getDataFromUI(update: boolean): TestConfiguration {
+    let testConfig = new TestConfiguration(this.testDetailsForm.value);
+    testConfig.payloadHeaders = this.headerVals;
+    testConfig.formContent = this.formVals;
+    testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
+    testConfig.file = this.fileUploaded;
+    testConfig.userId = this.currentUser.id;
+    if (update) {
+      testConfig.id = this.currentTestConfig.id;
+    }
+    return testConfig;
+  }
+
+  onClickExecute(isSave: boolean, isUpdate: boolean): void {
     const url = this.f.url.value;
 
     /***************************************** Save current Test  ****************************************/
@@ -129,24 +154,39 @@ export class TestDetailsComponent implements OnInit {
       if (!this.testDetailsForm.valid) {
         this.toastService.showError('Enter all required fileds');
       } else {
-        let testConfig = new TestConfiguration(this.testDetailsForm.value);
-        testConfig.payloadHeaders = this.headerVals;
-        testConfig.formContent = this.formVals;
-        testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
-        testConfig.file = this.fileUploaded;
-        testConfig.userId = this.currentUser.id;
-        this.testConfigService.postTestConfig(testConfig)
+        let testConfigOut = this.getDataFromUI(false);
+
+        this.testConfigService.postTestConfig(testConfigOut)
           .subscribe(res => {
-            if (res !== null) {
+            if (res === null) {
+              this.toastService.showError('failed');
+            } else {
               this.toastService.showSuccess('Successfully Saved');
               this.testConfigurations = [...this.testConfigurations, res];
+              this.currentTestConfig = res;
               this.urls.push({ url: res.url, method: res.endpointAction });
               this.baseurls.push(res.baseUrl);
               this.basepaths.push(res.basePath);
-            } else {
-              this.toastService.showError('failed');
+
             }
           });
+      }
+
+    } else if (isUpdate) {
+      if (!this.testDetailsForm.valid) {
+        this.toastService.showError('Enter all required fileds');
+      } else {
+        let testConfigOut = this.getDataFromUI(true);
+        this.testConfigService.updateTestConfig(testConfigOut).subscribe(res => {
+          if (res === null) {
+            this.toastService.showError('Update Unsuccessful');
+          } else {
+            this.toastService.showSuccess('Update Successful');
+            this.testConfigurations[this.testConfigurations.findIndex(x => x.id === this.currentTestConfig.id)] = testConfigOut;
+            this.testConfigurations = [...this.testConfigurations]
+            this.currentTestConfig = testConfigOut;
+          }
+        })
       }
 
     } else {
@@ -450,66 +490,80 @@ export class TestDetailsComponent implements OnInit {
       if (this.selectedTestConfigs.length === 1) {
         this.currentTestConfig = this.selectedTestConfigs[0];
         if (this.currentTestConfig !== null) {
-          this.testDetailsForm.reset();
-          this.testDetailsForm.patchValue({
-            url: this.currentTestConfig.url,
-            baseUrl: this.currentTestConfig.baseUrl,
-            basePath: this.currentTestConfig.basePath,
-            testName: this.currentTestConfig.testName,
-            testDescription: this.currentTestConfig.testDescription,
-            endpointAction: this.currentTestConfig.endpointAction,
-            payloadBody: this.currentTestConfig.payloadBody,
-            status: this.currentTestConfig.status
-
-          });
-          this.responseJsonView = JSON.parse(this.currentTestConfig.response);
-          if (this.currentTestConfig.file !== null) {
-            this.isFileAdded = true;
-            this.fileUploaded = this.currentTestConfig.file;
-            this.testDetailsForm.patchValue({
-              fileKey: this.fileUploaded.key
-            });
-          } else {
-            this.isFileAdded = false;
-          }
-          this.headerVals = this.currentTestConfig.payloadHeaders;
-          this.formVals = this.currentTestConfig.formContent;
+          this.setDataUI(this.currentTestConfig);
         }
       } else {
-        this.ResetFullForm();
+        this.resetFullForm();
+        this.currentTestConfig = null;
       }
 
     }
   }
 
+  setDataUI(testConfigIn: TestConfiguration): void {
+    this.resetFullForm();
+    this.urlStatus = false;
+    this.testDetailsForm.patchValue({
+      url: testConfigIn.url,
+      baseUrl: testConfigIn.baseUrl,
+      basePath: testConfigIn.basePath,
+      testName: testConfigIn.testName,
+      testDescription: testConfigIn.testDescription,
+      endpointAction: testConfigIn.endpointAction,
+      payloadBody: testConfigIn.payloadBody,
+      status: testConfigIn.status
+
+    });
+    this.responseJsonView = JSON.parse(testConfigIn.response);
+    if (testConfigIn.file !== null) {
+      this.isFileAdded = true;
+      this.fileUploaded = testConfigIn.file;
+      this.testDetailsForm.patchValue({
+        fileKey: this.fileUploaded.key
+      });
+    } else {
+      this.isFileAdded = false;
+    }
+    this.headerVals = testConfigIn.payloadHeaders;
+    this.formVals = testConfigIn.formContent;
+  }
+
   urlOnAdd(event): void {
-    this.selectedTestConfigs.push(event);
-    this.urlOnChanged(2);
+      this.selectedTestConfigs.push(event);
+      this.urlOnChanged(2);
+
+
 
   }
 
   urlOnClear(): void {
     let ids: string[] = [];
-    if (this.selectedTestConfigs.length > 0) {
-      for (let j: number = 0; j < this.selectedTestConfigs.length; j++) {
-        ids[j] = this.selectedTestConfigs[j].id;
-      }
-      this.testConfigService.deleteTestConfigs(ids).subscribe(res => {
-        if (res === true) {
-          let index = 0;
-          this.toastService.showSuccess('Successfully deleted.');
-          this.selectedTestConfigs = [];
-          ids.forEach(t => {
-            index = this.testConfigurations.findIndex(x => x.id === t);
-            this.testConfigurations.splice(index, 1);
-            this.testConfigurations = [...this.testConfigurations];
-          });
-        } else {
-          this.toastService.showError('Delete Unsuccessful.');
+    if (window.confirm("Are you sure to delete?")) {
+      if (this.selectedTestConfigs.length > 0) {
+        for (let j: number = 0; j < this.selectedTestConfigs.length; j++) {
+          ids[j] = this.selectedTestConfigs[j].id;
         }
-      });
+        this.testConfigService.deleteTestConfigs(ids).subscribe(res => {
+          if (res === true) {
+            let index = 0;
+            this.toastService.showSuccess('Successfully deleted.');
+            this.selectedTestConfigs = [];
+            this.resetFullForm()
+            ids.forEach(t => {
+              index = this.testConfigurations.findIndex(x => x.id === t);
+              this.testConfigurations.splice(index, 1);
+              this.testConfigurations = [...this.testConfigurations];
+            });
+          } else {
+            this.toastService.showError('Delete Unsuccessful.');
+          }
+        });
+      } else {
+        this.toastService.showError("Select a Test Case")
+      }
+      this.urlOnChanged(2);
     }
-    this.urlOnChanged(2);
+
   }
 
   urlOnRemove(value): void {
@@ -535,9 +589,8 @@ export class TestDetailsComponent implements OnInit {
 
   }
 
-  private ResetFullForm(): void {
+  resetFullForm(): void {
     this.isPanelExapnded = false;
-
     this.testDetailsForm.reset();
     this.responseJsonView = {};
     this.formVals = [];
@@ -553,6 +606,8 @@ export class TestDetailsComponent implements OnInit {
   urlEditOnClick(): void {
     if (this.urlStatus) {
       this.urlStatus = false;
+    } else {
+      this.urlStatus = true;
     }
   }
   urlSelectOnClick(): void {
@@ -563,6 +618,16 @@ export class TestDetailsComponent implements OnInit {
 
   bodyTabChanged(tabChangeEvent): void {
     this.selectedTabIndex = tabChangeEvent.index;
+  }
+
+  importTestConfig(importedFile): void {
+    this.toastService.showSuccess('Import Successful');
+    this.setDataUI(importedFile);
+  }
+
+  customSearchFn(term: string, item) {
+    term = term.toLocaleLowerCase();
+    return item.testName.toLocaleLowerCase().indexOf(term) > -1 || item.url.toLocaleLowerCase().indexOf(term) > -1;
   }
 
 }

@@ -7,7 +7,6 @@ body {
 
 body {
     min-height: 100vh;
-    font-family: "Muli", Arial, sans-serif;
 }
 
 .app-header {
@@ -35,7 +34,6 @@ body {
     /*background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(20).jpg");*/
     height: 100%;
     width: 40%;
-    background: #011a3b;
     /* opacity: 1;
     filter: alpha(opacity=60);  */
 }
@@ -128,7 +126,7 @@ body {
 }
 
 .error {
-    color: red;
+    color: #ff0000b5;
 }
 
 .mat-raised-button {

@@ -2,7 +2,11 @@
   <!----------------------------------Toolbar--------------------------------------->
   <!-------------------------------------------------------------------------------->
   <div class="navbar-wrapper">
-    <app-nav-bar (settingEvent)="receiveSettings($event)"></app-nav-bar>
+    <app-nav-bar
+      (settingEvent)="receiveSettings($event)"
+      (newClickEvent)="resetFullForm()"
+      (importClickEvent)="importTestConfig($event)"
+    ></app-nav-bar>
   </div>
 
   <!----------------------------------URL Section--------------------------------------->
@@ -14,9 +18,15 @@
             id="urls"
             [items]="testConfigurations"
             [multiple]="true"
+            [selectableGroup]='false'
             [closeOnSelect]="false"
             [selectableGroup]="true"
             [selectableGroupAsModel]="false"
+            [clearSearchOnAdd]="true"
+            [readonly]="false"
+            [virtualScroll]="true"
+            [searchFn]="customSearchFn"
+            [ngClass]="urlStatus ? 'url-select' : 'url-edit'"
             bindLabel="url"
             autofocus
             bindValue="id"
@@ -27,22 +37,7 @@
             (click)="urlSelectOnClick()"
             (remove)="urlOnRemove($event.value)"
             (clear)="urlOnClear()"
-            [ngClass]="urlStatus ? 'url-select' : 'url-edit'"
           >
-            <ng-template
-              ng-optgroup-tmp
-              let-item="item"
-              let-item$="item$"
-              let-index="index"
-            >
-              <input
-                id="item-{{ index }}"
-                type="checkbox"
-                [ngModel]="item$.selected"
-                [ngModelOptions]="{ standalone: true }"
-              />
-              {{ item.endpointAction | uppercase }}
-            </ng-template>
             <ng-template
               ng-option-tmp
               let-item="item"
@@ -51,6 +46,7 @@
             >
               <input
                 id="item-{{ index }}"
+                class="ng-textbox"
                 type="checkbox"
                 [ngModel]="item$.selected"
                 [ngModelOptions]="{ standalone: true }"
@@ -65,19 +61,19 @@
             type="text"
             formControlName="url"
             (change)="urlOnChanged(1, $event)"
-            (click)="urlEditOnClick()"
             [ngClass]="urlStatus ? 'url-edit url-edit-inactive' : 'url-select'"
           /><span
-            [ngClass]="urlStatus ? 'fa-edit' : 'fa-angle-right'"
-            class=" fa searchicon"
-            aria-hidden="true"
+            ><i
+              [ngClass]="urlStatus ? 'fa-edit' : 'fa-angle-right'"
+              class=" fa searchicon"
+              (click)="urlEditOnClick()"
+            ></i
           ></span>
         </div>
         <div>
           <mat-form-field class="method-wrapper">
             <mat-label>HTTP Method</mat-label>
             <mat-select formControlName="endpointAction">
-              <mat-option value="" selected disabled>Select</mat-option>
               <mat-option *ngFor="let method of methods" [value]="method">{{
                 method
               }}</mat-option>
@@ -116,7 +112,7 @@
             <button
               type="button"
               class="btn btn-danger"
-              (click)="onClickExecute(false)"
+              (click)="onClickExecute(false, false)"
             >
               Execute
             </button>
@@ -138,7 +134,17 @@
               aria-labelledby="button-split"
             >
               <li role="menuitem">
-                <a class="dropdown-item" (click)="onClickExecute(true)">Save</a>
+                <a class="dropdown-item" (click)="onClickExecute(true, false)"
+                  >Save</a
+                >
+              </li>
+              <li
+                role="menuitem"
+                [ngStyle]="{ display: newTestCase ? 'none' : 'block' }"
+              >
+                <a class="dropdown-item" (click)="onClickExecute(false, true)"
+                  >Update</a
+                >
               </li>
             </ul>
           </div>
@@ -166,7 +172,7 @@
                 <a class="dropdown-item" (click)="onClickExport(1)">Current</a>
               </li>
               <li role="menuitem">
-                <a class="dropdown-item" (click)="onClickExport(2)">Custom</a>
+                <a class="dropdown-item" (click)="onClickExport(2)">Selected</a>
               </li>
               <li role="menuitem">
                 <a class="dropdown-item" (click)="onClickExport(3)">All</a>
@@ -214,7 +220,7 @@
                     <div class="header-wrapper">
                       <div class="add-values" formGroupName="payloadHeaders">
                         <button
-                          class="add-remove"
+                          class="btn add-remove"
                           type="button"
                           (click)="OnClickRemoveHeader()"
                         >
@@ -222,7 +228,7 @@
                         </button>
                         <button
                           type="button"
-                          class="add-remove"
+                          class="btn add-remove"
                           (click)="OnClickAddHeader()"
                         >
                           Add
@@ -230,13 +236,13 @@
                         <input
                           class="key-value"
                           type="text"
-                          placeholder="  value"
+                          placeholder="value"
                           formControlName="value"
                         />
                         <input
                           class="key-value"
                           type="text"
-                          placeholder="  header"
+                          placeholder="header"
                           formControlName="header"
                         />
                       </div>
@@ -272,7 +278,10 @@
                           />
                         </div>
                         <div>
-                          <button class="add-file" [disabled]="!isFileAdded">
+                          <button
+                            class="btn add-file"
+                            [disabled]="!isFileAdded"
+                          >
                             <label>
                               Open file
                               <input
@@ -284,15 +293,6 @@
                             </label>
                           </button>
                         </div>
-                        <!-- <mat-radio-group
-                          (change)="dataTypeChanged($event.value)"
-                        >
-                          <mat-radio-button
-                            value="raw"
-                            checked
-                          ></mat-radio-button>
-                          <mat-radio-button value="form"></mat-radio-button>
-                        </mat-radio-group> -->
                       </div>
                       <!-- Nav tabs -->
                       <mat-tab-group
@@ -311,6 +311,15 @@
                                 formControlName="payloadBody"
                               ></textarea>
                             </div>
+                            <div
+                              class="error"
+                              *ngIf="
+                                testDetailsForm.get('payloadBody').hasError('pattern') &&
+                                testDetailsForm.get('payloadBody').touched
+                              "
+                            >
+                              *not a valid JSON
+                            </div>
                           </ng-template>
                         </mat-tab>
                         <mat-tab label="Form">
@@ -321,14 +330,14 @@
                                 formGroupName="formContent"
                               >
                                 <button
-                                  class="add-remove"
+                                  class="btn add-remove"
                                   type="button"
                                   (click)="OnClickRemoveFormVal()"
                                 >
                                   Remove
                                 </button>
                                 <button
-                                  class="add-remove"
+                                  class="btn add-remove"
                                   type="button"
                                   (click)="OnClickAddFormVal()"
                                 >
@@ -337,13 +346,13 @@
                                 <input
                                   class="key-value"
                                   type="text"
-                                  placeholder="  value"
+                                  placeholder="value"
                                   formControlName="value"
                                 />
                                 <input
                                   class="key-value"
                                   type="text"
-                                  placeholder="  key"
+                                  placeholder="key"
                                   formControlName="key"
                                 />
                               </div>
@@ -380,8 +389,6 @@
           <div class="response-wrapper">
             <div class="response-box">
               <label class="lbl">Response</label>
-              <!-- <textarea class="box" matInput placeholder="Response" rows="3"
-                        formControlName="response"></textarea> -->
               <div class="json-viwer">
                 <ngx-json-viewer
                   [json]="responseJsonView"
@@ -407,6 +414,5 @@
       </mat-accordion>
     </form>
   </div>
-
   <div class="footer-wrapper"></div>
 </div>

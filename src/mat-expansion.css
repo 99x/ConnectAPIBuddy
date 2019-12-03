@@ -1,30 +1,28 @@
 .mat-expansion-panel-body {
   padding: 0px !important;
-  background: #011a3b;
+  background: var(--mat-expansion-body-bg,#011a3b);
 }
 
 .mat-expansion-panel-header {
   font-family: "Muli", Arial, sans-serif;
   font-size: 17px;
-  color: #f6faff;
   font-weight: 600;
   padding: 0px 40px;
-  background-color: #021126;
+  background-color: var(--mat-expansion-header-bg,#0B68F1);
 }
 
 .mat-expansion-panel-content {
   font-family: "Muli", Arial, sans-serif;
   font-size: 17px;
-  color: #f6faff;
+  color: var(--mat-expansion-content-color,#f6faff);
 }
 
 .mat-expansion-panel-header:active {
-  background-color: #021126;
+  background-color: var(--mat-expansion-header-active-bg,#021126);
 }
 
 .mat-expansion-panel {
-  /*background: #f87060;*/
-  color: rgba(0, 0, 0, 0.87);
+  color: #000000de;
 }
 
 .mat-expansion-panel:not([class*="mat-elevation-z"]) {
@@ -42,7 +40,7 @@
   .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"]),
 .mat-expansion-panel:not(.mat-expanded)
   .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
-  background: #2185d0;
+  background: var(--mat-expansion-header-hover-bg,#2185d0) ;
 }
 
 @media (hover: none) {
@@ -55,20 +53,20 @@
 .mat-expansion-panel-header.mat-expanded:focus,
 .mat-expansion-panel-header.mat-expanded:active,
 .mat-expansion-panel-header.mat-expanded:hover {
-  background: #021126;
+  background: var(--mat-expansion-header-focus-bg,#021126) !important;
 }
 
 .mat-expansion-panel-header-title {
-  color: #fff;
+  color: var(--mat-expansion-header-title,#fff);
 }
 
 .mat-expansion-indicator::after,
 .mat-expansion-panel-header-description {
-  color: #fff;
+  color: var(--mat-expansion-arrow,#fff);
 }
 
 .mat-expansion-panel-header[aria-disabled="true"] {
-  color: rgba(0, 0, 0, 0.26);
+  color: inherit;
 }
 
 .mat-expansion-panel-header[aria-disabled="true"]
@@ -80,5 +78,5 @@
 
 .mat-expansion-panel-header:not([aria-disabled="true"]) {
   cursor: pointer;
-  background: #093a84;
+  background: var(--mat-expansion-header-bg,#093a84);
 }

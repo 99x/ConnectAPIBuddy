@@ -7,8 +7,6 @@ body {
 
 body {
     min-height: 100vh;
-    font-family: "Muli", Arial, sans-serif;
-    background: #261235;
 }
 
 .app-header {
@@ -36,7 +34,6 @@ body {
     /*background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(20).jpg");*/
     height: 100%;
     width: 40%;
-    background: #011a3b;
     /* opacity: 1;
     filter: alpha(opacity=60);  */
 }
@@ -81,6 +78,7 @@ body {
     -ms-transform: scale(0.95);
     z-index: -1;
 }
+
 
 .login-wrapper .register-form {
     min-width: 100%;
@@ -135,7 +133,7 @@ body {
 }
 
 .error {
-    color: red;
+    color: #ff0000b5;
 }
 
 

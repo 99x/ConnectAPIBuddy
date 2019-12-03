@@ -1,7 +1,6 @@
-/*@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";*/
+
 .body {
-  background: #021126;
-  color: #f6faff;
+  color: var(--color-primary,#f6faff);
 }
 .app-body {
   position: relative;
@@ -13,7 +12,7 @@
   height: 15%;
   padding: 20px 40px;
   box-sizing: border-box;
-  background: #011a3b;
+  background: var(--mat-expansion-body-bg,#011a3b);
 }
 
 .middle-wrapper {
@@ -43,42 +42,18 @@
   height: 30px;
   margin-top: -24px;
   position: relative;
-  pointer-events: none;
   top: 26px;
   left: -30px;
-  background: #021126;
-  color: white;
+  color: var(--icon-edit,white);
   font-size: 30px;
   z-index: 1;
+  cursor: pointer;
 }
 
-.url {
-  width: 5%;
-  height: 35px;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  background: #021126;
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  -webkit-transition: flex 0.4s ease-in-out;
-  transition: flex 0.4s ease-in-out;
-  -moz-transition: flex 0.4s ease-in-out;
-  -o-transition: flex 0.4s ease-in-out;
-  color: #f87060;
-}
-
-.url-edit {
-  flex: 1;
-}
-
-.url-select {
-  flex: 42;
-}
 
 .url-edit-inactive {
   border: none;
+  z-index: -1;
 }
 
 input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
@@ -100,8 +75,8 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
 
 .btn-danger {
   background-color: #2185d0;
-  color: #ffffff;
-  border: #000000;
+  color: var(--btn-color,#ffffff);
+  border: #2185d0;
 }
 
 .btn-danger:not(:disabled):not(.disabled).active,
@@ -115,7 +90,7 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
 .btn-danger.focus,
 .btn-danger:focus,
 .show > .btn-danger.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem #021126;
+  box-shadow: 0 0 0 0.2rem var(--btn-dropdown-toggle-box-color,#021126);
 }
 
 .dropdown-toggle {
@@ -146,12 +121,12 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
 .lbl {
   font-family: "Muli", Arial, sans-serif;
   font-size: 17px;
-  color: #f6faff;
+  color: var(--color-primary,#f6faff);
   padding-top: 10px;
-  background: #011a3b;
 }
 
 .box,
+.url,
 .test-description,
 .test-name,
 .baseurl-list,
@@ -159,10 +134,37 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
 .mat-tab,
 .key-value,
 .key-file {
-  color: #f6faff;
+  color: var(--input-color,#f6faff);
   outline: none !important;
-  border: 1px solid #fff; /* #2185d0;*/
-  background: #011a3b;
+  border: 1px solid var(--input-border-color,#fff);
+  background: var(--input-bg,#011a3b);
+  padding: 5px 5px;
+  border-radius: 4px;
+}
+
+
+.url {
+  width: 5%;
+  height: 35px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-size: 16px;
+  background: var(--bg-primary,#021126);
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  -webkit-transition: flex 0.4s ease-in-out;
+  transition: flex 0.4s ease-in-out;
+  -moz-transition: flex 0.4s ease-in-out;
+  -o-transition: flex 0.4s ease-in-out;
+  color: var(--status-color,#f87060);
+}
+
+.url-edit {
+  flex: 1;
+}
+
+.url-select {
+  flex: 42;
 }
 
 .test-description {
@@ -177,7 +179,7 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
 
 .form-wrapper {
   width: 90%;
-  border: 1px solid #fff;
+  border: 1px solid var(--input-border-color,#fff);
 }
 
 .raw-wrapper {
@@ -200,7 +202,7 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
 
 .show-values {
   height: 160px;
-  background: #dfe4e466;
+  background: #bebbbd36;
 }
 
 table,
@@ -211,18 +213,18 @@ td {
 }
 
 table tr:nth-child(odd) {
-  background-color: #b1b1b17d;
+  background-color: var(--table-child-odd-bg,#b1b1b17d);
 }
 
 table tr:nth-child(even) {
-  background-color: #2185d0;
+  background-color: var(--table-child-even-bg,#2185d0);
 }
 
 .add-remove {
   float: right;
-  margin: 5px 5px;
-  border-radius: 6px;
-  color: white;
+  margin: 3px 5px;
+  padding: 0.2rem 0.2rem;
+  color: var(--btn-color,#F6FAFF);
   outline: none;
   border: 1px solid #2185d0;
   background: #2185d0;
@@ -231,9 +233,8 @@ table tr:nth-child(even) {
 .add-file {
   float: right;
   margin: 5px 10px;
-  padding: 0px 5px;
-  border-radius: 6px;
-  color: white;
+  padding: 3px 5px;
+  color: var(--btn-color,#F6FAFF);
   outline: none;
   border: 1px solid #2185d0;
   background: #2185d0;
@@ -244,22 +245,22 @@ table tr:nth-child(even) {
 }
 
 .add-file:disabled {
-  background: #b1b1b17d;
+  background: var(--disabled-color,#b1b1b17d);
 }
 .key-value {
   float: right;
   margin-right: 1cm;
-  margin-top: 5px;
+  margin-top: 3px;
   border-radius: 30px;
-  padding-left: 5px;
-  background: #011a3b;
+  padding-left: 0.7rem;
+  background: inherit;
 }
 
 .key-file {
   width: 100%;
   border-radius: 30px;
-  padding-left: 5px;
-  background: #011a3b;
+  padding-left: 0.7rem;
+  background: inherit;
 }
 
 .key-file:disabled {
@@ -269,9 +270,8 @@ table tr:nth-child(even) {
 .raw {
   width: 85%;
   height: 200px;
-  padding: 5px 10px;
-  background: #dfe4e466;
   border: 1px solid;
+  color: var(--status-color,#f6faff);
 }
 
 /* ::ng-deep .mat-radio-outer-circle {
@@ -298,7 +298,8 @@ table tr:nth-child(even) {
   overflow: scroll;
   overflow-x: hidden;
   outline: none;
-  border: 2px solid #fff;
+  border: 2px solid var(--input-border-color,#fff);
+  border-radius: 7px;
 }
 
 .status-box {
@@ -313,8 +314,8 @@ table tr:nth-child(even) {
 }
 
 .status {
-  color: #05f1a5;
-  border: 2px solid #f6faff;
+  color: var(--status-color,#05f1a5);
+  border: 2px solid var(--input-border-color,#f6faff);
 }
 
 .matInput .response-box {
@@ -328,8 +329,9 @@ table tr:nth-child(even) {
 }
 
 textarea.mat-input-element {
-  padding: 2px 2px;
+  padding: 0.5rem 0.5rem;
   margin: 0;
+  border-radius: 7px;
 }
 ::ng-deep .mat-slide-toggle-bar {
   position: relative;
@@ -341,40 +343,49 @@ textarea.mat-input-element {
   margin: 0px 35px !important;
 }
 
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background: #2185d0;
+
+}
+
+input[type=checkbox] {
+  visibility: hidden;
+}
+
 ::placeholder {
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
   opacity: 0.6; /* Firefox */
 }
 
 :-ms-input-placeholder {
   /* Internet Explorer 10-11 */
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 
 ::-ms-input-placeholder {
   /* Microsoft Edge */
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 textarea:-ms-input-placeholder {
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 
 textarea::placeholder {
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 textarea::-webkit-input-placeholder {
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 
 textarea:-moz-placeholder {
   /* Firefox 18- */
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 
 textarea::-moz-placeholder {
   /* Firefox 19+ */
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
 textarea ::-webkit-input-placeholder {
-  color: #f6faff;
+  color: var(--placeholder-color,#f6faff);
 }
