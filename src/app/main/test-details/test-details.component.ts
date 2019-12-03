@@ -62,6 +62,8 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   isPanelExapnded = false;
   newTestCase = true;
 
+  rawInputPattern = /^\{(.*\s)*\}$/
+
 
   constructor(
     private fb: FormBuilder,
@@ -121,7 +123,7 @@ export class TestDetailsComponent implements OnInit, DoCheck {
         key: [''],
         value: ['']
       }),
-      payloadBody: [''],
+      payloadBody: ['', Validators.pattern(this.rawInputPattern)],
       fileKey: [''],
       response: [''],
       status: ['']
@@ -130,14 +132,14 @@ export class TestDetailsComponent implements OnInit, DoCheck {
 
   get f() { return this.testDetailsForm.controls; } // get form controls
 
-  getDataFromUI(update:boolean): TestConfiguration {
+  getDataFromUI(update: boolean): TestConfiguration {
     let testConfig = new TestConfiguration(this.testDetailsForm.value);
     testConfig.payloadHeaders = this.headerVals;
     testConfig.formContent = this.formVals;
     testConfig.response = JSON.stringify(this.responseJsonView, undefined, 4);
     testConfig.file = this.fileUploaded;
     testConfig.userId = this.currentUser.id;
-    if(update){
+    if (update) {
       testConfig.id = this.currentTestConfig.id;
     }
     return testConfig;
@@ -171,19 +173,22 @@ export class TestDetailsComponent implements OnInit, DoCheck {
       }
 
     } else if (isUpdate) {
-      let testConfigOut = this.getDataFromUI(true);
-      this.testConfigService.updateTestConfig(testConfigOut).subscribe( res => {
-        if(res === null) {
-          this.toastService.showError('Update Unsuccessful');
-        }else{
-          this.toastService.showSuccess('Update Successful');
-          this.testConfigurations[this.testConfigurations.findIndex(x => x.id === this.currentTestConfig.id)] = testConfigOut;
-          this.testConfigurations = [...this.testConfigurations]
-          this.currentTestConfig = testConfigOut;
+      if (!this.testDetailsForm.valid) {
+        this.toastService.showError('Enter all required fileds');
+      } else {
+        let testConfigOut = this.getDataFromUI(true);
+        this.testConfigService.updateTestConfig(testConfigOut).subscribe(res => {
+          if (res === null) {
+            this.toastService.showError('Update Unsuccessful');
+          } else {
+            this.toastService.showSuccess('Update Successful');
+            this.testConfigurations[this.testConfigurations.findIndex(x => x.id === this.currentTestConfig.id)] = testConfigOut;
+            this.testConfigurations = [...this.testConfigurations]
+            this.currentTestConfig = testConfigOut;
+          }
+        })
+      }
 
-
-        }
-      })
     } else {
       this.responseJsonView = {};
       this.f.status.reset();
@@ -524,8 +529,10 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   }
 
   urlOnAdd(event): void {
-    this.selectedTestConfigs.push(event);
-    this.urlOnChanged(2);
+      this.selectedTestConfigs.push(event);
+      this.urlOnChanged(2);
+
+
 
   }
 
