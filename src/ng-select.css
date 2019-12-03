@@ -313,8 +313,8 @@
 }
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-disabled {
   cursor: default;
-  background: var(--disabled-color,#d1d4d8);
-  color: #021126;
+  background: var(--mat-expansion-header-bg,#041424);
+  color: var(--mat-expansion-header-title,#021126);
 }
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-marked {
   /*changed*/
