@@ -96,7 +96,14 @@
             userRegistrationForm.get('password').touched
           "
         >
-          *not a valid password
+          *password,
+          <ol>
+            <li>Must be a minimum of 8 characters</li>
+            <li>Require atleast one number</li>
+            <li>Require atleast one capital letter</li>
+            <li>Require atleast one lower  case letter</li>
+            <li>Require atleast one special character</li>
+          </ol>
         </div>
         <mat-form-field class="register-full-width">
           <input
@@ -118,11 +125,11 @@
         <div
           class="error"
           *ngIf="
-            userRegistrationForm.get('password').hasError('pattern') &&
+            userRegistrationForm.get('password').value != userRegistrationForm.get('confirmPassword').value &&
             userRegistrationForm.get('password').touched
           "
         >
-          *not a valid password
+          *passwords not match
         </div>
       </mat-card-content>
 
