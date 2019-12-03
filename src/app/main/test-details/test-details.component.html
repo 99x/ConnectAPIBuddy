@@ -18,9 +18,13 @@
             id="urls"
             [items]="testConfigurations"
             [multiple]="true"
+            [selectableGroup]='false'
             [closeOnSelect]="false"
             [selectableGroup]="true"
             [selectableGroupAsModel]="false"
+            [clearSearchOnAdd]="true"
+            [readonly]="false"
+            [virtualScroll]="true"
             [searchFn]="customSearchFn"
             [ngClass]="urlStatus ? 'url-select' : 'url-edit'"
             bindLabel="url"
@@ -62,7 +66,7 @@
             ><i
               [ngClass]="urlStatus ? 'fa-edit' : 'fa-angle-right'"
               class=" fa searchicon"
-             (click)="urlEditOnClick()"
+              (click)="urlEditOnClick()"
             ></i
           ></span>
         </div>
@@ -306,6 +310,15 @@
                                 rows="3"
                                 formControlName="payloadBody"
                               ></textarea>
+                            </div>
+                            <div
+                              class="error"
+                              *ngIf="
+                                testDetailsForm.get('payloadBody').hasError('pattern') &&
+                                testDetailsForm.get('payloadBody').touched
+                              "
+                            >
+                              *not a valid JSON
                             </div>
                           </ng-template>
                         </mat-tab>
