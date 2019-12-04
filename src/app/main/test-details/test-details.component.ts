@@ -53,7 +53,7 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   fileUploaded: FileDetails;   // Uploaded file details
 
   methods = ['GET', 'POST', 'UPDATE', 'DELETE'];
-  urlStatus: boolean = true;
+  urlStatus: boolean = false;
   selectedTabIndex = 0;
   dataType: string = 'raw';  // defult seleted tab
   responseJsonView: object = {};  // Response view in JSON format
@@ -501,8 +501,8 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   }
 
   setDataUI(testConfigIn: TestConfiguration): void {
-    this.resetFullForm();
-    this.urlStatus = false;
+    this.resetFullForm(true);
+    this.isPanelExapnded = true;
     this.testDetailsForm.patchValue({
       url: testConfigIn.url,
       baseUrl: testConfigIn.baseUrl,
@@ -531,9 +531,6 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   urlOnAdd(event): void {
       this.selectedTestConfigs.push(event);
       this.urlOnChanged(2);
-
-
-
   }
 
   urlOnClear(): void {
@@ -589,14 +586,16 @@ export class TestDetailsComponent implements OnInit, DoCheck {
 
   }
 
-  resetFullForm(): void {
-    this.isPanelExapnded = false;
+  resetFullForm(newTest: boolean = false): void {
+    if(newTest === true){
+      this.urlStatus = false;
+      this.isPanelExapnded = false;
+    }
     this.testDetailsForm.reset();
     this.responseJsonView = {};
     this.formVals = [];
     this.headerVals = [];
 
-    this.urlSelectOnClick();
   }
 
   receiveSettings($event): void {

@@ -4,7 +4,7 @@
   <div class="navbar-wrapper">
     <app-nav-bar
       (settingEvent)="receiveSettings($event)"
-      (newClickEvent)="resetFullForm()"
+      (newClickEvent)="resetFullForm(true)"
       (importClickEvent)="importTestConfig($event)"
     ></app-nav-bar>
   </div>
@@ -59,6 +59,7 @@
             list="urls"
             class="url"
             type="text"
+            placeholder="Add URL here"
             formControlName="url"
             (change)="urlOnChanged(1, $event)"
             [ngClass]="urlStatus ? 'url-edit url-edit-inactive' : 'url-select'"
