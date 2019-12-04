@@ -85,7 +85,7 @@ export const dark: Theme = {
     '--bg-primary': '#041424',
     '--color-primary': '#F6FAFF',
     '--placeholder-color': '#F6FAFF',
-    '--status-color': '#05f1a5',
+    '--status-color': '#05f1a5c4',
     '--input-border-color': '#2185d0',
     '--disabled-color': '#BEBBBD',
     '--icon-cogs': '#d7d7d8',

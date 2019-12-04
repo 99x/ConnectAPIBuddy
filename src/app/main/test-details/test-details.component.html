@@ -4,7 +4,7 @@
   <div class="navbar-wrapper">
     <app-nav-bar
       (settingEvent)="receiveSettings($event)"
-      (newClickEvent)="resetFullForm()"
+      (newClickEvent)="resetFullForm(true)"
       (importClickEvent)="importTestConfig($event)"
     ></app-nav-bar>
   </div>
@@ -26,15 +26,16 @@
             [readonly]="false"
             [virtualScroll]="true"
             [searchFn]="customSearchFn"
+            [(ngModel)]="selectedTestConfigs"
+            [ngModelOptions]="{ standalone: true }"
             [ngClass]="urlStatus ? 'url-select' : 'url-edit'"
             bindLabel="url"
             autofocus
             bindValue="id"
             groupBy="endpointAction"
             placeholder="Select a URL"
-            clearAllText="delete all"
+            clearAllText="clear all"
             (add)="urlOnAdd($event)"
-            (click)="urlSelectOnClick()"
             (remove)="urlOnRemove($event.value)"
             (clear)="urlOnClear()"
           >
@@ -51,7 +52,9 @@
                 [ngModel]="item$.selected"
                 [ngModelOptions]="{ standalone: true }"
               />
-              {{ item.url }}
+              <!-- {{ item.url }} -->
+              <span class="ng-value-label">{{item.url}}</span>
+              <span class="ng-value-icon right delete-icon" (click)="deleteTestConfig(item.id)"><i class="fa fa-trash"></i></span>
             </ng-template>
           </ng-select>
 
@@ -59,6 +62,7 @@
             list="urls"
             class="url"
             type="text"
+            placeholder="Add URL here"
             formControlName="url"
             (change)="urlOnChanged(1, $event)"
             [ngClass]="urlStatus ? 'url-edit url-edit-inactive' : 'url-select'"
@@ -173,9 +177,6 @@
               </li>
               <li role="menuitem">
                 <a class="dropdown-item" (click)="onClickExport(2)">Selected</a>
-              </li>
-              <li role="menuitem">
-                <a class="dropdown-item" (click)="onClickExport(3)">All</a>
               </li>
             </ul>
           </div>
