@@ -37,6 +37,11 @@
   display: flex;
 }
 
+.delete-icon{
+  float: right;
+  color: red;
+}
+
 .searchicon {
   float: left;
   height: 30px;

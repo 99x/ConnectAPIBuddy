@@ -26,6 +26,8 @@
             [readonly]="false"
             [virtualScroll]="true"
             [searchFn]="customSearchFn"
+            [(ngModel)]="selectedTestConfigs"
+            [ngModelOptions]="{ standalone: true }"
             [ngClass]="urlStatus ? 'url-select' : 'url-edit'"
             bindLabel="url"
             autofocus
@@ -51,7 +53,9 @@
                 [ngModel]="item$.selected"
                 [ngModelOptions]="{ standalone: true }"
               />
-              {{ item.url }}
+              <!-- {{ item.url }} -->
+              <span class="ng-value-label">{{item.url}}</span>
+              <span class="ng-value-icon right delete-icon" (click)="clear(item.id)"><i class="fa fa-trash"></i></span>
             </ng-template>
           </ng-select>
 
