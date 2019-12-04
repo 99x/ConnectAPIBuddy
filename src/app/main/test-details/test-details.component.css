@@ -39,6 +39,10 @@
 
 .delete-icon{
   float: right;
+  color: #2185d0;
+}
+
+.delete-icon:hover {
   color: red;
 }
 
@@ -55,15 +59,9 @@
   cursor: pointer;
 }
 
-
-.url-edit-inactive {
-  border: none;
-  z-index: -1;
-}
-
-input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
+/* input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
   display: none;
-}
+} */
 
 .baseurl-list {
   width: 21%;
@@ -165,11 +163,16 @@ input.url.ng-pristine.ng-invalid.url-select.ng-touched + span {
 }
 
 .url-edit {
-  flex: 1;
+  flex: 3;
 }
 
 .url-select {
-  flex: 42;
+  flex: 8;
+}
+
+.url-edit-inactive {
+  border: none;
+  z-index: -1;
 }
 
 .test-description {

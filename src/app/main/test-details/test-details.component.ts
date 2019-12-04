@@ -23,6 +23,8 @@ import { TestSettings } from '../models/TestSettings';
 // constants
 import { MAX_SIZE } from '../../shared/constants';
 import { DeliveryRequest } from '../models/DeliveryRequest';
+import { ThrowStmt } from '@angular/compiler';
+import { tick } from '@angular/core/testing';
 
 
 
@@ -37,11 +39,11 @@ export class TestDetailsComponent implements OnInit, DoCheck {
 
 
   testDetailsForm: FormGroup;
-  currentUser: User;
-  testConfigurations: TestConfiguration[];
-  currentTestConfig: TestConfiguration;
+  currentUser: User = null;
+  testConfigurations: TestConfiguration[] = [];
+  currentTestConfig: TestConfiguration = null;
   testSettings = new TestSettings();
-  selectedTestConfigs: TestConfiguration[] = [];
+  selectedTestConfigs: string[] = [];
   req: DeliveryRequest;
 
   urls: object[] = [];
@@ -62,7 +64,8 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   isPanelExapnded = false;
   newTestCase = true;
 
-  rawInputPattern = /^\{(.*\s)*\}$/
+  rawInputPattern = /^\{(.*\s)*\}$/;
+  urlPattern = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
 
 
   constructor(
@@ -109,7 +112,7 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   /***************************************** Test Details form ****************************************/
   private formInitialize(): void {
     this.testDetailsForm = this.fb.group({
-      url: [null, Validators.required],
+      url: [null, [Validators.required, Validators.pattern(this.urlPattern)]],
       endpointAction: [Validators.required],
       baseUrl: ['', Validators.required],
       basePath: ['', Validators.required],
@@ -366,18 +369,21 @@ export class TestDetailsComponent implements OnInit, DoCheck {
           serializedString = JSON.stringify(this.currentTestConfig);
           blob = new Blob([serializedString], { type: 'application/json' });
           saveAs(blob, this.currentTestConfig.testName + this.currentTestConfig.id + '.json');
+        } else {
+          this.toastService.showError("No Test Case found");
         }
-
-
         break;
 
       case 2:
         if (this.selectedTestConfigs.length > 0) {
           this.selectedTestConfigs.forEach(t => {
-            serializedString = JSON.stringify(t);
+            let tconfig = this.testConfigurations.find(s => s.id === t);
+            serializedString = JSON.stringify(tconfig)
             blob = new Blob([serializedString], { type: 'application/json' });
-            saveAs(blob, t.testName + t.id + '.json');
+            saveAs(blob, tconfig.testName + tconfig.id + '.json');
           });
+        } else {
+          this.toastService.showError("No selected Test Cases found");
         }
 
         break;
@@ -476,20 +482,28 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   urlOnChanged(i: number, event?): void {
 
     if (i === 1) {
-      let cUrl = event.target.value;
-      this.testDetailsForm.reset();
-      this.responseJsonView = {};
-      let split = this.SplitedUrl(cUrl);
-      this.testDetailsForm.patchValue({
-        url: cUrl,
-        baseUrl: split[0],
-        basePath: split[1]
-      });
+      if (this.f.url.valid) {
+        let cUrl = event.target.value;
+        this.responseJsonView = {};
+        this.f.status.reset();
+        let split = this.SplitedUrl(cUrl);
+        this.testDetailsForm.patchValue({
+          url: cUrl,
+          baseUrl: split[0],
+          basePath: split[1]
+        });
+      }
+
 
     } else if (i === 2) {
       if (this.selectedTestConfigs.length === 1) {
-        this.currentTestConfig = this.selectedTestConfigs[0];
+        let currentIndex = this.testConfigurations.findIndex(x => x.id === this.selectedTestConfigs[0])
+        if (currentIndex !== -1) {
+          this.currentTestConfig = this.testConfigurations[currentIndex];
+        }
         if (this.currentTestConfig !== null) {
+          this.resetFullForm();
+          this.urlStatus = false;
           this.setDataUI(this.currentTestConfig);
         }
       } else {
@@ -501,7 +515,6 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   }
 
   setDataUI(testConfigIn: TestConfiguration): void {
-    this.resetFullForm(true);
     this.isPanelExapnded = true;
     this.testDetailsForm.patchValue({
       url: testConfigIn.url,
@@ -529,28 +542,31 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   }
 
   urlOnAdd(event): void {
-      this.selectedTestConfigs.push(event);
-      this.urlOnChanged(2);
+    this.urlOnChanged(2);
   }
 
   urlOnClear(): void {
-    let ids: string[] = [];
+    this.resetFullForm();
+
+  }
+
+  urlOnRemove(value): void {
+    //   this.selectedTestConfigs.splice(index, 1);
+    this.urlOnChanged(2);
+  }
+
+  deleteTestConfig(item) {
     if (window.confirm("Are you sure to delete?")) {
-      if (this.selectedTestConfigs.length > 0) {
-        for (let j: number = 0; j < this.selectedTestConfigs.length; j++) {
-          ids[j] = this.selectedTestConfigs[j].id;
-        }
-        this.testConfigService.deleteTestConfigs(ids).subscribe(res => {
+      if (item.length > 0) {
+        this.testConfigService.deleteTestConfig(item).subscribe(res => {
           if (res === true) {
             let index = 0;
             this.toastService.showSuccess('Successfully deleted.');
-            this.selectedTestConfigs = [];
-            this.resetFullForm()
-            ids.forEach(t => {
-              index = this.testConfigurations.findIndex(x => x.id === t);
-              this.testConfigurations.splice(index, 1);
-              this.testConfigurations = [...this.testConfigurations];
-            });
+            index = this.testConfigurations.findIndex(x => x.id === item);
+            this.testConfigurations.splice(index, 1);
+            this.testConfigurations = [...this.testConfigurations];
+            this.selectedTestConfigs = null;
+            this.resetFullForm();
           } else {
             this.toastService.showError('Delete Unsuccessful.');
           }
@@ -558,18 +574,27 @@ export class TestDetailsComponent implements OnInit, DoCheck {
       } else {
         this.toastService.showError("Select a Test Case")
       }
-      this.urlOnChanged(2);
     }
 
   }
 
-  urlOnRemove(value): void {
-    const index = this.selectedTestConfigs.findIndex(x => x.id === value.id);
-    if (index !== -1) {
-      this.selectedTestConfigs.splice(index, 1);
-      this.urlOnChanged(2);
-    }
+  customSearchFn(term: string, item) {
+    term = term.toLocaleLowerCase();
+    return item.testName.toLocaleLowerCase().indexOf(term) > -1 || item.url.toLocaleLowerCase().indexOf(term) > -1;
+  }
 
+  // urlSelectOnClick(): void {
+  //   if (!this.urlStatus) {
+  //     this.urlStatus = true;
+  //   }
+  // }
+
+  urlEditOnClick(): void {
+    if (this.urlStatus) {
+      this.urlStatus = false;
+    } else {
+      this.urlStatus = true;
+    }
   }
 
   private SplitedUrl(urlIn: string): string[] {
@@ -587,32 +612,28 @@ export class TestDetailsComponent implements OnInit, DoCheck {
   }
 
   resetFullForm(newTest: boolean = false): void {
-    if(newTest === true){
+    if (newTest === true) {
       this.urlStatus = false;
       this.isPanelExapnded = false;
+      this.selectedTestConfigs = null;
+      this.currentTestConfig = null;
+      this.testDetailsForm.reset();
+      this.responseJsonView = {};
+      this.formVals = [];
+      this.headerVals = [];
+    } else {
+      this.urlStatus = true;
+      this.isPanelExapnded = false;
+      this.testDetailsForm.reset();
+      this.responseJsonView = {};
+      this.formVals = [];
+      this.headerVals = [];
     }
-    this.testDetailsForm.reset();
-    this.responseJsonView = {};
-    this.formVals = [];
-    this.headerVals = [];
 
   }
 
   receiveSettings($event): void {
     this.testSettings = $event;
-  }
-
-  urlEditOnClick(): void {
-    if (this.urlStatus) {
-      this.urlStatus = false;
-    } else {
-      this.urlStatus = true;
-    }
-  }
-  urlSelectOnClick(): void {
-    if (!this.urlStatus) {
-      this.urlStatus = true;
-    }
   }
 
   bodyTabChanged(tabChangeEvent): void {
@@ -621,12 +642,9 @@ export class TestDetailsComponent implements OnInit, DoCheck {
 
   importTestConfig(importedFile): void {
     this.toastService.showSuccess('Import Successful');
+    this.resetFullForm(true);
+    this.currentTestConfig = importedFile;
     this.setDataUI(importedFile);
-  }
-
-  customSearchFn(term: string, item) {
-    term = term.toLocaleLowerCase();
-    return item.testName.toLocaleLowerCase().indexOf(term) > -1 || item.url.toLocaleLowerCase().indexOf(term) > -1;
   }
 
 }

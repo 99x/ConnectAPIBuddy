@@ -50,6 +50,15 @@ export class TestConfigService {
       );
   }
 
+  // Delete a TestConfig
+  deleteTestConfig(id: string): Observable<any> {
+    return this.httpClient
+      .delete(`${this.BASE_URL}/TestConfig/${id}`,{ headers: this.httpHeaders })
+      .pipe(
+        catchError((err) => this.handleError(err))
+      );
+  }
+
   // Delete TestConfigs
   deleteTestConfigs(ids: string[]): Observable<any> {
     return this.httpClient
