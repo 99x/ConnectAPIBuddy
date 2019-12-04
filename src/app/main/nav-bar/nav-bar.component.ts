@@ -85,6 +85,7 @@ export class NavBarComponent implements OnInit {
         this.testSettings = result;
         this.settingEvent.emit(this.testSettings);
       }
+    }, (reason) => {
     });
   }
 
