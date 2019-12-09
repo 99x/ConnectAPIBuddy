@@ -1,0 +1,31 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "./mat-expansion.css";
+@import "./mat-tab.css";
+@import "./mat-select.css";
+@import "./mat-toolbar.css";
+@import "./ng-select.css";
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Muli", Arial, sans-serif;
+  background: var(--bg-primary,#021126);
+  /* color: var(--color-primary,#f6f6f6); */
+}
+
+.dropdown.show,
+.dropdown-menu {
+  background-color: var(--dropdown-bg,#424242);
+  color: var(--dropdown-color,#2185d0) !important;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+  color:  var(--dropdown-item-hover-color,#ffffff) !important;
+  text-decoration: none;
+  background-color: var(--dropdown-item-hover-bg,#9c9c9e);
+}

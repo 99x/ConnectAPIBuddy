@@ -1,0 +1,149 @@
+[33mcommit 17ed523b1ea1aedccdb6a7fed5b123f778f5f424[m[33m ([m[1;36mHEAD -> [m[1;32mdev[m[33m)[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Tue Oct 29 13:22:42 2019 +0530
+
+    set the ui for selected url is done
+
+[33mcommit d938096fb8c090377fcdaa7602c307844cf9bc19[m[33m ([m[1;31morigin/dev[m[33m)[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Mon Oct 28 17:01:05 2019 +0530
+
+    set the test configuration details to ui
+
+[33mcommit e1236b8425d32010e7b236eea2518cedd1fdf505[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Mon Oct 28 12:04:11 2019 +0530
+
+    add a main url input and split it then set values basepath, baseurl recursively
+
+[33mcommit fc0cf7d3fa7b452b80269dc810b89a96b9ca026a[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Fri Oct 25 09:49:05 2019 +0530
+
+    Change return types in testcongfigurationService methods
+
+[33mcommit 8f97a307fe47e479cdcc5107dc1413633d58dbb7[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Thu Oct 24 17:22:46 2019 +0530
+
+    toast service updated with showerror and showsuccess methods
+
+[33mcommit 5fb4e6b139467877603ec62e8185fb8887628958[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Thu Oct 24 16:08:00 2019 +0530
+
+    set baseurls and basepaths in ui
+
+[33mcommit c123e5e63b6591214b23aefeb2a93be1c498badc[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Thu Oct 24 15:12:50 2019 +0530
+
+    get testconfigurations of a user done
+
+[33mcommit 070138172b91e92f81b9ecd726b5cab644e3ee5f[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Thu Oct 24 15:11:45 2019 +0530
+
+    user model updated
+
+[33mcommit 79808431b99fd144625bcf66967f95fd0577ff16[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Thu Oct 24 15:11:08 2019 +0530
+
+    return type of http services change from any to User
+
+[33mcommit a2b4231ef16ae78396cdbe8e14e277103c3a9ee7[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Wed Oct 23 14:10:00 2019 +0530
+
+    fixed logout bug for local user
+
+[33mcommit bb42b0aa0827c2e2c252fa50d8446d611d750699[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Wed Oct 23 13:34:30 2019 +0530
+
+    register a local user is implemented
+
+[33mcommit 55aca2e1df9f81856c5043243742ea1a0f9d4ab3[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Wed Oct 23 12:31:36 2019 +0530
+
+    Local user login done
+
+[33mcommit 2fdc4a18f440e4a7efc289c0ef7635457aff1f13[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Wed Oct 23 10:24:29 2019 +0530
+
+    checking user already registerd or not updated
+
+[33mcommit c6152fd2d9d06dd48fcd5cbfd9bd2305e96e235a[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Tue Oct 22 16:21:52 2019 +0530
+
+    save user if not exists in backend done
+
+[33mcommit 298b84d02d02bde0b0889ab92f96186f238d5951[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Tue Oct 22 10:30:24 2019 +0530
+
+    Auth guard addded to login
+
+[33mcommit 93cd4c33b93f21c0077241b928ba50e3a083634a[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Mon Oct 21 19:05:15 2019 +0530
+
+    add constrains for login
+
+[33mcommit 89f28b6d2f7ca41e31d72c7aba4a54e0813313eb[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Mon Oct 21 16:53:49 2019 +0530
+
+    file not found page added
+
+[33mcommit 1885ff85857114bbc2db50ef0d2e08aec3de0124[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Mon Oct 21 14:55:15 2019 +0530
+
+    social login providers service added
+
+[33mcommit c3a6ae82ef77c7e3c02c7a842f0defaa09fa3b5a[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Mon Oct 21 12:57:46 2019 +0530
+
+    user modal added to auth
+
+[33mcommit 71cad5b4861981c7b0d8ea04e9e7272df1acde05[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Mon Oct 21 11:07:38 2019 +0530
+
+    Toast message service and commponent
+
+[33mcommit 3d377dbb5c9a404d017360f205bb3ce2d5620bb8[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Mon Oct 21 11:07:07 2019 +0530
+
+    Toast message service and commponent
+
+[33mcommit bd58aab3c90a6a5bc54de7182adae6655c0c327a[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Fri Oct 18 14:31:17 2019 +0530
+
+    testConfig service class with save method
+
+[33mcommit 559d9a5e299c16d830a66a5163df297d75e2910f[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Thu Oct 17 15:48:41 2019 +0530
+
+    POST form method done
+
+[33mcommit 90e024fbdddb8d5f674c0e79c9cbe34c5c4ef08d[m
+Author: KushanH <kushan989@gmail.com>
+Date:   Thu Oct 17 11:42:50 2019 +0530
+
+    add project files
+
+[33mcommit 16fa2bec3e228217ef1901af6cb179b435dc3d94[m[33m ([m[1;32mmaster[m[33m)[m
+Author: KushanH <Kushan989@gmail.com>
+Date:   Mon Sep 23 10:34:44 2019 +0530
+
+    initial commit

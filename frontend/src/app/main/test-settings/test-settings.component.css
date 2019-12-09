@@ -1,0 +1,30 @@
+.modal-footer {
+  color: var(--modal-header-color,#f6faff);
+  background: var(--modal-header-bg,#006afd);
+  border-top: 1px solid var(--modal-border,#f87060);
+}
+
+.modal-header {
+  color: var(--modal-header-color,#f6faff);
+  background: var(--modal-header-bg,#006afd);
+  border-bottom: 1px solid var(--modal-border,#f87060);
+}
+
+.modal-body {
+  font-family: "Muli", Arial, sans-serif;
+  font-size: 17px;
+  background: var(--modal-body-bg,#011a3b);
+  color: var(--modal-body-color,#f6faff);
+}
+
+.modal-footer .btn {
+  color: var(--color-primary,#f6faff);
+}
+
+input.mat-input-element {
+  border-bottom: 1px solid var(--input-border-color,black);
+}
+
+input.mat-input-element:focus {
+  border-bottom: 1px solid var(--modal-input-border-focus,#f87060);
+}

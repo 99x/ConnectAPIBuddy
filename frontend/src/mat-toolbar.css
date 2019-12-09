@@ -1,0 +1,53 @@
+.mat-toolbar,
+.mat-toolbar h1,
+.mat-toolbar h2,
+.mat-toolbar h3,
+.mat-toolbar h4,
+.mat-toolbar h5,
+.mat-toolbar h6 {
+    font: 500 20px/32px "Muli", Arial, sans-serif;
+    margin: 0
+}
+
+.mat-toolbar {
+    background-color: var(--mat-toolbar-bg,#021126);
+    color: var(--mat-toolbar-color,#f6faff);
+}
+
+.mat-toolbar.mat-primary {
+  background-color: var(--mat-toolbar-bg,#021126);
+  color: var(--mat-toolbar-color,#f6faff);
+}
+
+/* .mat-toolbar.mat-accent {
+    background: #b0bec5;
+    color: rgba(0, 0, 0, .87)
+}
+
+.mat-toolbar.mat-warn {
+    background: #f44336;
+    color: #fff
+} */
+
+.mat-toolbar .mat-focused .mat-form-field-ripple,
+.mat-toolbar .mat-form-field-ripple,
+.mat-toolbar .mat-form-field-underline {
+    background-color: currentColor
+}
+
+.mat-toolbar .mat-focused .mat-form-field-label,
+.mat-toolbar .mat-form-field-label,
+.mat-toolbar .mat-form-field.mat-focused .mat-select-arrow,
+.mat-toolbar .mat-select-arrow,
+.mat-toolbar .mat-select-value {
+    color: inherit
+}
+
+.mat-toolbar .mat-input-element {
+    caret-color: currentColor
+}
+
+.mat-toolbar .mat-raised-button {
+    color: var(--mat-toolbar-raised-btn-color,#f6faff);
+    background-color: var(--mat-toolbar-raised-btn-bg,#d7d7d8);
+}

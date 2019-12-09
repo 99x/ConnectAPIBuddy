@@ -1,0 +1,154 @@
+<!--Toolbar-->
+<div>
+  <mat-toolbar class="app-header" color="primary">
+    <div>ConnectAPIBuddy</div>
+    <span class="nav-tool-items">
+      <a mat-button routerLink="/login" routerLinkActive="active">Log in</a>
+      <a
+        mat-button
+        mat-raised-button
+        routerLink="/register"
+        routerLinkActive="active"
+        >Register</a
+      >
+    </span>
+  </mat-toolbar>
+</div>
+
+<!--Image-->
+<div class="image-wrapper"></div>
+
+<!--Card-->
+<div class="register-wrapper" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Register</mat-card-title>
+    </mat-card-header>
+
+    <form [formGroup]="userRegistrationForm" class="register-form">
+      <mat-card-content>
+        <mat-form-field class="register-full-width">
+          <input
+            matInput
+            type="text"
+            formControlName="name"
+            placeholder="Name"
+          />
+        </mat-form-field>
+        <div
+          class="error"
+          *ngIf="
+            userRegistrationForm.get('name').hasError('required') &&
+            userRegistrationForm.get('name').touched
+          "
+        >
+          *username is required
+        </div>
+
+        <mat-form-field class="register-full-width">
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            placeholder="Email"
+          />
+        </mat-form-field>
+        <div
+          class="error"
+          *ngIf="
+            userRegistrationForm.get('email').hasError('required') &&
+            userRegistrationForm.get('email').touched
+          "
+        >
+          *email is required
+        </div>
+        <div
+          class="error"
+          *ngIf="
+            userRegistrationForm.get('email').hasError('pattern') &&
+            userRegistrationForm.get('email').touched
+          "
+        >
+          *not a valid email
+        </div>
+
+        <mat-form-field class="register-full-width">
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            placeholder="password"
+          />
+        </mat-form-field>
+        <div
+          class="error"
+          *ngIf="
+            userRegistrationForm.get('password').hasError('required') &&
+            userRegistrationForm.get('password').touched
+          "
+        >
+          *password is required
+        </div>
+        <div
+          class="error"
+          *ngIf="
+            userRegistrationForm.get('password').hasError('pattern') &&
+            userRegistrationForm.get('password').touched
+          "
+        >
+          *password,
+          <ol>
+            <li>Must be a minimum of 8 characters</li>
+            <li>Require atleast one number</li>
+            <li>Require atleast one capital letter</li>
+            <li>Require atleast one lower  case letter</li>
+            <li>Require atleast one special character</li>
+          </ol>
+        </div>
+        <mat-form-field class="register-full-width">
+          <input
+            matInput
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Confirm Password"
+          />
+        </mat-form-field>
+        <div
+          class="error"
+          *ngIf="
+            userRegistrationForm.get('confirmPassword').hasError('required') &&
+            userRegistrationForm.get('confirmPassword').touched
+          "
+        >
+          *confirmPassword is required
+        </div>
+        <div
+          class="error"
+          *ngIf="
+            userRegistrationForm.get('password').value != userRegistrationForm.get('confirmPassword').value &&
+            userRegistrationForm.get('password').touched
+          "
+        >
+          *passwords not match
+        </div>
+      </mat-card-content>
+
+      <button
+        mat-stroked-button
+        class="register-btn"
+        color="accent"
+        (click)="UserRegister()"
+      >
+        Register
+      </button>
+    </form>
+  </mat-card>
+</div>
+
+<!-- <mat-form-field class="example-full-width">
+                    <mat-label>Choose a role...</mat-label>
+                    <mat-select [(value)]="selected">
+                        <mat-option [value]="roles" *ngFor="let roles of Roles">{{roles}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field> -->

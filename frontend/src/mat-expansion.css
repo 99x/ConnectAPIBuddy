@@ -1,0 +1,82 @@
+.mat-expansion-panel-body {
+  padding: 0px !important;
+  background: var(--mat-expansion-body-bg,#011a3b);
+}
+
+.mat-expansion-panel-header {
+  font-family: "Muli", Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 0px 40px;
+  background-color: var(--mat-expansion-header-bg,#0B68F1);
+}
+
+.mat-expansion-panel-content {
+  font-family: "Muli", Arial, sans-serif;
+  font-size: 17px;
+  color: var(--mat-expansion-content-color,#f6faff);
+}
+
+.mat-expansion-panel-header:active {
+  background-color: var(--mat-expansion-header-active-bg,#021126);
+}
+
+.mat-expansion-panel {
+  color: #000000de;
+}
+
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.mat-action-row {
+  border-top-color: rgba(0, 0, 0, 0.12);
+}
+
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"]),
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"]),
+.mat-expansion-panel:not(.mat-expanded)
+  .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
+  background: var(--mat-expansion-header-hover-bg,#2185d0) ;
+}
+
+@media (hover: none) {
+  .mat-expansion-panel:not(.mat-expanded):not([aria-disabled="true"])
+    .mat-expansion-panel-header:hover {
+    background: #021126;
+  }
+}
+
+.mat-expansion-panel-header.mat-expanded:focus,
+.mat-expansion-panel-header.mat-expanded:active,
+.mat-expansion-panel-header.mat-expanded:hover {
+  background: var(--mat-expansion-header-focus-bg,#021126) !important;
+}
+
+.mat-expansion-panel-header-title {
+  color: var(--mat-expansion-header-title,#fff);
+}
+
+.mat-expansion-indicator::after,
+.mat-expansion-panel-header-description {
+  color: var(--mat-expansion-arrow,#fff);
+}
+
+.mat-expansion-panel-header[aria-disabled="true"] {
+  color: inherit;
+}
+
+.mat-expansion-panel-header[aria-disabled="true"]
+  .mat-expansion-panel-header-description,
+.mat-expansion-panel-header[aria-disabled="true"]
+  .mat-expansion-panel-header-title {
+  color: inherit;
+}
+
+.mat-expansion-panel-header:not([aria-disabled="true"]) {
+  cursor: pointer;
+  background: var(--mat-expansion-header-bg,#093a84);
+}
