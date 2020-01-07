@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - '12.14'
+addons:
+  apt:
+    sources:
+    - google-chrome
+    packages:
+    - google-chrome-stable
+branches:
+  only:
+  - master
+before_install:
+  - cd frontend
+  - export CHROME_BIN=/usr/bin/google-chrome
+  - export DISPLAY=:99.0
+  - npm install -g @angular/cli@8.3.3
+script:
+  - ng build
